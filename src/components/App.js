@@ -1,13 +1,28 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { connect }  from 'react-redux'
 
-import { dbGET } from '../api'
+import { fetchSongs } from '../actions'
 
-const App = () => {
-    dbGET.get('/songs')
-    .then(response => {
-        console.log(response)
+
+const App = (props) => {
+    useEffect(() => {
+        props.fetchSongs()
+    }, [])
+    const songs = props.songs.map(song => {
+        const verses = song.verses.map((verse, idx) => <p key={idx}>{verse}</p>)
+        return (
+        <div key={song.id}>
+            <h1>{song.id}. {song.title}</h1>
+            {verses}
+        </div>)
     })
-    return <div>App</div>
+    return <div>{songs}</div>
 }
 
-export default App
+const mapStateToProps = state => {
+    return {
+        songs: Object.values(state.songs)
+    }
+}
+
+export default connect(mapStateToProps, { fetchSongs })(App)
