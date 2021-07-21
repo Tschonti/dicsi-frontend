@@ -1,27 +1,30 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { connect }  from 'react-redux'
 
 import { fetchSongs } from '../actions'
 import history from '../history'
 
-const SongList = (props) => {
-    useEffect(() => {
-        props.fetchSongs()
-    }, [])
-    const songs = props.songs.map(song => (
-        <div className="item" key={song.id} onClick={() => history.push(`/songs/${song.id}`)} style={{cursor: 'pointer'}}>
-            <div className="content">
-                <h3 className="header">{song.id}. {song.title}</h3>
+class SongList extends React.Component {
+    componentDidMount() {
+        this.props.fetchSongs()
+    }
+    render() {
+        const songs = this.props.songs.map(song => (
+            <div className="item" key={song.id} onClick={() => history.push(`/songs/${song.id}`)} style={{cursor: 'pointer'}}>
+                <div className="content">
+                    <h3 className="header">{song.id}. {song.title}</h3>
+                </div>
             </div>
-        </div>
-    ))
-    return (
-        <div className="ui container">
-            <div className="ui relaxed divided list">
-                {songs}
+        ))
+        return (
+            <div className="ui container">
+                <div className="ui relaxed divided list">
+                    {songs}
+                </div>
             </div>
-        </div>
-    )
+        )
+    }
+
 }
 
 const mapStateToProps = state => {
