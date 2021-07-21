@@ -1,28 +1,30 @@
-import React, { useEffect } from 'react'
-import { connect }  from 'react-redux'
+import React from 'react'
+import { Router, Route, Switch } from 'react-router-dom'
 
-import { fetchSongs } from '../actions'
+import SongList from './SongList'
+import SongCreate from './SongCreate'
+import SongEdit from './SongEdit'
+import SongDelete from './SongDelete'
+import SongShow from './SongShow'
+
+import history from '../history'
 
 
-const App = (props) => {
-    useEffect(() => {
-        props.fetchSongs()
-    }, [])
-    const songs = props.songs.map(song => {
-        const verses = song.verses.map((verse, idx) => <p key={idx}>{verse}</p>)
-        return (
-        <div key={song.id}>
-            <h1>{song.id}. {song.title}</h1>
-            {verses}
-        </div>)
-    })
-    return <div>{songs}</div>
+const App = () => {
+    return (
+        <div>
+            <Router history={history}>
+                <Switch>
+                    <Route path="/" exact component={SongList} />
+                    <Route path="/songs/new" exact component={SongCreate} />
+                    <Route path="/songs/edit/:id" exact component={SongEdit} />
+                    <Route path="/songs/delete/:id" exact component={SongDelete} />
+                    <Route path="/songs/:id" exact component={SongShow} />
+                </Switch>
+            </Router>
+        </div>
+    )
 }
 
-const mapStateToProps = state => {
-    return {
-        songs: Object.values(state.songs)
-    }
-}
 
-export default connect(mapStateToProps, { fetchSongs })(App)
+export default App
