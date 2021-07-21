@@ -1,4 +1,4 @@
-import { FETCH_SONGS, FETCH_SONG, CREATE_SONG, EDIT_SONG, DELETE_SONG } from './types'
+import { FETCH_SONGS, FETCH_SONG, CREATE_SONG, EDIT_SONG, DELETE_SONG, NEW_ALERT, REMOVE_ALERT } from './types'
 import { dbGET, dbNotGET } from '../api'
 import history from '../history'
 
@@ -32,6 +32,9 @@ export const createSong = formData => async dispatch => {
         history.push('/')
     } catch (err) {
         console.error(err)
+        //TODO 401 vagy 500?
+        dispatch({type: NEW_ALERT, payload: {msg: 'Hibás jelszó', type: 'error'}})
+
     }
 
 }
@@ -59,4 +62,12 @@ export const deleteSong = (id, pwd) => async dispatch => {
     } catch(err) {
         console.error(err)
     }
+}
+
+export const newAlert = (msg, type) => {
+    return {type: NEW_ALERT, payload: {msg, type}}
+}
+
+export const removeAlert = () => {
+    return {type: REMOVE_ALERT}
 }
