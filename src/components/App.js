@@ -6,6 +6,7 @@ import SongCreate from './SongCreate'
 import SongEdit from './SongEdit'
 import SongDelete from './SongDelete'
 import SongShow from './SongShow'
+import Header from './Header'
 
 import history from '../history'
 
@@ -14,6 +15,7 @@ const App = () => {
     return (
         <div>
             <Router history={history}>
+                <Header />
                 <Switch>
                     <Route path="/" exact component={SongList} />
                     <Route path="/songs/new" exact component={SongCreate} />
