@@ -5,13 +5,26 @@ import { connect } from 'react-redux'
 
 import { removeAlert } from '../actions'
 
+const styleSheet = {
+    link: {
+        marginTop: 'auto',
+        marginBottom: 'auto'
+    }
+}
+
 const Header = (props) => {
-    const alert = props.alert.msg ? <Alert onClose={() => {props.removeAlert()}} severity={props.alert.type} >{props.alert.msg}</Alert> : null
+    const alert = props.alert.msg ?
+        <Alert onClose={() => {props.removeAlert()}} severity={props.alert.type} style={{zIndex: '1500'}} >
+            {props.alert.msg}
+        </Alert>
+        : null
     return (
-        <div className="ui secondary pointing menu">
-            <Link to="/" className="item">Dicsik listája</Link>
-            <Link to="/songs/new" className="item">Új dicsi</Link>
-            {alert}
+        <div className="ui secondary pointing menu" style={{height: '52px'}}>
+            <Link to="/" className="item" style={styleSheet.link}>Dicsik listája</Link>
+            <Link to="/songs/new" className="item" style={styleSheet.link}>Új dicsi</Link>
+            <div style={{margin: 'auto'}}>
+                {alert}
+            </div>
         </div>
     )
 }

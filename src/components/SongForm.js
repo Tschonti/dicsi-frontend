@@ -1,11 +1,11 @@
 import React from 'react'
 import { Field, reduxForm } from 'redux-form'
 
-const renderInput = ({ input, label, meta, type }) => {
+const renderInput = ({ input, label, meta, type, disabled }) => {
     return (
         <div className={`field ${meta.error && meta.touched ? 'error' : ''}`}>
             <label>{label}</label>
-            <input {...input} type={type} autoComplete="off"/>
+            <input {...input} type={type} autoComplete="off" disabled={disabled}/>
             {renderError(meta)}
         </div>
     )
@@ -41,7 +41,7 @@ const SongForm = props => {
 
     return (
         <form className="ui form error" onSubmit={props.handleSubmit(onSubmit)}>
-            <Field name="id" component={renderInput} label="Sorszám" type="number"/>
+            <Field name="id" component={renderInput} label="Sorszám" type="number" props={{ disabled: props.edit}}/>
             <Field name="title" component={renderInput} label="Cím" type="text"/>
             <Field name="lyrics" component={renderTextArea} label="Dalszöveg"/>
             <Field name="pwd" component={renderInput} label="Jelszó" type="password"/>

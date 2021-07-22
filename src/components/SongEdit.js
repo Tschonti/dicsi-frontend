@@ -20,6 +20,7 @@ class SongEdit extends React.Component {
                 <SongForm
                     onSubmit={(formValues) => this.props.editSong(this.props.match.params.id, formValues)}
                     initialValues={{id: song.id, title: song.title, lyrics: song.verses.join('\n\n')}}
+                    edit
                 />
             </div>
         )

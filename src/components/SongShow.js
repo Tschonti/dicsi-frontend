@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 
-import { fetchSong, deleteSong } from '../actions'
+import { fetchSong, deleteSong, removeAlert } from '../actions'
 import Modal from './Modal'
 
 class SongShow extends React.Component {
@@ -21,6 +21,7 @@ class SongShow extends React.Component {
     }
 
     componentDidMount() {
+        this.props.removeAlert()
         this.props.fetchSong(this.props.match.params.id)
     }
 
@@ -52,9 +53,9 @@ class SongShow extends React.Component {
                     <h2>{this.props.song.id}. {this.props.song.title}</h2>
                     <Link to={`/songs/edit/${this.props.match.params.id}`}>Dicsi szerkeztése</Link>
                     <button className="ui button negative" onClick={() => this.setState({deleteModalActive: true})}>Dicsi törlése</button>
-                    <button className="ui button primary" onClick={() => this.onSizeChange(false)}><i class="font icon"></i><i class="arrow down icon"></i></button>
-                    <button className="ui button primary" onClick={() => this.onSizeChange(true)}><i class="font icon"></i><i class="arrow up icon"></i></button>
-                    <button className="ui button primary" onClick={() => this.setState({ fontSize: 14 })}><i class="font icon"></i><i class="undo icon"></i></button>
+                    <button className="ui button primary" onClick={() => this.onSizeChange(false)}><i className="font icon"></i><i className="arrow down icon"></i></button>
+                    <button className="ui button primary" onClick={() => this.onSizeChange(true)}><i className="font icon"></i><i className="arrow up icon"></i></button>
+                    <button className="ui button primary" onClick={() => this.setState({ fontSize: 14 })}><i className="font icon"></i><i className="undo icon"></i></button>
 
                     {verses}
                 </div>
@@ -72,4 +73,4 @@ const mapStateToProps = (state, ownProps) => {
     }
 }
 
-export default connect(mapStateToProps, { fetchSong, deleteSong })(SongShow)
+export default connect(mapStateToProps, { fetchSong, deleteSong, removeAlert })(SongShow)

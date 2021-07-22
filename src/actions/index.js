@@ -1,13 +1,14 @@
 import { FETCH_SONGS, FETCH_SONG, CREATE_SONG, EDIT_SONG, DELETE_SONG, NEW_ALERT, REMOVE_ALERT } from './types'
 import { dbGET, dbNotGET } from '../api'
 import history from '../history'
+import { handleError } from '../util'
 
 export const fetchSongs = () => async dispatch => {
-    const response = await dbGET.get('/songs')
-    if (response.status === 200) {
+    try {
+        const response = await dbGET.get('/songs')
         dispatch({type: FETCH_SONGS, payload: response.data})
-    } else {
-        console.error(response.status + response.statusText)
+    } catch (err) {
+        handleError(err, dispatch)
     }
 }
 
@@ -16,7 +17,7 @@ export const fetchSong = id => async dispatch => {
         const response = await dbGET.get(`/songs/${id}`)
         dispatch({type: FETCH_SONG, payload: response.data})
     } catch (err) {
-        console.error(err)
+        handleError(err, dispatch)
     }
 
 }
@@ -31,10 +32,8 @@ export const createSong = formData => async dispatch => {
         dispatch({type: CREATE_SONG, payload: response.data})
         history.push('/')
     } catch (err) {
-        console.error(err)
-        //TODO 401 vagy 500?
-        dispatch({type: NEW_ALERT, payload: {msg: 'Hibás jelszó', type: 'error'}})
-
+        console.log(err.response)
+        handleError(err, dispatch)
     }
 
 }
@@ -48,7 +47,7 @@ export const editSong = (id, formData) => async dispatch => {
         dispatch({type: EDIT_SONG, payload: response.data})
         history.push('/')
     } catch (err) {
-        console.error(err)
+        handleError(err, dispatch)
     }
 }
 
@@ -60,7 +59,7 @@ export const deleteSong = (id, pwd) => async dispatch => {
         dispatch({type: DELETE_SONG, payload: id})
         history.push('/')
     } catch(err) {
-        console.error(err)
+        handleError(err, dispatch)
     }
 }
 

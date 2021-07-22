@@ -1,11 +1,12 @@
 import React from 'react'
 import { connect }  from 'react-redux'
 
-import { fetchSongs } from '../actions'
+import { fetchSongs, removeAlert } from '../actions'
 import history from '../history'
 
 class SongList extends React.Component {
     componentDidMount() {
+        this.props.removeAlert()
         this.props.fetchSongs()
     }
     render() {
@@ -33,4 +34,4 @@ const mapStateToProps = state => {
     }
 }
 
-export default connect(mapStateToProps, { fetchSongs })(SongList)
+export default connect(mapStateToProps, { fetchSongs, removeAlert })(SongList)
