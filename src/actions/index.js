@@ -30,7 +30,7 @@ export const createSong = formData => async dispatch => {
             verses: formData.lyrics.split('\n\n')
         }, { headers: {'key': formData.pwd }})
         dispatch({type: CREATE_SONG, payload: response.data})
-        history.push('/')
+        history.push(`/songs/${formData.id}`)
     } catch (err) {
         console.log(err.response)
         handleError(err, dispatch)
@@ -45,7 +45,7 @@ export const editSong = (id, formData) => async dispatch => {
             verses: formData.lyrics.split('\n\n'),
         }, { headers: {'key': formData.pwd }})
         dispatch({type: EDIT_SONG, payload: response.data})
-        history.push('/')
+        history.push(`/songs/${id}`)
     } catch (err) {
         handleError(err, dispatch)
     }

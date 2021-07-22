@@ -16,7 +16,9 @@ class SongEdit extends React.Component {
         const song = this.props.song
         return (
             <div className="ui container">
-                Dicsi szerkesztése
+                <h2 className="ui header">
+                    Dal szerkesztése
+                </h2>
                 <SongForm
                     onSubmit={(formValues) => this.props.editSong(this.props.match.params.id, formValues)}
                     initialValues={{id: song.id, title: song.title, lyrics: song.verses.join('\n\n')}}

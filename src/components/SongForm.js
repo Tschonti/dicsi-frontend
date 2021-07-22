@@ -1,21 +1,22 @@
 import React from 'react'
 import { Field, reduxForm } from 'redux-form'
+import ReactTooltip from 'react-tooltip'
 
-const renderInput = ({ input, label, meta, type, disabled }) => {
+const renderInput = ({ input, label, meta, type, disabled, wide, tip }) => {
     return (
-        <div className={`field ${meta.error && meta.touched ? 'error' : ''}`}>
+        <div className={`${wide} field ${meta.error && meta.touched ? 'error' : ''}`}>
             <label>{label}</label>
-            <input {...input} type={type} autoComplete="off" disabled={disabled}/>
+            <input {...input} type={type} autoComplete="off" disabled={disabled} data-tip={tip} />
             {renderError(meta)}
         </div>
     )
 }
 
-const renderTextArea = ({ input, label, meta }) => {
+const renderTextArea = ({ input, label, meta, tip }) => {
     return (
         <div className={`field ${meta.error && meta.touched ? 'error' : ''}`}>
             <label>{label}</label>
-            <textarea {...input} autoComplete="off"/>
+            <textarea {...input} autoComplete="off" data-tip={tip}/>
             {renderError(meta)}
         </div>
     )
@@ -41,9 +42,12 @@ const SongForm = props => {
 
     return (
         <form className="ui form error" onSubmit={props.handleSubmit(onSubmit)}>
-            <Field name="id" component={renderInput} label="Sorszám" type="number" props={{ disabled: props.edit}}/>
-            <Field name="title" component={renderInput} label="Cím" type="text"/>
-            <Field name="lyrics" component={renderTextArea} label="Dalszöveg"/>
+            <ReactTooltip effect="solid" place="left"/>
+            <div className="fields">
+                <Field wide="three wide" tip="A dal sorszáma. Egyedi, később nem változtatható" name="id" component={renderInput} label="Sorszám" type="number" props={{ disabled: props.edit}}/>
+                <Field wide="thirteen wide" name="title" component={renderInput} label="Cím" type="text"/>
+            </div>
+            <Field tip="Az alkalmazás dupla sorközöknél bontja versszakokra a szöveget." name="lyrics" component={renderTextArea} label="Dalszöveg"/>
             <Field name="pwd" component={renderInput} label="Jelszó" type="password"/>
             <button className="ui button primary">Mentés</button>
         </form>

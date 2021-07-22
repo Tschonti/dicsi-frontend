@@ -20,8 +20,8 @@ const Header = (props) => {
         : null
     return (
         <div className="ui secondary pointing menu" style={{height: '52px'}}>
-            <Link to="/" className="item" style={styleSheet.link}>Dicsik listája</Link>
-            <Link to="/songs/new" className="item" style={styleSheet.link}>Új dicsi</Link>
+            <Link to="/" className="item" style={styleSheet.link}>Dalok listája</Link>
+            <Link to="/songs/new" className="item" style={styleSheet.link}>Új dal</Link>
             <div style={{margin: 'auto'}}>
                 {alert}
             </div>
