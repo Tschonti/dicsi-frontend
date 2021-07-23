@@ -1,4 +1,4 @@
-import { FETCH_SONGS, FETCH_SONG, CREATE_SONG, EDIT_SONG, DELETE_SONG, NEW_ALERT, REMOVE_ALERT, ADD_TO_PLAYLIST, REMOVE_FROM_PLAYLIST, PLAYLIST_NEXT } from './types'
+import { FETCH_SONGS, FETCH_SONG, CREATE_SONG, EDIT_SONG, DELETE_SONG, NEW_ALERT, REMOVE_ALERT, ADD_TO_PLAYLIST, REMOVE_FROM_PLAYLIST, REMOVE_COMPLETELY, PLAYLIST_NEXT, START_PLAYLIST, STOP_PLAYLIST } from './types'
 import { dbGET, dbNotGET } from '../api'
 import history from '../history'
 import { handleError } from '../util'
@@ -74,6 +74,7 @@ export const deleteSong = (id, pwd) => async dispatch => {
         await dbNotGET.delete(`/songs/${id}`, {
             headers: { 'key': pwd }
         })
+        dispatch({type: REMOVE_COMPLETELY, payload: id}) // TODO bajvan!!
         dispatch({type: DELETE_SONG, payload: id})
         history.push('/dicsi/')
     } catch(err) {
@@ -97,6 +98,33 @@ export const removeFromPlaylist = id => {
     return { type: REMOVE_FROM_PLAYLIST, payload: id }
 }
 
-export const playlistNext = next => {
-    return { type: PLAYLIST_NEXT, payload: next }
+export const playlistNext = (next, state) => {
+    if (!state.active) {
+        return
+    }
+    if (next) {
+        if (state.currentIndex === state.list.length - 1) {
+            history.push(`/dicsi/songs/${state.list[0]}`)
+            return { type: PLAYLIST_NEXT, payload: 0 }
+        } else {
+            history.push(`/dicsi/songs/${state.list[state.currentIndex + 1]}`)
+            return { type: PLAYLIST_NEXT, payload: state.currentIndex + 1 }
+        }
+    } else {
+        if (state.currentIndex < 1) {
+            history.push(`/dicsi/songs/${state.list[state.list.length - 1]}`)
+            return { type: PLAYLIST_NEXT, payload: state.list.length - 1 }
+        } else {
+            history.push(`/dicsi/songs/${state.list[state.currentIndex - 1]}`)
+            return { type: PLAYLIST_NEXT, payload: state.currentIndex - 1 }
+        }
+    }
+}
+
+export const startPlaylist = (state) => {
+    history.push(`/dicsi/songs/${state.list[state.currentIndex]}`)
+    return {type: START_PLAYLIST}
+}
+export const stopPlaylist = () => {
+    return {type: STOP_PLAYLIST}
 }

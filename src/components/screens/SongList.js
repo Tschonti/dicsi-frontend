@@ -5,7 +5,7 @@ import _ from 'lodash'
 import '../../styles.css'
 import MyLoader from '../MyLoader'
 import SearchBar from '../SearchBar'
-import { fetchSongs, removeAlert, searchSongs, findId, addToPlaylist, removeFromPlaylist } from '../../actions'
+import { fetchSongs, removeAlert, searchSongs, findId, addToPlaylist, removeFromPlaylist, playlistNext, stopPlaylist } from '../../actions'
 import history from '../../history'
 
 class SongList extends React.Component {
@@ -15,6 +15,13 @@ class SongList extends React.Component {
     componentDidMount() {
         this.props.removeAlert()
         this.props.fetchSongs()
+        this.props.stopPlaylist()
+    }
+
+    componentDidUpdate() {
+        if (!this.state.loaded && !_.isEmpty(this.props.songs)) {
+            this.setState({ loaded: true})
+        }
     }
 
     addToPlaylist = (event, id) => {
@@ -32,9 +39,6 @@ class SongList extends React.Component {
                 <MyLoader />
             )
         }
-        if (!this.state.loaded) {
-            this.setState({loaded: true})
-        }
         const songs = this.props.songs.map(song => (
             <div className="item pointer" key={song.id} onClick={() => history.push(`/dicsi/songs/${song.id}`)}>
                 <div className="content">
@@ -47,6 +51,7 @@ class SongList extends React.Component {
         const empty = songs.length === 0 ? <p className="big-text centered-text">Nincs találat!</p> : null
         return (
             <div className="ui container">
+
                 <SearchBar label="Sorszám" id={this.props.findId} term={this.props.searchSongs} fetchAll={this.props.fetchSongs}/>
                 <div className="ui relaxed divided list">
                     {songs}
@@ -64,4 +69,4 @@ const mapStateToProps = state => {
     }
 }
 
-export default connect(mapStateToProps, { fetchSongs, removeAlert, searchSongs, findId, addToPlaylist, removeFromPlaylist })(SongList)
+export default connect(mapStateToProps, { fetchSongs, removeAlert, searchSongs, findId, addToPlaylist, removeFromPlaylist, playlistNext, stopPlaylist })(SongList)

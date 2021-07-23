@@ -6,6 +6,7 @@ import SongCreate from './screens/SongCreate'
 import SongEdit from './screens/SongEdit'
 import SongShow from './screens/SongShow'
 import Header from './Header'
+import Playlist from './Playlist'
 
 import history from '../history'
 
@@ -15,6 +16,7 @@ const App = () => {
         <div>
             <Router history={history}>
                 <Header />
+                <Playlist />
                 <Switch>
                     <Route path="/dicsi/" exact component={SongList} />
                     <Route path="/dicsi/songs/new" exact component={SongCreate} />

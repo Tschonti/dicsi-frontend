@@ -2,11 +2,12 @@ import React from 'react'
 import { connect } from 'react-redux'
 
 import SongForm from './SongForm'
-import { editSong, fetchSong } from '../../actions'
+import { editSong, fetchSong, stopPlaylist } from '../../actions'
 
 class SongEdit extends React.Component {
     componentDidMount() {
         this.props.fetchSong(this.props.match.params.id)
+        this.props.stopPlaylist()
     }
 
     render() {
@@ -33,4 +34,4 @@ const mapStateToProps = (state, ownProps) => {
     return { song: state.songs[ownProps.match.params.id]}
 }
 
-export default connect(mapStateToProps, { editSong, fetchSong })(SongEdit)
+export default connect(mapStateToProps, { editSong, fetchSong, stopPlaylist })(SongEdit)

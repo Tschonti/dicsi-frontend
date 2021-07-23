@@ -1,17 +1,18 @@
-import { ADD_TO_PLAYLIST, REMOVE_FROM_PLAYLIST, PLAYLIST_NEXT } from "../actions/types"
+import { ADD_TO_PLAYLIST, REMOVE_FROM_PLAYLIST, PLAYLIST_NEXT, REMOVE_COMPLETELY, START_PLAYLIST, STOP_PLAYLIST } from "../actions/types"
 
 const defaultState = {
-    playlist: [],
-    currentIndex: -1
+    list: [],
+    currentIndex: 0,
+    active: false
 }
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default (state = defaultState, action) => {
     switch(action.type) {
         case ADD_TO_PLAYLIST:
-            return {...state, playlist: [...state.playlist, action.payload]}
+            return {...state, list: [...state.list, action.payload]}
         case REMOVE_FROM_PLAYLIST:
-            const remIdx = state.playlist.indexOf(action.payload)
+            const remIdx = state.list.indexOf(action.payload)
             if (remIdx === -1) {
                 return state
             }
@@ -19,22 +20,32 @@ export default (state = defaultState, action) => {
             if (remIdx < curIdx) {
                 curIdx -= 1
             }
-            const clonedState = [...state.playlist]
-            return { currentIndex: curIdx, playlist: clonedState.splice(remIdx, 1)}
+            const clonedState = [...state.list]
+            clonedState.splice(remIdx, 1)
+            return { ...state, list: clonedState, currentIndex: curIdx }
+        // TODO bajvan!!
+        case REMOVE_COMPLETELY:
+            curIdx = state.currentIndex
+            const toRemove = []
+            const clonedStateAgain = [...state.list]
+            clonedStateAgain.forEach((el, idx) => {
+                if (el === action.payload) {
+                    toRemove.push(el)
+                    if (idx < curIdx) {
+                        curIdx -=1
+                    }
+                }
+            })
+            toRemove.forEach((songInd, ind) => {
+                clonedStateAgain.splice(songInd - ind, 1)
+            })
+            return { ...state, list: clonedStateAgain, currentIndex: curIdx}
         case PLAYLIST_NEXT:
-            if (action.payload) {
-                if (state.currentIndex === state.playlist.length - 1) {
-                    return state
-                } else {
-                    return {...state, currentIndex: state.currentIndex + 1}
-                }
-            } else {
-                if (state.currentIndex === 0) {
-                    return state
-                } else {
-                    return {...state, currentIndex: state.currentIndex - 1}
-                }
-            }
+            return { ...state, currentIndex: action.payload }
+        case START_PLAYLIST:
+            return { ...state, active: true}
+        case STOP_PLAYLIST:
+            return { ...state, active: false}
         default:
             return state
     }

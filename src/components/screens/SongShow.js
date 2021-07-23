@@ -100,9 +100,33 @@ class SongShow extends React.Component {
 
     }
 
+    renderButtons = () => {
+        return (
+            <div className="">
+                <Link   data-tip="Szerkeztés" className="ui button my-button yellow" to={`/dicsi/songs/edit/${this.props.match.params.id}`}><i className="icon edit"></i></Link>
+                <button data-tip="Törlés" className="ui button my-button negative" onClick={() => this.setState({deleteModalActive: true})}><i className="icon trash alternate"></i></button>
+                <button data-tip="Betűméret csökkentése" className="ui button my-button primary" onClick={() => this.onSizeChange(false)}><i className="font icon"></i><i className="arrow down icon"></i></button>
+                <button data-tip="Betűméret növelése" className="ui button my-button primary" onClick={() => this.onSizeChange(true)}><i className="font icon"></i><i className="arrow up icon"></i></button>
+                <button data-tip="Betűméret visszaállítása" className="ui button my-button primary" onClick={this.handleFontSizeReset}><i className="font icon"></i><i className="undo icon"></i></button>
+                <button data-tip="Teljes képernyő" className="ui button my-button grey" onClick={() => this.setState({fullScreen: true})}><i className="icon expand arrows alternate"></i></button>
+                <button data-tip="Előző versszak" disabled={!this.state.oneVerseModeActive} className="ui button my-button teal" onClick={() => this.handleVerseChange(false)}><i className="step backward icon"></i></button>
+                <button data-tip="Egyversszak mód be- és kikapcsolása" className="ui button my-button green" onClick={this.handleModeSwitch}><i className="play icon"></i></button>
+                <button data-tip="Következő vesszak" disabled={!this.state.oneVerseModeActive} className="ui button my-button teal" onClick={() => this.handleVerseChange(true)}><i className="step forward icon"></i></button>
+            </div>
+        )
+    }
+
     renderTitle = () => {
         return (
-            <h2>{this.props.song.id}. {this.props.song.title} {this.state.oneVerseModeActive ? `${this.state.currentVerse + 1}/${this.props.song.verses.length}` : ''}</h2>
+            <>
+                <div className="title-cont">
+                    <h2 className="vert-centered">{this.props.song.id}. {this.props.song.title} </h2>
+                    <h2 className="vert-centered">{this.state.oneVerseModeActive ? `${this.state.currentVerse + 1}/${this.props.song.verses.length}` : ''}</h2>
+                    {this.renderButtons()}
+                </div>
+                <div className="ui divider"></div>
+            </>
+
         )
     }
 
@@ -134,18 +158,8 @@ class SongShow extends React.Component {
                 {modal}
                 <div onKeyDown={this.handleKeyDown}>
                     <div className="ui container">
-                        <Link   data-tip="Szerkeztés" className="ui button my-button yellow" to={`/dicsi/songs/edit/${this.props.match.params.id}`}><i className="icon edit"></i></Link>
-                        <button data-tip="Törlés" className="ui button my-button negative" onClick={() => this.setState({deleteModalActive: true})}><i className="icon trash alternate"></i></button>
-                        <button data-tip="Betűméret csökkentése" className="ui button my-button primary" onClick={() => this.onSizeChange(false)}><i className="font icon"></i><i className="arrow down icon"></i></button>
-                        <button data-tip="Betűméret növelése" className="ui button my-button primary" onClick={() => this.onSizeChange(true)}><i className="font icon"></i><i className="arrow up icon"></i></button>
-                        <button data-tip="Betűméret visszaállítása" className="ui button my-button primary" onClick={this.handleFontSizeReset}><i className="font icon"></i><i className="undo icon"></i></button>
-                        <button data-tip="Teljes képernyő" className="ui button my-button grey" onClick={() => this.setState({fullScreen: true})}><i className="icon expand arrows alternate"></i></button>
-                        <button data-tip="Előző versszak" disabled={!this.state.oneVerseModeActive} className="ui button my-button teal" onClick={() => this.handleVerseChange(false)}><i className="backward icon"></i></button>
-                        <button data-tip="Egyversszak mód be- és kikapcsolása" className="ui button my-button green" onClick={this.handleModeSwitch}><i className="play icon"></i></button>
-                        <button data-tip="Következő vesszak" disabled={!this.state.oneVerseModeActive} className="ui button my-button teal" onClick={() => this.handleVerseChange(true)}><i className="forward icon"></i></button>
-
+                        <Verses verses={this.renderVerses()} title={this.renderTitle()} fullScreen={this.state.fullScreen} exitFullScreen={this.onFullScreenExit}/>
                     </div>
-                    <Verses verses={this.renderVerses()} title={this.renderTitle()} fullScreen={this.state.fullScreen} exitFullScreen={this.onFullScreenExit}/>
 
                 </div>
                 </>
