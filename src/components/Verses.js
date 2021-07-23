@@ -11,6 +11,7 @@ const Verses = props => {
                 props.exitFullScreen()
             }
         })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     const handle = useFullScreenHandle()
@@ -18,6 +19,7 @@ const Verses = props => {
         if (props.fullScreen) {
             handle.enter()
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [props])
 
     return (

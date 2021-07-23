@@ -16,10 +16,10 @@ const App = () => {
             <Router history={history}>
                 <Header />
                 <Switch>
-                    <Route path="/" exact component={SongList} />
-                    <Route path="/songs/new" exact component={SongCreate} />
-                    <Route path="/songs/edit/:id" exact component={SongEdit} />
-                    <Route path="/songs/:id" exact component={SongShow} />
+                    <Route path="/dicsi/" exact component={SongList} />
+                    <Route path="/dicsi/songs/new" exact component={SongCreate} />
+                    <Route path="/dicsi/songs/edit/:id" exact component={SongEdit} />
+                    <Route path="/dicsi/songs/:id" exact component={SongShow} />
                 </Switch>
             </Router>
         </div>

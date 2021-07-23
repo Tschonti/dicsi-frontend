@@ -5,7 +5,7 @@ import _ from 'lodash'
 import '../../styles.css'
 import MyLoader from '../MyLoader'
 import SearchBar from '../SearchBar'
-import { fetchSongs, removeAlert, searchSongs, findId } from '../../actions'
+import { fetchSongs, removeAlert, searchSongs, findId, addToPlaylist, removeFromPlaylist } from '../../actions'
 import history from '../../history'
 
 class SongList extends React.Component {
@@ -16,6 +16,16 @@ class SongList extends React.Component {
         this.props.removeAlert()
         this.props.fetchSongs()
     }
+
+    addToPlaylist = (event, id) => {
+        this.props.addToPlaylist(id)
+        event.stopPropagation()
+    }
+    removeFromPlaylist = (event, id) => {
+        this.props.removeFromPlaylist(id)
+        event.stopPropagation()
+    }
+
     render() {
         if (_.isEmpty(this.props.songs) && !this.state.loaded) {
             return (
@@ -26,9 +36,11 @@ class SongList extends React.Component {
             this.setState({loaded: true})
         }
         const songs = this.props.songs.map(song => (
-            <div className="item pointer" key={song.id} onClick={() => history.push(`/songs/${song.id}`)}>
+            <div className="item pointer" key={song.id} onClick={() => history.push(`/dicsi/songs/${song.id}`)}>
                 <div className="content">
                     <h3 className="header">{song.id}. {song.title}</h3>
+                    <i className="icon plus circle green" onClick={(e) => this.addToPlaylist(e, song.id)}></i>
+                    <i className="icon minus circle red" onClick={(e) => this.removeFromPlaylist(e, song.id)}></i>
                 </div>
             </div>
         ))
@@ -52,4 +64,4 @@ const mapStateToProps = state => {
     }
 }
 
-export default connect(mapStateToProps, { fetchSongs, removeAlert, searchSongs, findId })(SongList)
+export default connect(mapStateToProps, { fetchSongs, removeAlert, searchSongs, findId, addToPlaylist, removeFromPlaylist })(SongList)

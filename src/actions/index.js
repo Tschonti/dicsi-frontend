@@ -1,4 +1,4 @@
-import { FETCH_SONGS, FETCH_SONG, CREATE_SONG, EDIT_SONG, DELETE_SONG, NEW_ALERT, REMOVE_ALERT } from './types'
+import { FETCH_SONGS, FETCH_SONG, CREATE_SONG, EDIT_SONG, DELETE_SONG, NEW_ALERT, REMOVE_ALERT, ADD_TO_PLAYLIST, REMOVE_FROM_PLAYLIST, PLAYLIST_NEXT } from './types'
 import { dbGET, dbNotGET } from '../api'
 import history from '../history'
 import { handleError } from '../util'
@@ -48,7 +48,7 @@ export const createSong = formData => async dispatch => {
             verses: formData.lyrics.split('\n\n')
         }, { headers: {'key': formData.pwd }})
         dispatch({type: CREATE_SONG, payload: response.data})
-        history.push(`/songs/${formData.id}`)
+        history.push(`/dicsi/songs/${formData.id}`)
     } catch (err) {
         console.log(err.response)
         handleError(err, dispatch)
@@ -63,7 +63,7 @@ export const editSong = (id, formData) => async dispatch => {
             verses: formData.lyrics.split('\n\n'),
         }, { headers: {'key': formData.pwd }})
         dispatch({type: EDIT_SONG, payload: response.data})
-        history.push(`/songs/${id}`)
+        history.push(`/dicsi/songs/${id}`)
     } catch (err) {
         handleError(err, dispatch)
     }
@@ -75,7 +75,7 @@ export const deleteSong = (id, pwd) => async dispatch => {
             headers: { 'key': pwd }
         })
         dispatch({type: DELETE_SONG, payload: id})
-        history.push('/')
+        history.push('/dicsi/')
     } catch(err) {
         handleError(err, dispatch)
     }
@@ -87,4 +87,16 @@ export const newAlert = (msg, type) => {
 
 export const removeAlert = () => {
     return {type: REMOVE_ALERT}
+}
+
+export const addToPlaylist = id => {
+    return { type: ADD_TO_PLAYLIST, payload: id }
+}
+
+export const removeFromPlaylist = id => {
+    return { type: REMOVE_FROM_PLAYLIST, payload: id }
+}
+
+export const playlistNext = next => {
+    return { type: PLAYLIST_NEXT, payload: next }
 }

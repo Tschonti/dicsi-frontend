@@ -134,7 +134,7 @@ class SongShow extends React.Component {
                 {modal}
                 <div onKeyDown={this.handleKeyDown}>
                     <div className="ui container">
-                        <Link   data-tip="Szerkeztés" className="ui button my-button yellow" to={`/songs/edit/${this.props.match.params.id}`}><i className="icon edit"></i></Link>
+                        <Link   data-tip="Szerkeztés" className="ui button my-button yellow" to={`/dicsi/songs/edit/${this.props.match.params.id}`}><i className="icon edit"></i></Link>
                         <button data-tip="Törlés" className="ui button my-button negative" onClick={() => this.setState({deleteModalActive: true})}><i className="icon trash alternate"></i></button>
                         <button data-tip="Betűméret csökkentése" className="ui button my-button primary" onClick={() => this.onSizeChange(false)}><i className="font icon"></i><i className="arrow down icon"></i></button>
                         <button data-tip="Betűméret növelése" className="ui button my-button primary" onClick={() => this.onSizeChange(true)}><i className="font icon"></i><i className="arrow up icon"></i></button>
