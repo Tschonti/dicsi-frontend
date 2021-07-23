@@ -5,7 +5,7 @@ import { FETCH_SONGS, FETCH_SONG, CREATE_SONG, EDIT_SONG, DELETE_SONG } from "..
 export default (state = {}, action) => {
     switch (action.type) {
         case FETCH_SONGS:
-            return {...state, ..._.mapKeys(action.payload, 'id')}
+            return {..._.mapKeys(action.payload, 'id')}
         case FETCH_SONG:
             return {...state, [action.payload.id]: action.payload}
         case CREATE_SONG:

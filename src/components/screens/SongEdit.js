@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 
 import SongForm from './SongForm'
-import { editSong, fetchSong } from '../actions'
+import { editSong, fetchSong } from '../../actions'
 
 class SongEdit extends React.Component {
     componentDidMount() {

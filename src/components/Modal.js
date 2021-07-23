@@ -1,8 +1,18 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+import Alert from '@material-ui/lab/Alert'
+import { connect } from 'react-redux'
 
+import '../styles.css'
+import { removeAlert } from '../actions'
 
 const Modal = props => {
+
+    const alert = props.alert.msg ?
+        <Alert onClose={() => {props.removeAlert()}} severity={props.alert.type} >
+            {props.alert.msg}
+        </Alert>
+        : null
 
     return ReactDOM.createPortal(
         <div className="ui dimmer modals visible active" onClick={props.onDismissed}>
@@ -18,6 +28,9 @@ const Modal = props => {
                     </div>
                 </div>
                 <div className="actions">
+                    <div className="centered">
+                        {alert}
+                    </div>
                     {props.actions}
                 </div>
             </div>
@@ -26,4 +39,10 @@ const Modal = props => {
     )
 }
 
-export default Modal
+const mapStateToProps = state => {
+    return {
+        alert: state.alert
+    }
+}
+
+export default connect(mapStateToProps, {removeAlert})(Modal)

@@ -22,6 +22,24 @@ export const fetchSong = id => async dispatch => {
 
 }
 
+export const findId = (id) => async dispatch => {
+    try {
+        const response = await dbGET.get(`/songs?id=${id}`)
+        dispatch({type: FETCH_SONGS, payload: response.data})
+    } catch (err) {
+        handleError(err, dispatch)
+    }
+}
+
+export const searchSongs = (term) => async dispatch => {
+    try {
+        const response = await dbGET.get(`/songs?title_like=${term}`)
+        dispatch({type: FETCH_SONGS, payload: response.data})
+    } catch (err) {
+        handleError(err, dispatch)
+    }
+}
+
 export const createSong = formData => async dispatch => {
     try {
         const response = await dbNotGET.post('/songs', {

@@ -1,7 +1,6 @@
 import React, { useEffect, useRef } from 'react'
 import { FullScreen, useFullScreenHandle } from "react-full-screen"
-
-
+import '../styles.css'
 
 const Verses = props => {
     const ref = useRef()
@@ -24,7 +23,7 @@ const Verses = props => {
     return (
         <div>
             <FullScreen handle={handle}>
-                <div ref={ref} style={{backgroundColor: 'white', width: '100%', height: '100%'}}>
+                <div ref={ref} className="full-screen">
                     {props.title}
                     {props.verses}
                 </div>

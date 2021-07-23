@@ -1,0 +1,55 @@
+.header-link {
+    margin-top: auto!important;
+    margin-bottom: auto!important;
+}
+
+.header-alert {
+    z-index: 1002;
+    background-color: pink!important
+}
+
+.my-header {
+    height: 52px;
+}
+
+.centered {
+    margin: auto;
+}
+.loader-container {
+    height: 80vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.big-text {
+    font-size: 18px;
+    margin-top: 5px;
+}
+
+.centered-container {
+    display: flex;
+    justify-content: center;
+}
+
+.full-screen {
+    background-color: white;
+    width: 100%;
+    height: 100%;
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+.centered-text {
+    text-align: center;
+}
+.my-button {
+    text-align: center;
+    padding: 10px;
+}
+.sec-container {
+    margin: 15px;
+    text-align: center;
+}
