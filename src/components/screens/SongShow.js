@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import ReactTooltip from 'react-tooltip'
 
 import '../../styles.css'
-import { fetchSong, deleteSong, removeAlert, addToPlaylist } from '../../actions'
+import { fetchSong, deleteSong, removeAlert, addToPlaylist, toggleVisibility } from '../../actions'
 import Modal from './../Modal'
 import Verses from './../Verses'
 import MyLoader from '../MyLoader'
@@ -103,7 +103,8 @@ class SongShow extends React.Component {
 
     renderButtons = () => {
         return (
-            <div className="">
+            <div>
+                <MyButton color="green" onClick={this.props.toggleVisibility} icons={["play circle"]} text=" Lejátszási lista"/>
                 <Link data-tip="Vissza a kereséshez" className="ui button my-button icon grey" to="/dicsi/"><i className="icon search"></i></Link>
                 <MyButton tip="Hozzáadás a lejátszási listához" color="green" onClick={() => this.props.addToPlaylist(parseInt(this.props.match.params.id))} icons={["plus" ]} />
                 <Link data-tip="Dal szerkeztése" className="ui button my-button icon yellow" to={`/dicsi/songs/edit/${this.props.match.params.id}`}><i className="icon edit"></i></Link>
@@ -122,7 +123,7 @@ class SongShow extends React.Component {
     renderTitle = () => {
         return (
             <>
-                <div className="title-cont">
+                <div className="right-left">
                     <h2 className="vert-centered">{this.props.song.id}. {this.props.song.title} </h2>
                     <h2 className="vert-centered">{this.state.oneVerseModeActive ? `${this.state.currentVerse + 1}/${this.props.song.verses.length}` : ''}</h2>
                     {this.renderButtons()}
@@ -179,4 +180,4 @@ const mapStateToProps = (state, ownProps) => {
     }
 }
 
-export default connect(mapStateToProps, { fetchSong, deleteSong, removeAlert, addToPlaylist })(SongShow)
+export default connect(mapStateToProps, { fetchSong, deleteSong, removeAlert, addToPlaylist, toggleVisibility })(SongShow)

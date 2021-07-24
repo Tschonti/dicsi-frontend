@@ -1,4 +1,4 @@
-import { FETCH_SONGS, FETCH_SONG, CREATE_SONG, EDIT_SONG, DELETE_SONG, NEW_ALERT, REMOVE_ALERT, ADD_TO_PLAYLIST, REMOVE_FROM_PLAYLIST, REMOVE_COMPLETELY, PLAYLIST_NEXT, START_PLAYLIST, STOP_PLAYLIST, CLEAR_PLAYLIST, UPDATE_SONG_LIST, CANCEL_SEARCH } from './types'
+import { FETCH_SONGS, FETCH_SONG, CREATE_SONG, EDIT_SONG, DELETE_SONG, NEW_ALERT, REMOVE_ALERT, ADD_TO_PLAYLIST, REMOVE_FROM_PLAYLIST, REMOVE_COMPLETELY, PLAYLIST_NEXT, START_PLAYLIST, STOP_PLAYLIST, CLEAR_PLAYLIST, UPDATE_SONG_LIST, CANCEL_SEARCH, TOGGLE_VISIBILITY } from './types'
 import { dbGET, dbNotGET } from '../api'
 import history from '../history'
 import { handleError } from '../util'
@@ -135,4 +135,8 @@ export const stopPlaylist = () => {
 
 export const clearPlaylist = () => {
     return {type: CLEAR_PLAYLIST}
+}
+
+export const toggleVisibility = () => {
+    return { type: TOGGLE_VISIBILITY }
 }

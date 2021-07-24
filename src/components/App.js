@@ -16,13 +16,13 @@ const App = () => {
         <div>
             <Router history={history}>
                 <Header />
-                <Playlist />
                 <Switch>
                     <Route path="/dicsi/" exact component={SongList} />
                     <Route path="/dicsi/songs/new" exact component={SongCreate} />
                     <Route path="/dicsi/songs/edit/:id" exact component={SongEdit} />
                     <Route path="/dicsi/songs/:id" exact component={SongShow} />
                 </Switch>
+                <Playlist />
             </Router>
         </div>
     )

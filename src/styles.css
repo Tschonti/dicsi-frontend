@@ -64,14 +64,57 @@
 .right-text {
     text-align: right;
 }
-.title-cont {
+.right-left {
     display: flex;
     justify-content: space-between;
+    flex-direction: row;
+}
+.next-to {
+    display: flex;
     flex-direction: row;
 }
 .pl {
     padding-left: 10px;
 }
 .active {
-    background-color: yellow;
+    background-color: #fbfba5;
+}
+
+.playlist-container {
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    width: 40vh;
+    transform: translate(-50%, 0);
+    border-top-style: solid;
+    border-right-style: solid;
+    border-left-style: solid;
+    border-width: 1px;
+    border-color: grey;
+    border-radius: 5px;
+    padding: 10px ;
+    background-color: white;
+
+}
+.my-item {
+    padding-top: 3px!important;
+    padding-bottom: 3px!important;
+}
+
+.hover-grey:hover {
+    background-color: #ebebeb;
+}
+
+.my-bottom-border {
+    border-bottom-style: solid;
+    border-width: 1px;
+    border-color: lightgrey;
+}
+
+.left-border {
+    border-left-style: solid;
+}
+
+.my-header-text {
+    margin-bottom: 5px;
 }

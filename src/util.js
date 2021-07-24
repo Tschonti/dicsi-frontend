@@ -8,6 +8,7 @@ const setTimeoutToRemoveAlert = (dispatch) => {
 export const handleError = (err, dispatch) => {
     if (!err.response) {
         dispatch({type: NEW_ALERT, payload: {msg: 'Valami baj van', type: 'error'}})
+        console.log(err)
     }
     else if (err.response.status === 401) {
         dispatch({type: NEW_ALERT, payload: {msg: 'Hibás jelszó', type: 'error'}})
@@ -17,4 +18,14 @@ export const handleError = (err, dispatch) => {
         dispatch({type: NEW_ALERT, payload: {msg: `${err.response.status}: ${err.response.data}`, type: 'error'}})
     }
     setTimeoutToRemoveAlert(dispatch)
+}
+
+export const sortSongs = (songs, field) => {
+    songs.sort((fEl, sEl) => {
+        if (fEl[field] < sEl[field]) {
+            return -1
+        } else if (fEl[field] > sEl[field]) {
+            return 1
+        } return 0
+    })
 }

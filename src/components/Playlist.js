@@ -3,28 +3,36 @@ import { connect }  from 'react-redux'
 import ReactTooltip from 'react-tooltip'
 import _ from 'lodash'
 
-import { fetchSongs, playlistNext, startPlaylist, clearPlaylist } from '../actions'
+import { fetchSongs, playlistNext, startPlaylist, clearPlaylist, removeFromPlaylist } from '../actions'
 import MyButton from './MyButton'
 
 
 class Playlist extends React.Component {
+    state = {
+        open: true
+    }
 
     componentDidMount() {
         this.props.fetchSongs()
     }
     renderSongList = () => {
-        if (_.isEmpty(this.props.songs)) {
+        if (_.isEmpty(this.props.songs) || !this.state.open) {
             return null
         }
         const list = this.props.playlist.list.map((songId, idx) => {
             const song = this.props.songs.find(el => el.id === songId)
             return  song ? (
-                <div className={`item ${this.props.playlist.currentIndex === idx ? 'active' : ''}`} key={idx}>
-                    <h5 className="header">{song.id}. {song.title}</h5>
+                <div className={`item my-item ${this.props.playlist.currentIndex === idx ? 'active' : ''}`} key={idx}>
+                    <h5 className="header">
+                        {song.id}. {song.title}
+                        <div className="right floated">
+                            <i className="icon minus circle red pointer" onClick={() => this.props.removeFromPlaylist(song.id)}></i>
+                        </div>
+                    </h5>
                 </div>
             ) : null})
         return (
-            <div className="ui relaxed divided ordered">
+            <div className="ui relaxed divided ordered list">
                 {list}
             </div>
         )
@@ -32,14 +40,23 @@ class Playlist extends React.Component {
     }
 
     render() {
+        //TODO dupla tool-tip
+        if (!this.props.playlist.visible) {
+            return null
+        }
         return (
-            <div>
+            <div className="playlist-container">
                 <ReactTooltip effect="solid"/>
-                Lejátszási lista
-                <MyButton disabled={!this.props.playlist.active} tip="Előző dal" color="purple" onClick={() => this.props.playlistNext(false, this.props.playlist)} icons={["backward"]} />
-                <MyButton disabled={this.props.playlist.active || this.props.playlist.list.length === 0} tip="Lejátszási lista indítása" color="green" onClick={() => this.props.startPlaylist(this.props.playlist)} icons={["play"]} />
-                <MyButton disabled={!this.props.playlist.active} tip="Következő dal" color="purple" onClick={() => this.props.playlistNext(true, this.props.playlist)} icons={["forward"]} />
-                <MyButton disabled={this.props.playlist.list.length === 0} tip="Lejátszási lista törlése" color="negative" onClick={() => this.props.clearPlaylist()} icons={["trash alternate"]} />
+                <div className="right-left pointer" onClick={() => this.setState({open: !this.state.open})}>
+                    <h3>Lejátszási lista {`${this.props.playlist.currentIndex + 1}/${this.props.playlist.list.length}`}</h3>
+                    <i className={`icon ${this.state.open ? 'minus' : 'plus'}`}></i>
+                </div>
+                <div className="centered-container">
+                    <MyButton disabled={!this.props.playlist.active} tip="Előző dal" color="blue" onClick={() => this.props.playlistNext(false, this.props.playlist)} icons={["backward"]} />
+                    <MyButton disabled={this.props.playlist.active || this.props.playlist.list.length === 0} tip="Lejátszási lista indítása" color="green" onClick={() => this.props.startPlaylist(this.props.playlist)} icons={["play"]} />
+                    <MyButton disabled={!this.props.playlist.active} tip="Következő dal" color="blue" onClick={() => this.props.playlistNext(true, this.props.playlist)} icons={["forward"]} />
+                    <MyButton disabled={this.props.playlist.list.length === 0} tip="Lejátszási lista törlése" color="negative" onClick={() => this.props.clearPlaylist()} icons={["trash alternate"]} />
+                </div>
                 {this.renderSongList()}
             </div>
         )
@@ -53,4 +70,4 @@ const mapStateToProps = state => {
     }
 }
 
-export default connect(mapStateToProps, { fetchSongs, playlistNext, startPlaylist, clearPlaylist })(Playlist)
+export default connect(mapStateToProps, { fetchSongs, playlistNext, startPlaylist, clearPlaylist, removeFromPlaylist })(Playlist)

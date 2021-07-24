@@ -1,9 +1,10 @@
-import { ADD_TO_PLAYLIST, REMOVE_FROM_PLAYLIST, PLAYLIST_NEXT, REMOVE_COMPLETELY, START_PLAYLIST, STOP_PLAYLIST, CLEAR_PLAYLIST } from "../actions/types"
+import { ADD_TO_PLAYLIST, REMOVE_FROM_PLAYLIST, PLAYLIST_NEXT, REMOVE_COMPLETELY, START_PLAYLIST, STOP_PLAYLIST, CLEAR_PLAYLIST, TOGGLE_VISIBILITY } from "../actions/types"
 
 const defaultState = {
     list: [],
     currentIndex: 0,
-    active: false
+    active: false,
+    visible: false,
 }
 
 // eslint-disable-next-line import/no-anonymous-default-export
@@ -47,7 +48,9 @@ export default (state = defaultState, action) => {
         case STOP_PLAYLIST:
             return { ...state, active: false}
         case CLEAR_PLAYLIST:
-            return { list: [], currentIndex: 0, active: false }
+            return { ...state, list: [], currentIndex: 0, active: false }
+        case TOGGLE_VISIBILITY:
+            return { ...state, visible: !state.visible}
         default:
             return state
     }
