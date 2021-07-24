@@ -1,4 +1,4 @@
-import { FETCH_SONGS, FETCH_SONG, CREATE_SONG, EDIT_SONG, DELETE_SONG, NEW_ALERT, REMOVE_ALERT, ADD_TO_PLAYLIST, REMOVE_FROM_PLAYLIST, REMOVE_COMPLETELY, PLAYLIST_NEXT, START_PLAYLIST, STOP_PLAYLIST } from './types'
+import { FETCH_SONGS, FETCH_SONG, CREATE_SONG, EDIT_SONG, DELETE_SONG, NEW_ALERT, REMOVE_ALERT, ADD_TO_PLAYLIST, REMOVE_FROM_PLAYLIST, REMOVE_COMPLETELY, PLAYLIST_NEXT, START_PLAYLIST, STOP_PLAYLIST, CLEAR_PLAYLIST, UPDATE_SONG_LIST, CANCEL_SEARCH } from './types'
 import { dbGET, dbNotGET } from '../api'
 import history from '../history'
 import { handleError } from '../util'
@@ -25,7 +25,7 @@ export const fetchSong = id => async dispatch => {
 export const findId = (id) => async dispatch => {
     try {
         const response = await dbGET.get(`/songs?id=${id}`)
-        dispatch({type: FETCH_SONGS, payload: response.data})
+        dispatch({type: UPDATE_SONG_LIST, payload: response.data})
     } catch (err) {
         handleError(err, dispatch)
     }
@@ -34,10 +34,14 @@ export const findId = (id) => async dispatch => {
 export const searchSongs = (term) => async dispatch => {
     try {
         const response = await dbGET.get(`/songs?title_like=${term}`)
-        dispatch({type: FETCH_SONGS, payload: response.data})
+        dispatch({type: UPDATE_SONG_LIST, payload: response.data})
     } catch (err) {
         handleError(err, dispatch)
     }
+}
+
+export const cancelSearch = () => {
+    return { type: CANCEL_SEARCH}
 }
 
 export const createSong = formData => async dispatch => {
@@ -127,4 +131,8 @@ export const startPlaylist = (state) => {
 }
 export const stopPlaylist = () => {
     return {type: STOP_PLAYLIST}
+}
+
+export const clearPlaylist = () => {
+    return {type: CLEAR_PLAYLIST}
 }

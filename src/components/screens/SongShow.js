@@ -4,10 +4,11 @@ import { Link } from 'react-router-dom'
 import ReactTooltip from 'react-tooltip'
 
 import '../../styles.css'
-import { fetchSong, deleteSong, removeAlert } from '../../actions'
+import { fetchSong, deleteSong, removeAlert, addToPlaylist } from '../../actions'
 import Modal from './../Modal'
 import Verses from './../Verses'
 import MyLoader from '../MyLoader'
+import MyButton from '../MyButton'
 
 const SMALL_FONT_SIZE = 18
 const BIG_FONT_SIZE = 60
@@ -103,15 +104,17 @@ class SongShow extends React.Component {
     renderButtons = () => {
         return (
             <div className="">
-                <Link   data-tip="Szerkeztés" className="ui button my-button yellow" to={`/dicsi/songs/edit/${this.props.match.params.id}`}><i className="icon edit"></i></Link>
-                <button data-tip="Törlés" className="ui button my-button negative" onClick={() => this.setState({deleteModalActive: true})}><i className="icon trash alternate"></i></button>
-                <button data-tip="Betűméret csökkentése" className="ui button my-button primary" onClick={() => this.onSizeChange(false)}><i className="font icon"></i><i className="arrow down icon"></i></button>
-                <button data-tip="Betűméret növelése" className="ui button my-button primary" onClick={() => this.onSizeChange(true)}><i className="font icon"></i><i className="arrow up icon"></i></button>
-                <button data-tip="Betűméret visszaállítása" className="ui button my-button primary" onClick={this.handleFontSizeReset}><i className="font icon"></i><i className="undo icon"></i></button>
-                <button data-tip="Teljes képernyő" className="ui button my-button grey" onClick={() => this.setState({fullScreen: true})}><i className="icon expand arrows alternate"></i></button>
-                <button data-tip="Előző versszak" disabled={!this.state.oneVerseModeActive} className="ui button my-button teal" onClick={() => this.handleVerseChange(false)}><i className="step backward icon"></i></button>
-                <button data-tip="Egyversszak mód be- és kikapcsolása" className="ui button my-button green" onClick={this.handleModeSwitch}><i className="play icon"></i></button>
-                <button data-tip="Következő vesszak" disabled={!this.state.oneVerseModeActive} className="ui button my-button teal" onClick={() => this.handleVerseChange(true)}><i className="step forward icon"></i></button>
+                <Link data-tip="Vissza a kereséshez" className="ui button my-button icon grey" to="/dicsi/"><i className="icon search"></i></Link>
+                <MyButton tip="Hozzáadás a lejátszási listához" color="green" onClick={() => this.props.addToPlaylist(parseInt(this.props.match.params.id))} icons={["plus" ]} />
+                <Link data-tip="Dal szerkeztése" className="ui button my-button icon yellow" to={`/dicsi/songs/edit/${this.props.match.params.id}`}><i className="icon edit"></i></Link>
+                <MyButton tip="Dal törlése" color="negative" onClick={() => this.setState({deleteModalActive: true})} icons={["trash alternate" ]} />
+                <MyButton tip="Betűméret csökkentése" color="primary" onClick={() => this.onSizeChange(false)} icons={["font", "arrow down" ]} />
+                <MyButton tip="Betűméret növelése" color="primary" onClick={() => this.onSizeChange(true)} icons={["font", "arrow up " ]} />
+                <MyButton tip="Betűméret visszaállítása" color="primary" onClick={this.handleFontSizeReset} icons={["font", "undo" ]} />
+                <MyButton tip="Teljes képernyő" color="grey" onClick={() => this.setState({fullScreen: true})} icons={["expand arrows alternate" ]} />
+                <MyButton tip="Előző versszak" disabled={!this.state.oneVerseModeActive} color="teal" onClick={() => this.handleVerseChange(false)} icons={[" step backward icon" ]} />
+                <MyButton tip="Egyversszak mód be- és kikapcsolása" color="green" onClick={this.handleModeSwitch} icons={["play" ]} />
+                <MyButton tip="Következő vesszak" disabled={!this.state.oneVerseModeActive} color="teal" onClick={() => this.handleVerseChange(true)} icons={[" step forward icon" ]} />
             </div>
         )
     }
@@ -176,4 +179,4 @@ const mapStateToProps = (state, ownProps) => {
     }
 }
 
-export default connect(mapStateToProps, { fetchSong, deleteSong, removeAlert })(SongShow)
+export default connect(mapStateToProps, { fetchSong, deleteSong, removeAlert, addToPlaylist })(SongShow)

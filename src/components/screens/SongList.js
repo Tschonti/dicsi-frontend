@@ -5,7 +5,7 @@ import _ from 'lodash'
 import '../../styles.css'
 import MyLoader from '../MyLoader'
 import SearchBar from '../SearchBar'
-import { fetchSongs, removeAlert, searchSongs, findId, addToPlaylist, removeFromPlaylist, playlistNext, stopPlaylist } from '../../actions'
+import { fetchSongs, removeAlert, searchSongs, findId, addToPlaylist, removeFromPlaylist, playlistNext, stopPlaylist, cancelSearch } from '../../actions'
 import history from '../../history'
 
 class SongList extends React.Component {
@@ -39,7 +39,8 @@ class SongList extends React.Component {
                 <MyLoader />
             )
         }
-        const songs = this.props.songs.map(song => (
+        const { searchList } = this.props
+        const songs = this.props.songs.filter(song => searchList.list.includes(song.id) || !searchList.validSearch).map(song => (
             <div className="item pointer" key={song.id} onClick={() => history.push(`/dicsi/songs/${song.id}`)}>
                 <div className="content">
                     <h3 className="header">{song.id}. {song.title}</h3>
@@ -52,7 +53,7 @@ class SongList extends React.Component {
         return (
             <div className="ui container">
 
-                <SearchBar label="Sorszám" id={this.props.findId} term={this.props.searchSongs} fetchAll={this.props.fetchSongs}/>
+                <SearchBar id={this.props.findId} term={this.props.searchSongs} cancel={this.props.cancelSearch}/>
                 <div className="ui relaxed divided list">
                     {songs}
                 </div>
@@ -65,8 +66,9 @@ class SongList extends React.Component {
 
 const mapStateToProps = state => {
     return {
-        songs: Object.values(state.songs)
+        songs: Object.values(state.songs),
+        searchList: state.searchList
     }
 }
 
-export default connect(mapStateToProps, { fetchSongs, removeAlert, searchSongs, findId, addToPlaylist, removeFromPlaylist, playlistNext, stopPlaylist })(SongList)
+export default connect(mapStateToProps, { fetchSongs, removeAlert, searchSongs, findId, addToPlaylist, removeFromPlaylist, playlistNext, stopPlaylist, cancelSearch })(SongList)

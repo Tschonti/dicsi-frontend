@@ -1,4 +1,4 @@
-import { ADD_TO_PLAYLIST, REMOVE_FROM_PLAYLIST, PLAYLIST_NEXT, REMOVE_COMPLETELY, START_PLAYLIST, STOP_PLAYLIST } from "../actions/types"
+import { ADD_TO_PLAYLIST, REMOVE_FROM_PLAYLIST, PLAYLIST_NEXT, REMOVE_COMPLETELY, START_PLAYLIST, STOP_PLAYLIST, CLEAR_PLAYLIST } from "../actions/types"
 
 const defaultState = {
     list: [],
@@ -46,6 +46,8 @@ export default (state = defaultState, action) => {
             return { ...state, active: true}
         case STOP_PLAYLIST:
             return { ...state, active: false}
+        case CLEAR_PLAYLIST:
+            return { list: [], currentIndex: 0, active: false }
         default:
             return state
     }

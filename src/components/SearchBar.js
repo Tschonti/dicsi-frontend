@@ -21,7 +21,7 @@ const SearchBar = props => {
                 props.id(debouncedValue)
             }
         } else {
-            props.fetchAll()
+            props.cancel()
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [debouncedValue])
