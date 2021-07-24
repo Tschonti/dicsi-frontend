@@ -21,6 +21,7 @@ class SongShow extends React.Component {
         oneVerseModeActive: false,
         currentVerse: 0,
         fullScreen: false,
+        showButtons: true
     }
 
     handleKeyDown = (e) => {
@@ -92,7 +93,7 @@ class SongShow extends React.Component {
         }
         const lines = this.props.song.verses[this.state.currentVerse].split('\n').map((line, idx) => <React.Fragment key={idx}>{line}<br/></React.Fragment>)
         return (
-            <div className="sec-container">
+            <div className="">
                 <p style={{fontSize: `${this.state.fontSize}px`}}>
                     {lines}
                 </p>
@@ -102,8 +103,8 @@ class SongShow extends React.Component {
     }
 
     renderButtons = () => {
-        return (
-            <div>
+        const optionalButtons = this.state.showButtons ? (
+            <>
                 <MyButton color="green" onClick={this.props.toggleVisibility} icons={["play circle"]} text=" Lejátszási lista"/>
                 <Link data-tip="Vissza a kereséshez" className="ui button my-button icon grey" to="/dicsi/"><i className="icon search"></i></Link>
                 <MyButton tip="Hozzáadás a lejátszási listához" color="green" onClick={() => this.props.addToPlaylist(parseInt(this.props.match.params.id))} icons={["plus" ]} />
@@ -116,6 +117,12 @@ class SongShow extends React.Component {
                 <MyButton tip="Előző versszak" disabled={!this.state.oneVerseModeActive} color="teal" onClick={() => this.handleVerseChange(false)} icons={[" step backward icon" ]} />
                 <MyButton tip="Egyversszak mód be- és kikapcsolása" color="green" onClick={this.handleModeSwitch} icons={["play" ]} />
                 <MyButton tip="Következő vesszak" disabled={!this.state.oneVerseModeActive} color="teal" onClick={() => this.handleVerseChange(true)} icons={[" step forward icon" ]} />
+            </>
+        ) : null
+        return (
+            <div>
+                <MyButton color="gray" onClick={()=>this.setState({showButtons: !this.state.showButtons})} icons={["bars"]} tip="Gombok elrejtése/előhozása"/>
+                {optionalButtons}
             </div>
         )
     }

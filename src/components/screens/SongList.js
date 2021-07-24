@@ -72,13 +72,17 @@ class SongList extends React.Component {
         return (
             <div className="ui container">
                 <ReactTooltip effect="solid"/>
-                <div className="">
-                    <div>
-                        <MyButton color="green" onClick={this.props.toggleVisibility} icons={["play circle"]} text=" Lejátszási lista"/>
-                        <MyButton color="blue" onClick={() => this.setState({ sortById: true})} icons={["sort numeric down"]} tip="Dalok rendezése sorszám szerint" disabled={this.state.sortById}/>
-                        <MyButton color="blue" onClick={() => this.setState({ sortById: false})} icons={["sort alphabet down"]} tip="Dalok rendezése cím szerint" disabled={!this.state.sortById}/>
+                <div className="ui stackable grid">
+                    <div className="twelve wide column">
+                        <SearchBar id={this.props.findId} term={this.props.searchSongs} cancel={this.props.cancelSearch}/>
                     </div>
-                    <SearchBar id={this.props.findId} term={this.props.searchSongs} cancel={this.props.cancelSearch}/>
+                    <div className="four wide column ">
+                        <div className="centered-container">
+                            <MyButton color="blue" onClick={() => this.setState({ sortById: true})} icons={["sort numeric down"]} tip="Dalok rendezése sorszám szerint" disabled={this.state.sortById}/>
+                            <MyButton color="blue" onClick={() => this.setState({ sortById: false})} icons={["sort alphabet down"]} tip="Dalok rendezése cím szerint" disabled={!this.state.sortById}/>
+                            <MyButton color="green" onClick={this.props.toggleVisibility} icons={["play circle"]} text=" Lejátszási lista"/>
+                        </div>
+                    </div>
                 </div>
                 <div className="ui stackable three column grid">
                     {songs}

@@ -52,7 +52,8 @@
 }
 .my-button {
     text-align: center;
-    padding: 10px;
+    padding: 10px!important;
+    margin-bottom: 10px!important;
 }
 .sec-container {
     margin: 15px;
@@ -117,4 +118,9 @@
 
 .my-header-text {
     margin-bottom: 5px;
+}
+
+.search-bar-cont {
+    display: flex;
+    justify-content: space-between;
 }
