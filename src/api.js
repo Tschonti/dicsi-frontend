@@ -1,9 +1,9 @@
 import axios from 'axios'
-import key from './config'
+import nokedli from './config'
 
 export const dbGET = axios.create({
     baseURL: 'https://dicsi-db.herokuapp.com',
-    headers: { 'key': key }
+    headers: { 'key': nokedli }
 })
 
 export const dbNotGET = axios.create({
