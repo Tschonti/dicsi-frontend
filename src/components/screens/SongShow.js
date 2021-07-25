@@ -2,6 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import ReactTooltip from 'react-tooltip'
+import { isMobileOnly } from 'react-device-detect'
 
 import '../../styles.css'
 import { fetchSong, deleteSong, removeAlert, addToPlaylist, toggleVisibility } from '../../actions'
@@ -21,7 +22,7 @@ class SongShow extends React.Component {
         oneVerseModeActive: false,
         currentVerse: 0,
         fullScreen: false,
-        showButtons: true
+        showButtons: !isMobileOnly
     }
 
     handleKeyDown = (e) => {
@@ -165,7 +166,7 @@ class SongShow extends React.Component {
 
             return (
                 <>
-                <ReactTooltip effect="solid"/>
+                <ReactTooltip effect="solid" />
                 {modal}
                 <div onKeyDown={this.handleKeyDown}>
                     <div className="ui container">

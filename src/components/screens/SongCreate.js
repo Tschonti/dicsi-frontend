@@ -2,11 +2,14 @@ import React from 'react'
 import { connect } from 'react-redux'
 
 import SongForm from './SongForm'
-import { createSong, stopPlaylist } from '../../actions'
+import { createSong, stopPlaylist, toggleVisibility } from '../../actions'
 
 class SongCreate extends React.Component {
 componentDidMount() {
     this.props.stopPlaylist()
+    if (this.props.plVisible) {
+        this.props.toggleVisibility()
+    }
 }
 
     render() {
@@ -21,4 +24,8 @@ componentDidMount() {
     }
 }
 
-export default connect(null, { createSong, stopPlaylist })(SongCreate)
+const mapStateToProps = state => {
+    return {plVisible: state.playlist.visible}
+}
+
+export default connect(mapStateToProps, { createSong, stopPlaylist, toggleVisibility })(SongCreate)

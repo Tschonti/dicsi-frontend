@@ -3,7 +3,7 @@ import { connect }  from 'react-redux'
 import ReactTooltip from 'react-tooltip'
 import _ from 'lodash'
 
-import { fetchSongs, playlistNext, startPlaylist, clearPlaylist, removeFromPlaylist } from '../actions'
+import { fetchSongs, playlistNext, startPlaylist, clearPlaylist, removeFromPlaylist, toggleVisibility } from '../actions'
 import MyButton from './MyButton'
 
 
@@ -31,12 +31,21 @@ class Playlist extends React.Component {
                     </h5>
                 </div>
             ) : null})
+        const empty = list.length > 0 ? '' : (<p className="centered-text">A lejátszási lista üres</p>)
         return (
-            <div className="ui relaxed divided ordered list">
-                {list}
-            </div>
+            <>
+                <div className="ui relaxed divided ordered list">
+                    {list}
+                </div>
+                {empty}
+            </>
+
         )
 
+    }
+    onClear = () => {
+        this.props.clearPlaylist()
+        this.props.toggleVisibility()
     }
 
     render() {
@@ -44,18 +53,19 @@ class Playlist extends React.Component {
         if (!this.props.playlist.visible) {
             return null
         }
+        const currentIndex = this.props.playlist.list.length === 0 ? 0 : this.props.playlist.currentIndex + 1
         return (
             <div className="playlist-container">
                 <ReactTooltip effect="solid"/>
                 <div className="right-left pointer" onClick={() => this.setState({open: !this.state.open})}>
-                    <h3>Lejátszási lista {`${this.props.playlist.currentIndex + 1}/${this.props.playlist.list.length}`}</h3>
+                    <h3>Lejátszási lista {`${currentIndex}/${this.props.playlist.list.length}`}</h3>
                     <i className={`icon ${this.state.open ? 'minus' : 'plus'}`}></i>
                 </div>
                 <div className="centered-container">
                     <MyButton disabled={!this.props.playlist.active} tip="Előző dal" color="blue" onClick={() => this.props.playlistNext(false, this.props.playlist)} icons={["backward"]} />
                     <MyButton disabled={this.props.playlist.active || this.props.playlist.list.length === 0} tip="Lejátszási lista indítása" color="green" onClick={() => this.props.startPlaylist(this.props.playlist)} icons={["play"]} />
                     <MyButton disabled={!this.props.playlist.active} tip="Következő dal" color="blue" onClick={() => this.props.playlistNext(true, this.props.playlist)} icons={["forward"]} />
-                    <MyButton disabled={this.props.playlist.list.length === 0} tip="Lejátszási lista törlése" color="negative" onClick={() => this.props.clearPlaylist()} icons={["trash alternate"]} />
+                    <MyButton disabled={this.props.playlist.list.length === 0} tip="Lejátszási lista törlése" color="negative" onClick={this.onClear} icons={["trash alternate"]} />
                 </div>
                 {this.renderSongList()}
             </div>
@@ -70,4 +80,4 @@ const mapStateToProps = state => {
     }
 }
 
-export default connect(mapStateToProps, { fetchSongs, playlistNext, startPlaylist, clearPlaylist, removeFromPlaylist })(Playlist)
+export default connect(mapStateToProps, { fetchSongs, playlistNext, startPlaylist, clearPlaylist, removeFromPlaylist, toggleVisibility })(Playlist)

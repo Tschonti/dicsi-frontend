@@ -47,7 +47,7 @@ export const cancelSearch = () => {
 export const createSong = formData => async dispatch => {
     try {
         const response = await dbNotGET.post('/songs', {
-            id: formData.id,
+            id: parseInt(formData.id),
             title: formData.title,
             verses: formData.lyrics.split('\n\n')
         }, { headers: {'key': formData.pwd }})

@@ -2,6 +2,7 @@ import React from 'react'
 import { connect }  from 'react-redux'
 import _ from 'lodash'
 import ReactTooltip from 'react-tooltip'
+import { isMobileOnly } from 'react-device-detect'
 
 import '../../styles.css'
 import MyLoader from '../MyLoader'
@@ -61,7 +62,7 @@ class SongList extends React.Component {
             sortSongs(this.props.songs, 'id')
         }
         const songs = this.props.songs.filter(song => searchList.list.includes(song.id) || !searchList.validSearch).map((song, idx) => (
-            <div className={`column pointer hover-grey my-bottom-border ${idx % 3 !== 0 ? 'left-border' : ''}`} key={song.id} onClick={() => history.push(`/dicsi/songs/${song.id}`)}>
+            <div className={`column pointer hover-grey my-bottom-border ${idx % 3 !== 0 && !isMobileOnly ? 'left-border' : ''}`} key={song.id} onClick={() => history.push(`/dicsi/songs/${song.id}`)}>
                 <div className="content right-left">
                     <h3 className="header my-header-text">{song.id}. {song.title}</h3>
                     {this.renderSmallButtons(song)}
