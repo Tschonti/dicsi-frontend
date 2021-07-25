@@ -8,7 +8,7 @@ const setTimeoutToRemoveAlert = (dispatch) => {
 export const handleError = (err, dispatch) => {
     if (!err.response) {
         dispatch({type: NEW_ALERT, payload: {msg: 'Valami baj van', type: 'error'}})
-        console.log(err)
+        console.error(err)
     }
     else if (err.response.status === 401) {
         dispatch({type: NEW_ALERT, payload: {msg: 'Hibás jelszó', type: 'error'}})
@@ -16,6 +16,7 @@ export const handleError = (err, dispatch) => {
         dispatch({type: NEW_ALERT, payload: {msg: 'Ilyen sorszámú dal már létezik az adatbázisban', type: 'error'}})
     } else {
         dispatch({type: NEW_ALERT, payload: {msg: `${err.response.status}: ${err.response.data}`, type: 'error'}})
+        console.error(err.response)
     }
     setTimeoutToRemoveAlert(dispatch)
 }

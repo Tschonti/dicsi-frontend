@@ -7,7 +7,6 @@ import { isMobileOnly } from 'react-device-detect'
 import '../../styles.css'
 import { fetchSong, deleteSong, removeAlert, addToPlaylist, toggleVisibility } from '../../actions'
 import Modal from './../Modal'
-import Verses from './../Verses'
 import MyLoader from '../MyLoader'
 import MyButton from '../MyButton'
 
@@ -21,7 +20,6 @@ class SongShow extends React.Component {
         deletePassword: '',
         oneVerseModeActive: false,
         currentVerse: 0,
-        fullScreen: false,
         showButtons: !isMobileOnly
     }
 
@@ -32,9 +30,6 @@ class SongShow extends React.Component {
                 break
             case 'ArrowLeft':
                 this.handleVerseChange(false)
-                break
-            case 'Escape':
-                this.setState({fullScreen: false})
                 break
             default:
         }
@@ -114,7 +109,6 @@ class SongShow extends React.Component {
                 <MyButton tip="Betűméret csökkentése" color="primary" onClick={() => this.onSizeChange(false)} icons={["font", "arrow down" ]} />
                 <MyButton tip="Betűméret növelése" color="primary" onClick={() => this.onSizeChange(true)} icons={["font", "arrow up " ]} />
                 <MyButton tip="Betűméret visszaállítása" color="primary" onClick={this.handleFontSizeReset} icons={["font", "undo" ]} />
-                <MyButton tip="Teljes képernyő" color="grey" onClick={() => this.setState({fullScreen: true})} icons={["expand arrows alternate" ]} />
                 <MyButton tip="Előző versszak" disabled={!this.state.oneVerseModeActive} color="teal" onClick={() => this.handleVerseChange(false)} icons={[" step backward icon" ]} />
                 <MyButton tip="Egyversszak mód be- és kikapcsolása" color="green" onClick={this.handleModeSwitch} icons={["play" ]} />
                 <MyButton tip="Következő vesszak" disabled={!this.state.oneVerseModeActive} color="teal" onClick={() => this.handleVerseChange(true)} icons={[" step forward icon" ]} />
@@ -142,10 +136,6 @@ class SongShow extends React.Component {
         )
     }
 
-    onFullScreenExit = () => {
-        this.setState({ fullScreen: false })
-    }
-
     render() {
         if (this.props.song) {
             const actions = () => (
@@ -170,7 +160,10 @@ class SongShow extends React.Component {
                 {modal}
                 <div onKeyDown={this.handleKeyDown}>
                     <div className="ui container">
-                        <Verses verses={this.renderVerses()} title={this.renderTitle()} fullScreen={this.state.fullScreen} exitFullScreen={this.onFullScreenExit}/>
+                        <div className="full-screen">
+                            {this.renderTitle()}
+                            {this.renderVerses()}
+                        </div>
                     </div>
 
                 </div>
