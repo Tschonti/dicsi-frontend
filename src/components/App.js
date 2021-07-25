@@ -5,6 +5,8 @@ import SongList from './screens/SongList'
 import SongCreate from './screens/SongCreate'
 import SongEdit from './screens/SongEdit'
 import SongShow from './screens/SongShow'
+
+import Footer from './Footer'
 import Header from './Header'
 import Playlist from './Playlist'
 
@@ -22,6 +24,7 @@ const App = () => {
                     <Route path="/dicsi/songs/edit/:id" exact component={SongEdit} />
                     <Route path="/dicsi/songs/:id" exact component={SongShow} />
                 </Switch>
+                <Footer />
                 <Playlist />
             </Router>
         </div>

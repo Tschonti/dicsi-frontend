@@ -203,17 +203,14 @@ class SongShow extends React.Component {
 
             return (
                 <>
-                <MyTooltip />
-                {modal}
-                <div onKeyDown={this.handleKeyDown}>
-                    <div className="ui container">
+                    <MyTooltip />
+                    {modal}
+                    <div className="ui container" onKeyDown={this.handleKeyDown}>
                         <div className="full-screen">
                             {this.renderTitle()}
                             {this.renderVerses()}
                         </div>
                     </div>
-
-                </div>
                 </>
 
             )
