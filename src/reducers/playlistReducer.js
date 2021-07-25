@@ -1,4 +1,4 @@
-import { ADD_TO_PLAYLIST, REMOVE_FROM_PLAYLIST, PLAYLIST_NEXT, REMOVE_COMPLETELY, START_PLAYLIST, STOP_PLAYLIST, CLEAR_PLAYLIST, TOGGLE_VISIBILITY } from "../actions/types"
+import { ADD_TO_PLAYLIST, REMOVE_FROM_PLAYLIST, PLAYLIST_NEXT, REMOVE_COMPLETELY, START_PLAYLIST, STOP_PLAYLIST, CLEAR_PLAYLIST, TOGGLE_VISIBILITY, MOVE_IN_PLAYLIST } from "../actions/types"
 
 const defaultState = {
     list: [],
@@ -51,6 +51,23 @@ export default (state = defaultState, action) => {
             return { ...state, list: [], currentIndex: 0, active: false }
         case TOGGLE_VISIBILITY:
             return { ...state, visible: !state.visible}
+        case MOVE_IN_PLAYLIST:
+            if ((action.payload.index === 0 && action.payload.up) || (action.payload.index === state.list.length - 1 && !action.payload.up)) {
+                return state
+            }
+            const otherIndex = action.payload.up ? action.payload.index - 1 : action.payload.index + 1
+            const anotherClonedState = {...state}
+            const temp = anotherClonedState.list[otherIndex]
+            anotherClonedState.list[otherIndex] = anotherClonedState.list[action.payload.index]
+            anotherClonedState.list[action.payload.index] = temp
+            let diff = 0
+            if (state.currentIndex === action.payload.index) {
+                diff = action.payload.up ? -1 : 1
+            } else if (state.currentIndex === otherIndex) {
+                diff = action.payload.up ? 1 : -1
+            }
+            anotherClonedState.currentIndex += diff
+            return anotherClonedState
         default:
             return state
     }

@@ -85,7 +85,7 @@
     position: fixed;
     bottom: 0;
     right: 0;
-    width: 40vmin;
+    width: 45vmin;
     border-top-style: solid;
     border-right-style: solid;
     border-left-style: solid;
@@ -132,4 +132,8 @@
 .search-bar-cont {
     display: flex;
     justify-content: space-between;
+}
+
+.bigger-icon {
+    font-size: 1.4em!important;
 }
