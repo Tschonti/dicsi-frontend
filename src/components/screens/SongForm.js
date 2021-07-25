@@ -1,6 +1,6 @@
 import React from 'react'
 import { Field, reduxForm } from 'redux-form'
-import ReactTooltip from 'react-tooltip'
+import MyTooltip from '../MyTooltip'
 
 const renderInput = ({ input, label, meta, type, disabled, wide, tip }) => {
     return (
@@ -42,7 +42,7 @@ const SongForm = props => {
 
     return (
         <form className="ui form error" onSubmit={props.handleSubmit(onSubmit)}>
-            <ReactTooltip effect="solid" place="left"/>
+            <MyTooltip />
             <div className="fields">
                 <Field wide="three wide" tip="A dal sorszáma. Egyedi, később nem változtatható" name="id" component={renderInput} label="Sorszám" type="number" props={{ disabled: props.edit}}/>
                 <Field wide="thirteen wide" name="title" component={renderInput} label="Cím" type="text"/>

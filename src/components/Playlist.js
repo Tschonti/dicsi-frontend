@@ -1,10 +1,10 @@
 import React from 'react'
 import { connect }  from 'react-redux'
-import ReactTooltip from 'react-tooltip'
 import _ from 'lodash'
 
 import { fetchSongs, playlistNext, startPlaylist, clearPlaylist, removeFromPlaylist, toggleVisibility } from '../actions'
 import MyButton from './MyButton'
+import MyTooltip from './MyTooltip'
 
 
 class Playlist extends React.Component {
@@ -48,6 +48,11 @@ class Playlist extends React.Component {
         this.props.toggleVisibility()
     }
 
+    onClose = (e) => {
+        this.props.toggleVisibility()
+        e.stopPropagation()
+    }
+
     render() {
         //TODO dupla tool-tip
         if (!this.props.playlist.visible) {
@@ -56,10 +61,13 @@ class Playlist extends React.Component {
         const currentIndex = this.props.playlist.list.length === 0 ? 0 : this.props.playlist.currentIndex + 1
         return (
             <div className="playlist-container">
-                <ReactTooltip effect="solid"/>
+                <MyTooltip />
                 <div className="right-left pointer" onClick={() => this.setState({open: !this.state.open})}>
                     <h3>Lejátszási lista {`${currentIndex}/${this.props.playlist.list.length}`}</h3>
-                    <i className={`icon ${this.state.open ? 'minus' : 'plus'}`}></i>
+                    <div>
+                        <i className={`icon ${this.state.open ? 'minus' : 'plus'}`}></i>
+                        <i className="red icon close" onClick={this.onClose}></i>
+                    </div>
                 </div>
                 <div className="centered-container">
                     <MyButton disabled={!this.props.playlist.active} tip="Előző dal" color="blue" onClick={() => this.props.playlistNext(false, this.props.playlist)} icons={["backward"]} />

@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect }  from 'react-redux'
 import _ from 'lodash'
-import ReactTooltip from 'react-tooltip'
+import MyTooltip from '../MyTooltip'
 import { isMobileOnly } from 'react-device-detect'
 
 import '../../styles.css'
@@ -72,7 +72,7 @@ class SongList extends React.Component {
         const empty = songs.length === 0 ? <p className="big-text centered-text">Nincs találat!</p> : null
         return (
             <div className="ui container">
-                <ReactTooltip effect="solid"/>
+                <MyTooltip />
                 <div className="ui stackable grid">
                     <div className="twelve wide column">
                         <SearchBar id={this.props.findId} term={this.props.searchSongs} cancel={this.props.cancelSearch}/>
