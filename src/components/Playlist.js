@@ -74,9 +74,9 @@ class Playlist extends React.Component {
                     </div>
                 </div>
                 <div className="centered-container">
-                    <MyButton disabled={!this.props.playlist.active} tip="Előző dal" color="blue" onClick={() => this.props.playlistNext(false, this.props.playlist)} icons={["backward"]} />
+                    <MyButton disabled={!this.props.playlist.active} tip="Előző ének" color="blue" onClick={() => this.props.playlistNext(false, this.props.playlist)} icons={["backward"]} />
                     <MyButton disabled={this.props.playlist.active || this.props.playlist.list.length === 0} tip="Lejátszási lista indítása" color="green" onClick={() => this.props.startPlaylist(this.props.playlist)} icons={["play"]} />
-                    <MyButton disabled={!this.props.playlist.active} tip="Következő dal" color="blue" onClick={() => this.props.playlistNext(true, this.props.playlist)} icons={["forward"]} />
+                    <MyButton disabled={!this.props.playlist.active} tip="Következő ének" color="blue" onClick={() => this.props.playlistNext(true, this.props.playlist)} icons={["forward"]} />
                     <MyButton disabled={this.props.playlist.list.length === 0} tip="Lejátszási lista törlése" color="negative" onClick={this.onClear} icons={["trash alternate"]} />
                 </div>
                 {this.renderSongList()}

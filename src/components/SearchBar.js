@@ -31,7 +31,7 @@ const SearchBar = props => {
             <div className="inline fields centered-container">
                 <div className="sixteen wide field">
                     <label>Keresés</label>
-                    <input value={value} onChange={(e) => setValue(e.target.value)} placeholder="Írd be egy dal sorszámát vagy címének egy részletét!"/>
+                    <input value={value} onChange={(e) => setValue(e.target.value)} placeholder="Írd be egy ének sorszámát vagy címének egy részletét!"/>
                 </div>
             </div>
         </div>

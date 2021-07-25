@@ -44,7 +44,7 @@ const SongForm = props => {
         <form className="ui form error" onSubmit={props.handleSubmit(onSubmit)}>
             <MyTooltip />
             <div className="fields">
-                <Field wide="three wide" tip="A dal sorszáma. Egyedi, később nem változtatható" name="id" component={renderInput} label="Sorszám" type="number" props={{ disabled: props.edit}}/>
+                <Field wide="three wide" tip="az ének sorszáma. Egyedi, később nem változtatható" name="id" component={renderInput} label="Sorszám" type="number" props={{ disabled: props.edit}}/>
                 <Field wide="thirteen wide" name="title" component={renderInput} label="Cím" type="text"/>
             </div>
             <Field tip="Az alkalmazás dupla sorközöknél bontja versszakokra a szöveget." name="lyrics" component={renderTextArea} label="Dalszöveg"/>
@@ -58,11 +58,11 @@ const validate = formValues => {
     const errors = {}
 
     if (!formValues.id) {
-        errors.id = 'Add meg a dal sorszámát!'
+        errors.id = 'Add meg az ének sorszámát!'
     }
 
     if (!formValues.title) {
-        errors.title = 'Add meg a dal címét!'
+        errors.title = 'Add meg az ének címét!'
     }
     if (!formValues.lyrics) {
         errors.lyrics = 'Add meg a dalszöveget!'

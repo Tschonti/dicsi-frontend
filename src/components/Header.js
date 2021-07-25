@@ -15,8 +15,9 @@ const Header = (props) => {
         : null
     return (
         <div className="ui secondary pointing menu my-header">
-            <Link to="/dicsi" className="item header-link">Dalok listája</Link>
-            <Link to="/dicsi/songs/new" className="item header-link">Új dal</Link>
+            <Link to="/dicsi" className="item "><h2>ÖKGY Énekeskönyv</h2></Link>
+            <Link to="/dicsi" className="item header-link">Énekek listája</Link>
+            <Link to="/dicsi/songs/new" className="item header-link">Új ének</Link>
             <div className="centered">
                 {alert}
             </div>

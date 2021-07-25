@@ -16,7 +16,7 @@ componentDidMount() {
         return (
             <div className="ui container">
                 <h2 className="ui header">
-                    Új dal felvétele
+                    Új ének felvétele
                 </h2>
                 <SongForm onSubmit={this.props.createSong}/>
             </div>

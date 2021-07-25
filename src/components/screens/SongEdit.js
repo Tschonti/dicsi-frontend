@@ -21,7 +21,7 @@ class SongEdit extends React.Component {
         return (
             <div className="ui container">
                 <h2 className="ui header">
-                    Dal szerkesztése
+                    Ének szerkesztése
                 </h2>
                 <SongForm
                     onSubmit={(formValues) => this.props.editSong(this.props.match.params.id, formValues)}

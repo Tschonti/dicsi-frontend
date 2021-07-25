@@ -150,8 +150,8 @@ class SongShow extends React.Component {
         const optionalButtons = this.state.showButtons ? (
             <>
                 <Link data-tip="Vissza a kereséshez" className="ui button my-button icon grey" to="/dicsi/"><i className="icon search"></i></Link>
-                <Link data-tip="Dal szerkeztése" className="ui button my-button icon yellow" to={`/dicsi/songs/edit/${this.props.match.params.id}`}><i className="icon edit"></i></Link>
-                <MyButton tip="Dal törlése" color="negative" onClick={() => this.setState({deleteModalActive: true})} icons={["trash alternate" ]} />
+                <Link data-tip="Ének szerkeztése" className="ui button my-button icon yellow" to={`/dicsi/songs/edit/${this.props.match.params.id}`}><i className="icon edit"></i></Link>
+                <MyButton tip="Ének törlése" color="negative" onClick={() => this.setState({deleteModalActive: true})} icons={["trash alternate" ]} />
                 <MyButton tip={`${this.state.twoColumnMode ? "Egy" : "Két"} hasáb`} color="primary" onClick={() => this.setState({twoColumnMode: !this.state.twoColumnMode})} disabled={this.state.oneVerseModeActive} icons={[`${this.state.twoColumnMode ? 'align justify' : 'columns'}`]} />
                 <MyButton tip="Betűméret csökkentése" color="primary" onClick={() => this.onSizeChange(false)} icons={["font", "arrow down" ]} />
                 <MyButton tip="Betűméret növelése" color="primary" onClick={() => this.onSizeChange(true)} icons={["font", "arrow up " ]} />
@@ -192,8 +192,8 @@ class SongShow extends React.Component {
                 </>
             )
             const modal = this.state.deleteModalActive ? <Modal
-                    header="Biztosan törlöd ezt a dalt?"
-                    content={`Biztosan törlöd a(z) ${this.props.song.title} dalt? Ezt később nem tudod visszavonni!`}
+                    header="Biztosan törlöd ezt az éneket?"
+                    content={`Biztosan törlöd a(z) ${this.props.song.title} éneket? Ezt később nem tudod visszavonni!`}
                     actions={actions()}
                     onDismissed={()=> this.setState({deleteModalActive: false})}
                     password={this.state.deletePassword}

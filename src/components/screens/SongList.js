@@ -79,8 +79,8 @@ class SongList extends React.Component {
                     </div>
                     <div className="four wide column ">
                         <div className="centered-container">
-                            <MyButton color="blue" onClick={() => this.setState({ sortById: true})} icons={["sort numeric down"]} tip="Dalok rendezése sorszám szerint" disabled={this.state.sortById}/>
-                            <MyButton color="blue" onClick={() => this.setState({ sortById: false})} icons={["sort alphabet down"]} tip="Dalok rendezése cím szerint" disabled={!this.state.sortById}/>
+                            <MyButton color="blue" onClick={() => this.setState({ sortById: true})} icons={["sort numeric down"]} tip="Énekek rendezése sorszám szerint" disabled={this.state.sortById}/>
+                            <MyButton color="blue" onClick={() => this.setState({ sortById: false})} icons={["sort alphabet down"]} tip="Énekek rendezése cím szerint" disabled={!this.state.sortById}/>
                             <MyButton color="green" onClick={this.props.toggleVisibility} icons={["play circle"]} text=" Lejátszási lista"/>
                         </div>
                     </div>
