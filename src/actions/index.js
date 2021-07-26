@@ -1,11 +1,11 @@
-import { FETCH_SONGS, FETCH_SONG, CREATE_SONG, EDIT_SONG, DELETE_SONG, NEW_ALERT, REMOVE_ALERT, ADD_TO_PLAYLIST, REMOVE_FROM_PLAYLIST, REMOVE_COMPLETELY, PLAYLIST_NEXT, START_PLAYLIST, STOP_PLAYLIST, CLEAR_PLAYLIST, UPDATE_SONG_LIST, CANCEL_SEARCH, TOGGLE_VISIBILITY, MOVE_IN_PLAYLIST } from './types'
+import { FETCH_SONGS, FETCH_SONG, CREATE_SONG, EDIT_SONG, DELETE_SONG, NEW_ALERT, REMOVE_ALERT, ADD_TO_PLAYLIST, REMOVE_FROM_PLAYLIST, PLAYLIST_NEXT, START_PLAYLIST, STOP_PLAYLIST, CLEAR_PLAYLIST, UPDATE_SONG_LIST, CANCEL_SEARCH, TOGGLE_VISIBILITY, MOVE_IN_PLAYLIST } from './types'
 import { dbGET, dbNotGET } from '../api'
 import history from '../history'
 import { handleError } from '../util'
 
 export const fetchSongs = () => async dispatch => {
     try {
-        const response = await dbGET.get('/songs')
+        const response = await dbGET.get('/songs/?format=json')
         dispatch({type: FETCH_SONGS, payload: response.data})
     } catch (err) {
         handleError(err, dispatch)
@@ -14,7 +14,7 @@ export const fetchSongs = () => async dispatch => {
 
 export const fetchSong = id => async dispatch => {
     try {
-        const response = await dbGET.get(`/songs/${id}`)
+        const response = await dbGET.get(`/songs/${id}/?format=json`)
         dispatch({type: FETCH_SONG, payload: response.data})
     } catch (err) {
         handleError(err, dispatch)
@@ -46,11 +46,11 @@ export const cancelSearch = () => {
 
 export const createSong = formData => async dispatch => {
     try {
-        const response = await dbNotGET.post('/songs', {
+        const response = await dbNotGET.post('/songs/', {
             id: parseInt(formData.id),
             title: formData.title,
-            verses: formData.lyrics.split('\n\n')
-        }, { headers: {'key': formData.pwd }})
+            lyrics: formData.lyrics.split('\n\n').join('###')
+        }, /*{ headers: {'key': formData.pwd }}*/)
         dispatch({type: CREATE_SONG, payload: response.data})
         history.push(`/dicsi/songs/${formData.id}`)
     } catch (err) {
@@ -62,10 +62,10 @@ export const createSong = formData => async dispatch => {
 
 export const editSong = (id, formData) => async dispatch => {
     try {
-        const response = await dbNotGET.patch(`/songs/${id}`, {
+        const response = await dbNotGET.patch(`/songs/${id}/`, {
             title: formData.title,
-            verses: formData.lyrics.split('\n\n'),
-        }, { headers: {'key': formData.pwd }})
+            lyrics: formData.lyrics.split('\n\n').join('###'),
+        }, /*{ headers: {'key': formData.pwd }}*/)
         dispatch({type: EDIT_SONG, payload: response.data})
         history.push(`/dicsi/songs/${id}`)
     } catch (err) {
@@ -75,10 +75,10 @@ export const editSong = (id, formData) => async dispatch => {
 
 export const deleteSong = (id, pwd) => async dispatch => {
     try {
-        await dbNotGET.delete(`/songs/${id}`, {
+        await dbNotGET.delete(`/songs/${id}/`, /*{
             headers: { 'key': pwd }
-        })
-        dispatch({type: REMOVE_COMPLETELY, payload: id}) // TODO bajvan!!
+        }*/)
+        dispatch({type: CLEAR_PLAYLIST})
         dispatch({type: DELETE_SONG, payload: id})
         history.push('/dicsi/')
     } catch(err) {

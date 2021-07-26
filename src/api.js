@@ -1,11 +1,11 @@
 import axios from 'axios'
-import key from './config'
+//import key from './config'
 
 export const dbGET = axios.create({
-    baseURL: 'https://dicsi-db.herokuapp.com',
-    headers: { 'key': key }
+    baseURL: 'https://dicsi-api.herokuapp.com/',
+    //headers: { 'key': key }
 })
 
 export const dbNotGET = axios.create({
-    baseURL: 'https://dicsi-db.herokuapp.com'
+    baseURL: 'https://dicsi-api.herokuapp.com/'
 })

@@ -1,4 +1,4 @@
-import { ADD_TO_PLAYLIST, REMOVE_FROM_PLAYLIST, PLAYLIST_NEXT, REMOVE_COMPLETELY, START_PLAYLIST, STOP_PLAYLIST, CLEAR_PLAYLIST, TOGGLE_VISIBILITY, MOVE_IN_PLAYLIST } from "../actions/types"
+import { ADD_TO_PLAYLIST, REMOVE_FROM_PLAYLIST, PLAYLIST_NEXT, START_PLAYLIST, STOP_PLAYLIST, CLEAR_PLAYLIST, TOGGLE_VISIBILITY, MOVE_IN_PLAYLIST } from "../actions/types"
 
 const defaultState = {
     list: [],
@@ -24,23 +24,6 @@ export default (state = defaultState, action) => {
             const clonedState = [...state.list]
             clonedState.splice(remIdx, 1)
             return { ...state, list: clonedState, currentIndex: curIdx }
-        // TODO bajvan!!
-        case REMOVE_COMPLETELY:
-            curIdx = state.currentIndex
-            const toRemove = []
-            const clonedStateAgain = [...state.list]
-            clonedStateAgain.forEach((el, idx) => {
-                if (el === action.payload) {
-                    toRemove.push(el)
-                    if (idx < curIdx) {
-                        curIdx -=1
-                    }
-                }
-            })
-            toRemove.forEach((songInd, ind) => {
-                clonedStateAgain.splice(songInd - ind, 1)
-            })
-            return { ...state, list: clonedStateAgain, currentIndex: curIdx}
         case PLAYLIST_NEXT:
             return { ...state, currentIndex: action.payload }
         case START_PLAYLIST:
