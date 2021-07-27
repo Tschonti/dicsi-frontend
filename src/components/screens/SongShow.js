@@ -1,13 +1,17 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
-import MyTooltip from '../MyTooltip'
 import { isMobileOnly } from 'react-device-detect'
 
 import '../../styles.css'
-import { fetchSong, deleteSong, removeAlert, addToPlaylist, toggleVisibility } from '../../actions'
+
+import { fetchSong, deleteSong } from '../../actions/songActions'
+import { addToPlaylist, toggleVisibility } from '../../actions/playlistActions'
+import { removeAlert } from '../../actions/alertActions'
+
 import MyLoader from '../MyLoader'
 import MyButton from '../MyButton'
+import MyTooltip from '../MyTooltip'
 
 const SMALL_FONT_SIZE = 18
 const BIG_FONT_SIZE = 60
@@ -21,6 +25,19 @@ class SongShow extends React.Component {
         currentVerse: 0,
         showButtons: !isMobileOnly,
         twoColumnMode: false
+    }
+
+    componentDidMount() {
+        this.props.removeAlert()
+        this.props.fetchSong(this.props.match.params.id)
+    }
+
+    componentDidUpdate(prevProps) {
+        if (prevProps.song) {
+            if (prevProps.song.id !== this.props.song.id) {
+                this.setState({ currentVerse: 0})
+            }
+        }
     }
 
     handleKeyDown = (e) => {
@@ -41,11 +58,6 @@ class SongShow extends React.Component {
         } else if (!increase && this.state.fontSize > 8) {
             this.setState({fontSize: this.state.fontSize - 3})
         }
-    }
-
-    componentDidMount() {
-        this.props.removeAlert()
-        this.props.fetchSong(this.props.match.params.id)
     }
 
     handleModeSwitch = () => {
@@ -120,9 +132,12 @@ class SongShow extends React.Component {
                 })}</div>
             }
         }
+        if (!this.props.song.verses[this.state.currentVerse]) {
+            return <MyLoader />
+        }
         const lines = this.props.song.verses[this.state.currentVerse].split('\n').map((line, idx) => this.renderLine(line, idx))
         return (
-            <div className="">
+            <div>
                 <p style={{fontSize: `${this.state.fontSize}px`}}>
                     {lines}
                 </p>
@@ -170,10 +185,7 @@ class SongShow extends React.Component {
         if (isMobileOnly) {
             return (
                 <>
-                    <div className="">
                     {this.renderButtons()}
-
-                    </div>
                     <div className="right-left">
                         <h2 className="vert-centered">{this.props.song.id}. {this.props.song.title} </h2>
                         <MyButton color="gray" onClick={()=>this.setState({showButtons: !this.state.showButtons})} icons={["bars"]} tip="Gombok elrejtése/előhozása"/>

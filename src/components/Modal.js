@@ -4,7 +4,7 @@ import Alert from '@material-ui/lab/Alert'
 import { connect } from 'react-redux'
 
 import '../styles.css'
-import { removeAlert } from '../actions'
+import { removeAlert } from '../actions/alertActions'
 
 const Modal = props => {
 

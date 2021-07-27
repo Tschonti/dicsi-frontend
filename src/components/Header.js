@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import { isMobileOnly } from 'react-device-detect'
 
 import '../styles.css'
-import { removeAlert } from '../actions'
+import { removeAlert } from '../actions/alertActions'
 
 
 const Header = (props) => {

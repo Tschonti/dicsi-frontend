@@ -1,6 +1,13 @@
-import { FETCH_SONGS, FETCH_SONG, CREATE_SONG, EDIT_SONG, DELETE_SONG, NEW_ALERT,
-     REMOVE_ALERT, ADD_TO_PLAYLIST, REMOVE_FROM_PLAYLIST, PLAYLIST_NEXT, START_PLAYLIST,
-      STOP_PLAYLIST, CLEAR_PLAYLIST, UPDATE_WITH_ID, UPDATE_WITH_TERM, CANCEL_SEARCH, TOGGLE_VISIBILITY, MOVE_IN_PLAYLIST } from './types'
+import {
+    FETCH_SONGS,
+    FETCH_SONG,
+    CREATE_SONG,
+    EDIT_SONG,
+    DELETE_SONG,
+    CLEAR_PLAYLIST,
+    UPDATE_WITH_ID,
+    UPDATE_WITH_TERM,
+    CANCEL_SEARCH } from './types'
 import { dbGET, dbNotGET } from '../api'
 import history from '../history'
 import { handleError } from '../util'
@@ -96,63 +103,4 @@ export const deleteSong = (id, pwd) => async (dispatch, getState) => {
     } catch(err) {
         handleError(err, dispatch)
     }
-}
-
-export const newAlert = (msg, type) => {
-    return {type: NEW_ALERT, payload: {msg, type}}
-}
-
-export const removeAlert = () => {
-    return {type: REMOVE_ALERT}
-}
-
-export const addToPlaylist = id => {
-    return { type: ADD_TO_PLAYLIST, payload: id }
-}
-
-export const removeFromPlaylist = id => {
-    return { type: REMOVE_FROM_PLAYLIST, payload: id }
-}
-
-export const playlistNext = (next, state) => {
-    if (!state.active) {
-        return
-    }
-    if (next) {
-        if (state.currentIndex === state.list.length - 1) {
-            history.push(`/dicsi/songs/${state.list[0]}`)
-            return { type: PLAYLIST_NEXT, payload: 0 }
-        } else {
-            history.push(`/dicsi/songs/${state.list[state.currentIndex + 1]}`)
-            return { type: PLAYLIST_NEXT, payload: state.currentIndex + 1 }
-        }
-    } else {
-        if (state.currentIndex < 1) {
-            history.push(`/dicsi/songs/${state.list[state.list.length - 1]}`)
-            return { type: PLAYLIST_NEXT, payload: state.list.length - 1 }
-        } else {
-            history.push(`/dicsi/songs/${state.list[state.currentIndex - 1]}`)
-            return { type: PLAYLIST_NEXT, payload: state.currentIndex - 1 }
-        }
-    }
-}
-
-export const startPlaylist = (state) => {
-    history.push(`/dicsi/songs/${state.list[state.currentIndex]}`)
-    return {type: START_PLAYLIST}
-}
-export const stopPlaylist = () => {
-    return {type: STOP_PLAYLIST}
-}
-
-export const clearPlaylist = () => {
-    return {type: CLEAR_PLAYLIST}
-}
-
-export const toggleVisibility = () => {
-    return { type: TOGGLE_VISIBILITY }
-}
-
-export const moveInPlaylist = (index, up) => {
-    return { type: MOVE_IN_PLAYLIST, payload: {index, up}}
 }

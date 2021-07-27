@@ -9,7 +9,6 @@ import combinedReducer from './reducers'
 import App from './components/App'
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-//const store = createStore(combinedReducer, composeEnhancers(applyMiddleware(reduxThunk)))
 
 const createStoreWithMiddleware  =composeEnhancers(applyMiddleware(save({ states: ["playlist"], debounce: 500}), reduxThunk))(createStore)
 const store = createStoreWithMiddleware(combinedReducer, load({ states: ["playlist"]}))

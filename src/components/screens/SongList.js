@@ -1,16 +1,20 @@
 import React from 'react'
 import { connect }  from 'react-redux'
 import _ from 'lodash'
-import MyTooltip from '../MyTooltip'
 import { isMobileOnly } from 'react-device-detect'
 
 import '../../styles.css'
+import history from '../../history'
+import { sortSongs } from '../../util'
+
+import MyTooltip from '../MyTooltip'
 import MyLoader from '../MyLoader'
 import SearchBar from '../SearchBar'
-import { fetchSongs, removeAlert, searchSongs, findId, addToPlaylist, removeFromPlaylist, playlistNext, stopPlaylist, cancelSearch, toggleVisibility } from '../../actions'
-import history from '../../history'
 import MyButton from '../MyButton'
-import { sortSongs } from '../../util'
+
+import { fetchSongs,  searchSongs, findId, cancelSearch } from '../../actions/songActions'
+import { addToPlaylist, removeFromPlaylist, playlistNext, stopPlaylist, toggleVisibility } from '../../actions/playlistActions'
+import { removeAlert } from '../../actions/alertActions'
 
 class SongList extends React.Component {
     state = {
@@ -49,6 +53,15 @@ class SongList extends React.Component {
         }
     }
 
+    renderSong = (song, idx) => (
+        <div className={`column pointer hover-grey my-bottom-border ${idx % 3 !== 0 && !isMobileOnly ? 'left-border' : ''}`} key={song.id} onClick={() => history.push(`/dicsi/songs/${song.id}`)}>
+            <div className="content right-left">
+                <h3 className="header my-header-text">{song.id}. {song.title}</h3>
+                {this.renderSmallButtons(song)}
+            </div>
+        </div>
+    )
+
     render() {
         if (_.isEmpty(this.props.songs) && !this.state.loaded) {
             return (
@@ -61,14 +74,10 @@ class SongList extends React.Component {
         } else {
             sortSongs(this.props.songs, 'id')
         }
-        const songs = this.props.songs.filter(song => searchList.list.includes(song.id) || !searchList.validSearch).map((song, idx) => (
-            <div className={`column pointer hover-grey my-bottom-border ${idx % 3 !== 0 && !isMobileOnly ? 'left-border' : ''}`} key={song.id} onClick={() => history.push(`/dicsi/songs/${song.id}`)}>
-                <div className="content right-left">
-                    <h3 className="header my-header-text">{song.id}. {song.title}</h3>
-                    {this.renderSmallButtons(song)}
-                </div>
-            </div>
-        ))
+
+        const songs = this.props.songs.filter(song => searchList.list.includes(song.id) || !searchList.validSearch)
+            .map((song, idx) => this.renderSong(song, idx))
+
         const empty = songs.length === 0 ? <p className="big-text centered-text">Nincs találat!</p> : null
         return (
             <div className="ui container">
@@ -103,4 +112,15 @@ const mapStateToProps = state => {
     }
 }
 
-export default connect(mapStateToProps, { fetchSongs, removeAlert, searchSongs, findId, addToPlaylist, removeFromPlaylist, playlistNext, stopPlaylist, cancelSearch, toggleVisibility })(SongList)
+export default connect(mapStateToProps, {
+    fetchSongs,
+    removeAlert,
+    searchSongs,
+    findId,
+    addToPlaylist,
+    removeFromPlaylist,
+    playlistNext,
+    stopPlaylist,
+    cancelSearch,
+    toggleVisibility
+})(SongList)

@@ -2,7 +2,14 @@ import React from 'react'
 import { connect }  from 'react-redux'
 import _ from 'lodash'
 
-import { fetchSongs, playlistNext, startPlaylist, clearPlaylist, removeFromPlaylist, toggleVisibility, moveInPlaylist } from '../actions'
+import { fetchSongs } from '../actions/songActions'
+import { playlistNext,
+    startPlaylist,
+    clearPlaylist,
+    removeFromPlaylist,
+    toggleVisibility,
+    moveInPlaylist } from '../actions/playlistActions'
+
 import MyButton from './MyButton'
 import MyTooltip from './MyTooltip'
 
@@ -15,27 +22,34 @@ class Playlist extends React.Component {
     componentDidMount() {
         this.props.fetchSongs()
     }
+
+    renderSong = (song, idx) => {
+        const upDisabled = idx === 0
+        const downDisabled = idx === this.props.playlist.list.length - 1
+        return (
+            <div className={`item my-item ${this.props.playlist.currentIndex === idx ? 'active' : ''}`} key={idx}>
+                <h5 className="header">
+                    <i className={`${upDisabled ? 'grey' : 'pointer'} icon caret up bigger-icon`} onClick={() => this.props.moveInPlaylist(idx, true)}></i>
+                    <i className={`${downDisabled ? 'grey' : 'pointer'} icon caret down bigger-icon`} onClick={() => this.props.moveInPlaylist(idx, false)}></i>
+                    {song.id}. {song.title}
+
+                    <div className="right floated">
+                        <i className="icon minus circle red pointer" onClick={() => this.props.removeFromPlaylist(song.id)}></i>
+                    </div>
+                </h5>
+            </div>
+        )
+    }
+
     renderSongList = () => {
         if (_.isEmpty(this.props.songs) || !this.state.open) {
             return null
         }
         const list = this.props.playlist.list.map((songId, idx) => {
             const song = this.props.songs.find(el => el.id === songId)
-            const upDisabled = idx === 0
-            const downDisabled = idx === this.props.playlist.list.length - 1
-            return  song ? (
-                <div className={`item my-item ${this.props.playlist.currentIndex === idx ? 'active' : ''}`} key={idx}>
-                    <h5 className="header">
-                        <i className={`${upDisabled ? 'grey' : 'pointer'} icon caret up bigger-icon`} onClick={() => this.props.moveInPlaylist(idx, true)}></i>
-                        <i className={`${downDisabled ? 'grey' : 'pointer'} icon caret down bigger-icon`} onClick={() => this.props.moveInPlaylist(idx, false)}></i>
-                        {song.id}. {song.title}
+            return song ? this.renderSong(song, idx) : null
+        })
 
-                        <div className="right floated">
-                            <i className="icon minus circle red pointer" onClick={() => this.props.removeFromPlaylist(song.id)}></i>
-                        </div>
-                    </h5>
-                </div>
-            ) : null})
         const empty = list.length > 0 ? '' : (<p className="centered-text">A lejátszási lista üres</p>)
         return (
             <>
@@ -93,4 +107,12 @@ const mapStateToProps = state => {
     }
 }
 
-export default connect(mapStateToProps, { fetchSongs, playlistNext, startPlaylist, clearPlaylist, removeFromPlaylist, toggleVisibility, moveInPlaylist })(Playlist)
+export default connect(mapStateToProps, {
+    fetchSongs,
+    playlistNext,
+    startPlaylist,
+    clearPlaylist,
+    removeFromPlaylist,
+    toggleVisibility,
+    moveInPlaylist
+})(Playlist)

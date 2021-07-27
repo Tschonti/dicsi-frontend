@@ -2,7 +2,9 @@ import React from 'react'
 import { connect } from 'react-redux'
 
 import SongForm from './SongForm'
-import { createSong, stopPlaylist, toggleVisibility } from '../../actions'
+
+import { createSong } from '../../actions/songActions'
+import { stopPlaylist, toggleVisibility,  } from '../../actions/playlistActions'
 
 class SongCreate extends React.Component {
 componentDidMount() {
@@ -25,7 +27,7 @@ componentDidMount() {
 }
 
 const mapStateToProps = state => {
-    return {plVisible: state.playlist.visible}
+    return { plVisible: state.playlist.visible }
 }
 
 export default connect(mapStateToProps, { createSong, stopPlaylist, toggleVisibility })(SongCreate)

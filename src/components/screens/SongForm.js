@@ -53,12 +53,10 @@ const SongForm = props => {
                     <div className="column">
                         <button className={`ui button primary ${isMobileOnly ? 'my-bigger-button' : ''}`}>Mentés</button>
                         <Link to={`/dicsi/songs/${props.id}`} className={`ui button grey ${isMobileOnly ? 'my-bigger-button' : ''}`}>Mégse</Link>
-
                     </div>
                     <div className="column jobbra">
                         <button type="button" onClick={props.onDeleteClick} className={`ui button negative ${isMobileOnly ? 'my-bigger-button' : ''}`}>Ének törlése</button>
                     </div>
-
                 </div>
                 <div className="ui vertical divider">
                     vagy
@@ -86,11 +84,9 @@ const SongForm = props => {
 
 const validate = formValues => {
     const errors = {}
-
     if (!formValues.id) {
         errors.id = 'Add meg az ének sorszámát!'
     }
-
     if (!formValues.title) {
         errors.title = 'Add meg az ének címét!'
     }

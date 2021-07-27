@@ -3,7 +3,9 @@ import { connect } from 'react-redux'
 
 import SongForm from './SongForm'
 import Modal from './../Modal'
-import { editSong, fetchSong, stopPlaylist, toggleVisibility, deleteSong } from '../../actions'
+
+import { editSong, fetchSong, deleteSong } from '../../actions/songActions'
+import { stopPlaylist, toggleVisibility } from '../../actions/playlistActions'
 
 class SongEdit extends React.Component {
     state = {
@@ -47,7 +49,9 @@ class SongEdit extends React.Component {
                     onSubmit={(formValues) => this.props.editSong(this.props.match.params.id, formValues)}
                     initialValues={{id: song.id, title: song.title, lyrics: song.verses.join('\n\n')}}
                     edit id={song.id} onDeleteClick={() => this.setState({deleteModalActive: true})}
-                > {modal} </SongForm>
+                >
+                    {modal}
+                </SongForm>
             </div>
         )
     }
