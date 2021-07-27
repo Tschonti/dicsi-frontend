@@ -42,8 +42,8 @@ class SongList extends React.Component {
         if (this.props.plVisible) {
             return (
                 <div className="right-left">
-                    <i data-tip="Hozzáadás a lejátszási listához" className="icon plus circle green" onClick={(e) => this.addToPlaylist(e, song.id)}></i>
-                    <i data-tip="Eltávolítás a lejátszási listáról" className="icon minus circle red" onClick={(e) => this.removeFromPlaylist(e, song.id)}></i>
+                    <i data-tip="Hozzáadás a lejátszási listához" className="icon bigger-icon plus circle green" onClick={(e) => this.addToPlaylist(e, song.id)}></i>&nbsp;&nbsp;
+                    <i data-tip="Eltávolítás a lejátszási listáról" className="icon bigger-icon minus circle red" onClick={(e) => this.removeFromPlaylist(e, song.id)}></i>
                 </div>
             )
         }

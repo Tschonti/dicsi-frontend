@@ -26,10 +26,11 @@ class Playlist extends React.Component {
             return  song ? (
                 <div className={`item my-item ${this.props.playlist.currentIndex === idx ? 'active' : ''}`} key={idx}>
                     <h5 className="header">
+                        <i className={`${upDisabled ? 'grey' : 'pointer'} icon caret up bigger-icon`} onClick={() => this.props.moveInPlaylist(idx, true)}></i>
+                        <i className={`${downDisabled ? 'grey' : 'pointer'} icon caret down bigger-icon`} onClick={() => this.props.moveInPlaylist(idx, false)}></i>
                         {song.id}. {song.title}
+
                         <div className="right floated">
-                            <i className={`${upDisabled ? 'grey' : 'pointer'} icon caret up bigger-icon`} onClick={() => this.props.moveInPlaylist(idx, true)}></i>
-                            <i className={`${downDisabled ? 'grey' : 'pointer'} icon caret down bigger-icon`} onClick={() => this.props.moveInPlaylist(idx, false)}></i>
                             <i className="icon minus circle red pointer" onClick={() => this.props.removeFromPlaylist(song.id)}></i>
                         </div>
                     </h5>
@@ -69,7 +70,7 @@ class Playlist extends React.Component {
                 <div className="right-left pointer" onClick={() => this.setState({open: !this.state.open})}>
                     <h3>Lejátszási lista {`${currentIndex}/${this.props.playlist.list.length}`}</h3>
                     <div>
-                        <i className={`icon ${this.state.open ? 'minus' : 'plus'}`}></i>
+                        <i className={`icon ${this.state.open ? 'minus' : 'plus'}`}></i>&nbsp;&nbsp;
                         <i className="red icon close" onClick={this.onClose}></i>
                     </div>
                 </div>
