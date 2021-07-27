@@ -1,5 +1,8 @@
 import React from 'react'
 import { Field, reduxForm } from 'redux-form'
+import { Link } from 'react-router-dom'
+import { isMobileOnly } from 'react-device-detect'
+
 import MyTooltip from '../MyTooltip'
 
 const renderInput = ({ input, label, meta, type, disabled, wide, tip }) => {
@@ -40,17 +43,44 @@ const SongForm = props => {
         props.onSubmit(formValues)
     }
 
-    return (
-        <form className="ui form error" onSubmit={props.handleSubmit(onSubmit)}>
-            <MyTooltip />
-            <div className="fields">
-                <Field wide="three wide" tip="az ének sorszáma. Egyedi, később nem változtatható" name="id" component={renderInput} label="Sorszám" type="number" props={{ disabled: props.edit}}/>
-                <Field wide="thirteen wide" name="title" component={renderInput} label="Cím" type="text"/>
+    const buttons = () => {
+        if (!props.edit) {
+            return <button className="ui button primary">Mentés</button>
+        }
+        return (
+            <div className="ui segment">
+                <div className="ui two column very relaxed grid">
+                    <div className="column">
+                        <button className={`ui button primary ${isMobileOnly ? 'my-bigger-button' : ''}`}>Mentés</button>
+                        <Link to={`/dicsi/songs/${props.id}`} className={`ui button grey ${isMobileOnly ? 'my-bigger-button' : ''}`}>Mégse</Link>
+
+                    </div>
+                    <div className="column jobbra">
+                        <button type="button" onClick={props.onDeleteClick} className={`ui button negative ${isMobileOnly ? 'my-bigger-button' : ''}`}>Ének törlése</button>
+                    </div>
+
+                </div>
+                <div className="ui vertical divider">
+                    vagy
+                </div>
             </div>
-            <Field tip="Az alkalmazás dupla sorközöknél bontja versszakokra a szöveget." name="lyrics" component={renderTextArea} label="Dalszöveg"/>
-            <Field name="pwd" component={renderInput} label="Jelszó" type="password"/>
-            <button className="ui button primary">Mentés</button>
-        </form>
+        )
+    }
+
+    return (
+        <>
+            <form className="ui form error" onSubmit={props.handleSubmit(onSubmit)}>
+                <MyTooltip />
+                <div className="fields">
+                    <Field wide="three wide" tip="az ének sorszáma. Egyedi, később nem változtatható" name="id" component={renderInput} label="Sorszám" type="number" props={{ disabled: props.edit}}/>
+                    <Field wide="thirteen wide" name="title" component={renderInput} label="Cím" type="text"/>
+                </div>
+                <Field tip="Az alkalmazás dupla sorközöknél bontja versszakokra a szöveget." name="lyrics" component={renderTextArea} label="Dalszöveg"/>
+                <Field name="pwd" component={renderInput} label="Jelszó" type="password"/>
+                {buttons()}
+            </form>
+            {props.children}
+        </>
     )
 }
 

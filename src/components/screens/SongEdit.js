@@ -2,9 +2,15 @@ import React from 'react'
 import { connect } from 'react-redux'
 
 import SongForm from './SongForm'
-import { editSong, fetchSong, stopPlaylist, toggleVisibility } from '../../actions'
+import Modal from './../Modal'
+import { editSong, fetchSong, stopPlaylist, toggleVisibility, deleteSong } from '../../actions'
 
 class SongEdit extends React.Component {
+    state = {
+        deleteModalActive: false,
+        password: '',
+    }
+
     componentDidMount() {
         this.props.fetchSong(this.props.match.params.id)
         this.props.stopPlaylist()
@@ -17,6 +23,20 @@ class SongEdit extends React.Component {
         if (!this.props.song) {
             return <div>Loading...</div>
         }
+        const actions = () => (
+            <>
+                <button className="ui button" onClick={()=> this.setState({deleteModalActive: false})}>Mégse</button>
+                <button className="ui negative button" onClick={() => this.props.deleteSong(this.props.match.params.id, this.state.deletePassword)}>Törlés</button>
+            </>
+        )
+        const modal = this.state.deleteModalActive ? <Modal
+                header="Biztosan törlöd ezt az éneket?"
+                content={`Biztosan törlöd a(z) ${this.props.song.title} éneket? Ezt később nem tudod visszavonni!`}
+                actions={actions()}
+                onDismissed={()=> this.setState({deleteModalActive: false})}
+                password={this.state.deletePassword}
+                setPassword={(value) => this.setState({ deletePassword: value})}
+            /> : null
         const song = this.props.song
         return (
             <div className="ui container">
@@ -26,8 +46,8 @@ class SongEdit extends React.Component {
                 <SongForm
                     onSubmit={(formValues) => this.props.editSong(this.props.match.params.id, formValues)}
                     initialValues={{id: song.id, title: song.title, lyrics: song.verses.join('\n\n')}}
-                    edit
-                />
+                    edit id={song.id} onDeleteClick={() => this.setState({deleteModalActive: true})}
+                > {modal} </SongForm>
             </div>
         )
     }
@@ -40,4 +60,4 @@ const mapStateToProps = (state, ownProps) => {
     }
 }
 
-export default connect(mapStateToProps, { editSong, fetchSong, stopPlaylist, toggleVisibility })(SongEdit)
+export default connect(mapStateToProps, { editSong, fetchSong, stopPlaylist, toggleVisibility, deleteSong })(SongEdit)

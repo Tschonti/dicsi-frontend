@@ -46,6 +46,13 @@
     height: 100%;
 }
 
+.jobbra {
+    display: flex!important;
+    justify-content: flex-end;
+    margin-bottom: auto;
+    margin-top: auto;
+}
+
 .pointer {
     cursor: pointer;
 }
@@ -56,6 +63,9 @@
 .my-button {
     text-align: center;
     padding: 10px!important;
+    margin-bottom: 10px!important;
+}
+.my-bigger-button {
     margin-bottom: 10px!important;
 }
 .sec-container {
