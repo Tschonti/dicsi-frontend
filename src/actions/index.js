@@ -73,12 +73,14 @@ export const editSong = (id, formData) => async dispatch => {
     }
 }
 
-export const deleteSong = (id, pwd) => async dispatch => {
+export const deleteSong = (id, pwd) => async (dispatch, getState) => {
     try {
         await dbNotGET.delete(`/songs/${id}/`, /*{
             headers: { 'key': pwd }
         }*/)
-        dispatch({type: CLEAR_PLAYLIST})
+        if (getState().playlist.list.includes(parseInt(id))) {
+            dispatch({type: CLEAR_PLAYLIST})
+        }
         dispatch({type: DELETE_SONG, payload: id})
         history.push('/dicsi/')
     } catch(err) {
