@@ -1,5 +1,6 @@
 export const FETCH_SONGS = 'FETCH_SONGS'
-export const UPDATE_SONG_LIST = 'UPDATE_SONG_LIST'
+export const UPDATE_WITH_ID = 'UPDATE_WITH_ID'
+export const UPDATE_WITH_TERM = 'UPDATE_WITH_TERM'
 export const CANCEL_SEARCH = 'CANCEL_SEARCH'
 export const FETCH_SONG = 'FETCH_SONG'
 export const CREATE_SONG = 'CREATE_SONG'

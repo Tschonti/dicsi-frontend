@@ -1,4 +1,6 @@
-import { FETCH_SONGS, FETCH_SONG, CREATE_SONG, EDIT_SONG, DELETE_SONG, NEW_ALERT, REMOVE_ALERT, ADD_TO_PLAYLIST, REMOVE_FROM_PLAYLIST, PLAYLIST_NEXT, START_PLAYLIST, STOP_PLAYLIST, CLEAR_PLAYLIST, UPDATE_SONG_LIST, CANCEL_SEARCH, TOGGLE_VISIBILITY, MOVE_IN_PLAYLIST } from './types'
+import { FETCH_SONGS, FETCH_SONG, CREATE_SONG, EDIT_SONG, DELETE_SONG, NEW_ALERT,
+     REMOVE_ALERT, ADD_TO_PLAYLIST, REMOVE_FROM_PLAYLIST, PLAYLIST_NEXT, START_PLAYLIST,
+      STOP_PLAYLIST, CLEAR_PLAYLIST, UPDATE_WITH_ID, UPDATE_WITH_TERM, CANCEL_SEARCH, TOGGLE_VISIBILITY, MOVE_IN_PLAYLIST } from './types'
 import { dbGET, dbNotGET } from '../api'
 import history from '../history'
 import { handleError } from '../util'
@@ -24,17 +26,25 @@ export const fetchSong = id => async dispatch => {
 
 export const findId = (id) => async dispatch => {
     try {
-        const response = await dbGET.get(`/songs?id=${id}`)
-        dispatch({type: UPDATE_SONG_LIST, payload: response.data})
+        const response = await dbGET.get(`/songs/${id}/?format=json`)
+        dispatch({type: UPDATE_WITH_ID, payload: response.data})
     } catch (err) {
-        handleError(err, dispatch)
+        if (err.response) {
+            if (err.response.status === 404) {
+                dispatch({type: UPDATE_WITH_ID, payload: {id: null}})
+            } else {
+                handleError(err, dispatch)
+            }
+        } else {
+            handleError(err, dispatch)
+        }
     }
 }
 
 export const searchSongs = (term) => async dispatch => {
     try {
-        const response = await dbGET.get(`/songs?title_like=${term}`)
-        dispatch({type: UPDATE_SONG_LIST, payload: response.data})
+        const response = await dbGET.get(`/search/${term}/`)
+        dispatch({type: UPDATE_WITH_TERM, payload: response.data})
     } catch (err) {
         handleError(err, dispatch)
     }
