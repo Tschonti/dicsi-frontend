@@ -7,7 +7,7 @@ export const login = ({ username, password }) => async dispatch => {
     try {
         const response = await db.post('/api-token-auth/', { username, password })
         dispatch({ type: LOGIN, payload: response.data.token })
-        history.push('/dicsi')
+        history.goBack()
     } catch (err) {
         handleError(err, dispatch)
     }
