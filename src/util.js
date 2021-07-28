@@ -9,9 +9,10 @@ export const handleError = (err, dispatch) => {
     if (!err.response) {
         dispatch({type: NEW_ALERT, payload: {msg: 'Valami baj van', type: 'error'}})
         console.error(err)
-    }
-    else if (err.response.status === 401) {
-        dispatch({type: NEW_ALERT, payload: {msg: 'Hibás jelszó', type: 'error'}})
+    } else if (err.response.status === 401 || err.response.status === 403) {
+        dispatch({type: NEW_ALERT, payload: {msg: 'Nem vagy bejelentkezve', type: 'error'}})
+    } else if (err.response.status === 400) {
+        dispatch({type: NEW_ALERT, payload: {msg: 'Hibás felhasználónév vagy jelszó', type: 'error'}})
     } else {
         dispatch({type: NEW_ALERT, payload: {msg: `${err.response.status}: ${err.response.statusText}`, type: 'error'}})
         console.error(err.response)

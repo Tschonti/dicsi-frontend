@@ -8,13 +8,13 @@ import {
     UPDATE_WITH_ID,
     UPDATE_WITH_TERM,
     CANCEL_SEARCH } from './types'
-import { dbGET, dbNotGET } from '../api'
+import { db } from '../api'
 import history from '../history'
 import { handleError } from '../util'
 
 export const fetchSongs = () => async dispatch => {
     try {
-        const response = await dbGET.get('/songs/?format=json')
+        const response = await db.get('/songs/?format=json')
         dispatch({type: FETCH_SONGS, payload: response.data})
     } catch (err) {
         handleError(err, dispatch)
@@ -23,7 +23,7 @@ export const fetchSongs = () => async dispatch => {
 
 export const fetchSong = id => async dispatch => {
     try {
-        const response = await dbGET.get(`/songs/${id}/?format=json`)
+        const response = await db.get(`/songs/${id}/?format=json`)
         dispatch({type: FETCH_SONG, payload: response.data})
     } catch (err) {
         handleError(err, dispatch)
@@ -33,7 +33,7 @@ export const fetchSong = id => async dispatch => {
 
 export const findId = (id) => async dispatch => {
     try {
-        const response = await dbGET.get(`/songs/${id}/?format=json`)
+        const response = await db.get(`/songs/${id}/?format=json`)
         dispatch({type: UPDATE_WITH_ID, payload: response.data})
     } catch (err) {
         if (err.response) {
@@ -50,7 +50,7 @@ export const findId = (id) => async dispatch => {
 
 export const searchSongs = (term) => async dispatch => {
     try {
-        const response = await dbGET.get(`/search/${term}/`)
+        const response = await db.get(`/search/${term}/`)
         dispatch({type: UPDATE_WITH_TERM, payload: response.data})
     } catch (err) {
         handleError(err, dispatch)
@@ -61,13 +61,13 @@ export const cancelSearch = () => {
     return { type: CANCEL_SEARCH}
 }
 
-export const createSong = formData => async dispatch => {
+export const createSong = formData => async (dispatch, getState) => {
     try {
-        const response = await dbNotGET.post('/songs/', {
+        const response = await db.post('/songs/', {
             id: parseInt(formData.id),
             title: formData.title,
             lyrics: formData.lyrics.split('\n\n').join('###')
-        }, /*{ headers: {'key': formData.pwd }}*/)
+        }, { headers: {'Authorization': `Token ${getState().auth.token}` }})
         dispatch({type: CREATE_SONG, payload: response.data})
         history.push(`/dicsi/songs/${formData.id}`)
     } catch (err) {
@@ -77,12 +77,12 @@ export const createSong = formData => async dispatch => {
 
 }
 
-export const editSong = (id, formData) => async dispatch => {
+export const editSong = (id, formData) => async (dispatch, getState) => {
     try {
-        const response = await dbNotGET.patch(`/songs/${id}/`, {
+        const response = await db.patch(`/songs/${id}/`, {
             title: formData.title,
             lyrics: formData.lyrics.split('\n\n').join('###'),
-        }, /*{ headers: {'key': formData.pwd }}*/)
+        }, { headers: {'Authorization': `Token ${getState().auth.token}` }})
         dispatch({type: EDIT_SONG, payload: response.data})
         history.push(`/dicsi/songs/${id}`)
     } catch (err) {
@@ -92,9 +92,8 @@ export const editSong = (id, formData) => async dispatch => {
 
 export const deleteSong = (id, pwd) => async (dispatch, getState) => {
     try {
-        await dbNotGET.delete(`/songs/${id}/`, /*{
-            headers: { 'key': pwd }
-        }*/)
+        await db.delete(`/songs/${id}/`,
+            { headers: {'Authorization': `Token ${getState().auth.token}` }})
         if (getState().playlist.list.includes(parseInt(id))) {
             dispatch({type: CLEAR_PLAYLIST})
         }

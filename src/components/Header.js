@@ -15,11 +15,13 @@ const Header = (props) => {
         </Alert>
         : null
     const title = isMobileOnly ? <div className="big-text-nom">ÖKGY Énekeskönyv</div> : <h2>ÖKGY Énekeskönyv</h2>
+
+    const newSong = props.signedIn ? <Link to="/dicsi/songs/new" className="item header-link">Új ének</Link> : null
     return (
         <div className="ui secondary pointing menu my-header">
             <Link to="/dicsi" className="item ">{title}</Link>
             <Link to="/dicsi" className="item header-link">Énekek listája</Link>
-            <Link to="/dicsi/songs/new" className="item header-link">Új ének</Link>
+            {newSong}
             <div className="centered">
                 {alert}
             </div>
@@ -29,7 +31,8 @@ const Header = (props) => {
 
 const mapStateToProps = state => {
     return {
-        alert: state.alert
+        alert: state.alert,
+        signedIn: state.auth.signedIn
     }
 }
 

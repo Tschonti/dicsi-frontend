@@ -10,7 +10,6 @@ import { stopPlaylist, toggleVisibility } from '../../actions/playlistActions'
 class SongEdit extends React.Component {
     state = {
         deleteModalActive: false,
-        password: '',
     }
 
     componentDidMount() {
@@ -36,8 +35,6 @@ class SongEdit extends React.Component {
                 content={`Biztosan törlöd a(z) ${this.props.song.title} éneket? Ezt később nem tudod visszavonni!`}
                 actions={actions()}
                 onDismissed={()=> this.setState({deleteModalActive: false})}
-                password={this.state.deletePassword}
-                setPassword={(value) => this.setState({ deletePassword: value})}
             /> : null
         const song = this.props.song
         return (

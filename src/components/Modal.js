@@ -22,10 +22,6 @@ const Modal = props => {
                 </div>
                 <div className="content">
                     {props.content}
-                    <div className="ui form" >
-                        <label>A megerősítéshez add meg a jelszót!</label>
-                        <input value={props.password} onChange={(event) => props.setPassword(event.target.value)} type="password" />
-                    </div>
                 </div>
                 <div className="actions">
                     <div className="centered">

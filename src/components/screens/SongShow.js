@@ -88,6 +88,13 @@ class SongShow extends React.Component {
         }
     }
 
+    onPlaylistAdd = () => {
+        this.props.addToPlaylist(parseInt(this.props.match.params.id))
+        if (!this.props.plVisible) {
+            this.props.toggleVisibility()
+        }
+    }
+
     renderLine = (line, idx) => <React.Fragment key={idx}>{line}<br/></React.Fragment>
 
     renderVerse = (verse, idx) => {
@@ -146,14 +153,9 @@ class SongShow extends React.Component {
 
     }
 
-    onPlaylistAdd = () => {
-        this.props.addToPlaylist(parseInt(this.props.match.params.id))
-        if (!this.props.plVisible) {
-            this.props.toggleVisibility()
-        }
-    }
-
     renderButtons = () => {
+        const editButton = this.props.signedIn ? <Link data-tip="Ének szerkeztése vagy törlése" className="ui button my-button icon yellow" to={`/dicsi/songs/edit/${this.props.match.params.id}`}><i className="icon edit"></i></Link> : null
+
         const desktopButton = !isMobileOnly && this.state.showButtons ? (
             <>
                 <MyButton tip="Előző versszak" disabled={!this.state.oneVerseModeActive} color="teal" onClick={() => this.handleVerseChange(false)} icons={[" step backward icon" ]} />
@@ -164,7 +166,7 @@ class SongShow extends React.Component {
         const optionalButtons = this.state.showButtons ? (
             <>
                 <Link data-tip="Vissza a kereséshez" className="ui button my-button icon grey" to="/dicsi/"><i className="icon search"></i></Link>
-                <Link data-tip="Ének szerkeztése vagy törlése" className="ui button my-button icon yellow" to={`/dicsi/songs/edit/${this.props.match.params.id}`}><i className="icon edit"></i></Link>
+                {editButton}
                 <MyButton tip={`${this.state.twoColumnMode ? "Egy" : "Két"} hasáb`} color="primary" onClick={() => this.setState({twoColumnMode: !this.state.twoColumnMode})} disabled={this.state.oneVerseModeActive} icons={[`${this.state.twoColumnMode ? 'align justify' : 'columns'}`]} />
                 <MyButton tip="Betűméret csökkentése" color="primary" onClick={() => this.onSizeChange(false)} icons={["font", "arrow down" ]} />
                 <MyButton tip="Betűméret növelése" color="primary" onClick={() => this.onSizeChange(true)} icons={["font", "arrow up " ]} />
@@ -222,7 +224,6 @@ class SongShow extends React.Component {
                         </div>
                     </div>
                 </>
-
             )
         }
         return <MyLoader />
@@ -232,7 +233,8 @@ class SongShow extends React.Component {
 const mapStateToProps = (state, ownProps) => {
     return {
         song: state.songs[ownProps.match.params.id],
-        plVisible: state.playlist.visible
+        plVisible: state.playlist.visible,
+        signedIn: state.auth.signedIn
     }
 }
 

@@ -20,6 +20,17 @@
     margin-bottom: auto;
 }
 
+.two-column {
+    columns: 2;
+    column-gap: 20px;
+}
+
+@media only screen and (max-width: 900px) {
+    .small-text {
+        font-size: 12px;
+    }
+}
+
 .loader-container {
     height: 80vh;
     display: flex;

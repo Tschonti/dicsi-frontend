@@ -7,4 +7,3 @@ export const newAlert = (msg, type) => {
 export const removeAlert = () => {
     return {type: REMOVE_ALERT}
 }
-
