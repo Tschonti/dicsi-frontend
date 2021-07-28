@@ -22,12 +22,18 @@
 
 .two-column {
     columns: 2;
-    column-gap: 20px;
+    column-gap: 100px;
 }
 
 @media only screen and (max-width: 900px) {
     .small-text {
         font-size: 12px;
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    .two-column {
+        column-gap: 20px;
     }
 }
 
