@@ -50,8 +50,9 @@ export const findId = (id) => async dispatch => {
 
 export const searchSongs = (term) => async dispatch => {
     try {
-        const response = await db.get(`/search/${term}/`)
-        dispatch({type: UPDATE_WITH_TERM, payload: response.data})
+        const inTitle = await db.get(`/search-title/${term}/`)
+        const inLyrics = await db.get(`/search-lyrics/${term}/`)
+        dispatch({type: UPDATE_WITH_TERM, payload: [...inTitle.data, ...inLyrics.data]})
     } catch (err) {
         handleError(err, dispatch)
     }

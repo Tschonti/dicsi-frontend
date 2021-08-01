@@ -1,3 +1,5 @@
+import _ from 'lodash'
+
 import { UPDATE_WITH_ID, UPDATE_WITH_TERM, CANCEL_SEARCH } from "../actions/types"
 
 const defaultState = {
@@ -11,7 +13,7 @@ export default (state = defaultState, action) => {
         case UPDATE_WITH_ID:
             return { list: [action.payload.id], validSearch: true }
         case UPDATE_WITH_TERM:
-            return { list: action.payload.map(song => song.id), validSearch: true}
+            return { list: _.uniq(action.payload.map(song => song.id)), validSearch: true}
         case CANCEL_SEARCH:
             return defaultState
         default:

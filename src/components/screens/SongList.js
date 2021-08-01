@@ -43,7 +43,7 @@ class SongList extends React.Component {
     }
 
     renderSmallButtons = song => {
-        if (this.props.plVisible) {
+        if (this.props.plVisible || isMobileOnly) {
             return (
                 <div className="right-left">
                     <i data-tip="Hozzáadás a lejátszási listához" className="icon bigger-icon plus circle green" onClick={(e) => this.addToPlaylist(e, song.id)}></i>&nbsp;&nbsp;
@@ -68,15 +68,20 @@ class SongList extends React.Component {
                 <MyLoader />
             )
         }
-        const { searchList } = this.props
+
         if (!this.state.sortById) {
             sortSongs(this.props.songs, 'title')
         } else {
             sortSongs(this.props.songs, 'id')
         }
 
-        const songs = this.props.songs.filter(song => searchList.list.includes(song.id) || !searchList.validSearch)
-            .map((song, idx) => this.renderSong(song, idx))
+        const { searchList } = this.props
+        let songs = []
+        if (searchList.validSearch) {
+            songs = searchList.list.map((id, idx) => this.renderSong(this.props.songs.find(song => song.id === id), idx))
+        } else {
+            songs = this.props.songs.map((song, idx) => this.renderSong(song, idx))
+        }
 
         const empty = songs.length === 0 ? <p className="big-text centered-text">Nincs találat!</p> : null
         return (
@@ -88,8 +93,8 @@ class SongList extends React.Component {
                     </div>
                     <div className="four wide column ">
                         <div className="centered-container">
-                            <MyButton color="blue" onClick={() => this.setState({ sortById: true})} icons={["sort numeric down"]} tip="Énekek rendezése sorszám szerint" disabled={this.state.sortById}/>
-                            <MyButton color="blue" onClick={() => this.setState({ sortById: false})} icons={["sort alphabet down"]} tip="Énekek rendezése cím szerint" disabled={!this.state.sortById}/>
+                            <MyButton color="blue" onClick={() => this.setState({ sortById: true})} icons={["sort numeric down"]} tip="Énekek rendezése sorszám szerint" disabled={this.state.sortById || this.props.searchList.validSearch}/>
+                            <MyButton color="blue" onClick={() => this.setState({ sortById: false})} icons={["sort alphabet down"]} tip="Énekek rendezése cím szerint" disabled={!this.state.sortById || this.props.searchList.validSearch}/>
                             <MyButton color="green" onClick={this.props.toggleVisibility} icons={["play circle"]} text=" Lejátszási lista"/>
                         </div>
                     </div>

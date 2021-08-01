@@ -78,6 +78,12 @@ class Playlist extends React.Component {
             return null
         }
         const currentIndex = this.props.playlist.list.length === 0 ? 0 : this.props.playlist.currentIndex + 1
+        const extraButtons = this.state.open ? (
+            <div className="right-left pointer" onClick={() => this.setState({open: !this.state.open})}>
+                <i className={`icon ${this.state.open ? 'minus' : 'plus'}`}></i>
+                <i className="red icon close" onClick={this.onClose}></i>
+            </div>
+        ) : null
         return (
             <div className="playlist-container">
                 <MyTooltip />
@@ -95,6 +101,7 @@ class Playlist extends React.Component {
                     <MyButton disabled={this.props.playlist.list.length === 0} tip="Lejátszási lista törlése" color="negative" onClick={this.onClear} icons={["trash alternate"]} />
                 </div>
                 {this.renderSongList()}
+                {extraButtons}
             </div>
         )
     }
