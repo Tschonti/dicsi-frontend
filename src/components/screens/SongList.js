@@ -87,7 +87,7 @@ class SongList extends React.Component {
         return (
             <div className="ui container">
                 <MyTooltip />
-                <div className="ui stackable grid">
+                <div className={`ui ${isMobileOnly ? '' : 'stackable grid'}`}>
                     <div className="twelve wide column">
                         <SearchBar id={this.props.findId} term={this.props.searchSongs} cancel={this.props.cancelSearch}/>
                     </div>

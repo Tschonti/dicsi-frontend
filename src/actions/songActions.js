@@ -48,11 +48,16 @@ export const findId = (id) => async dispatch => {
     }
 }
 
-export const searchSongs = (term) => async dispatch => {
+export const searchSongs = (term, lyricsToo) => async dispatch => {
     try {
         const inTitle = await db.get(`/search-title/${term}/`)
-        const inLyrics = await db.get(`/search-lyrics/${term}/`)
-        dispatch({type: UPDATE_WITH_TERM, payload: [...inTitle.data, ...inLyrics.data]})
+        if (lyricsToo) {
+            const inLyrics = await db.get(`/search-lyrics/${term}/`)
+            dispatch({type: UPDATE_WITH_TERM, payload: [...inTitle.data, ...inLyrics.data]})
+        } else {
+            dispatch({type: UPDATE_WITH_TERM, payload: inTitle.data})
+        }
+
     } catch (err) {
         handleError(err, dispatch)
     }
