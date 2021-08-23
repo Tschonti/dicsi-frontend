@@ -10,8 +10,8 @@ import App from './components/App'
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-const createStoreWithMiddleware  =composeEnhancers(applyMiddleware(save({ states: ["playlist"], debounce: 500}), reduxThunk))(createStore)
-const store = createStoreWithMiddleware(combinedReducer, load({ states: ["playlist"]}))
+const createStoreWithMiddleware = composeEnhancers(applyMiddleware(save({ states: ["playlist", "auth"], debounce: 500}), reduxThunk))(createStore)
+const store = createStoreWithMiddleware(combinedReducer, load({ states: ["playlist", "auth"]}))
 
 ReactDOM.render(
     <Provider store={store}>
