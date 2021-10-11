@@ -6,6 +6,7 @@ import {
     DELETE_SONG,
     CLEAR_PLAYLIST,
     UPDATE_WITH_ID,
+    UPDATE_WITH_WRONG_ID,
     UPDATE_WITH_TERM,
     CANCEL_SEARCH } from './types'
 import { db } from '../api'
@@ -38,7 +39,7 @@ export const findId = (id) => async dispatch => {
     } catch (err) {
         if (err.response) {
             if (err.response.status === 404) {
-                dispatch({type: UPDATE_WITH_ID, payload: {id: null}})
+                dispatch({type: UPDATE_WITH_WRONG_ID})
             } else {
                 handleError(err, dispatch)
             }
