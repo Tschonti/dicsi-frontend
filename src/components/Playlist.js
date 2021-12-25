@@ -12,11 +12,13 @@ import { playlistNext,
 
 import MyButton from './MyButton'
 import MyTooltip from './MyTooltip'
+import Modal from './Modal'
 
 
 class Playlist extends React.Component {
     state = {
-        open: true
+        open: true,
+        modelActive: false,
     }
 
     componentDidMount() {
@@ -65,6 +67,7 @@ class Playlist extends React.Component {
     onClear = () => {
         this.props.clearPlaylist()
         this.props.toggleVisibility()
+        this.setState({modalActive: false})
     }
 
     onClose = (e) => {
@@ -77,6 +80,20 @@ class Playlist extends React.Component {
         if (!this.props.playlist.visible) {
             return null
         }
+
+        const modalActions = () => (
+            <>
+                <button className="ui button" onClick={()=> this.setState({modalActive: false})}>Mégse</button>
+                <button className="ui negative button" onClick={this.onClear}>Törlés</button>
+            </>
+        )
+        const modal = this.state.modalActive ? <Modal
+                header="Biztosan törlöd a lejátszási listát?"
+                content={'Biztosan törlöd a lejátszási listát? Ezt később nem tudod visszavonni!'}
+                actions={modalActions()}
+                onDismissed={()=> this.setState({modalActive: false})}
+            /> : null
+
         const currentIndex = this.props.playlist.list.length === 0 ? 0 : this.props.playlist.currentIndex + 1
         const extraButtons = this.state.open ? (
             <div className="right-left pointer" onClick={() => this.setState({open: !this.state.open})}>
@@ -85,24 +102,27 @@ class Playlist extends React.Component {
             </div>
         ) : null
         return (
-            <div className="playlist-container">
-                <MyTooltip />
-                <div className="right-left pointer" onClick={() => this.setState({open: !this.state.open})}>
-                    <h3>Lejátszási lista {`${currentIndex}/${this.props.playlist.list.length}`}</h3>
-                    <div>
-                        <i className={`icon ${this.state.open ? 'minus' : 'plus'}`}></i>&nbsp;&nbsp;
-                        <i className="red icon close" onClick={this.onClose}></i>
+            <>
+                <div className="playlist-container">
+                    <MyTooltip />
+                    <div className="right-left pointer" onClick={() => this.setState({open: !this.state.open})}>
+                        <h3>Lejátszási lista {`${currentIndex}/${this.props.playlist.list.length}`}</h3>
+                        <div>
+                            <i className={`icon ${this.state.open ? 'minus' : 'plus'}`}></i>&nbsp;&nbsp;
+                            <i className="red icon close" onClick={this.onClose}></i>
+                        </div>
                     </div>
+                    <div className="centered-container">
+                        <MyButton disabled={!this.props.playlist.active} tip="Előző ének" color="blue" onClick={() => this.props.playlistNext(false, this.props.playlist)} icons={["backward"]} />
+                        <MyButton disabled={this.props.playlist.active || this.props.playlist.list.length === 0} tip="Lejátszási lista indítása" color="green" onClick={() => this.props.startPlaylist(this.props.playlist)} icons={["play"]} />
+                        <MyButton disabled={!this.props.playlist.active} tip="Következő ének" color="blue" onClick={() => this.props.playlistNext(true, this.props.playlist)} icons={["forward"]} />
+                        <MyButton disabled={this.props.playlist.list.length === 0} tip="Lejátszási lista törlése" color="negative" onClick={() => this.setState({modalActive: true})} icons={["trash alternate"]} />
+                    </div>
+                    {this.renderSongList()}
+                    {extraButtons}
                 </div>
-                <div className="centered-container">
-                    <MyButton disabled={!this.props.playlist.active} tip="Előző ének" color="blue" onClick={() => this.props.playlistNext(false, this.props.playlist)} icons={["backward"]} />
-                    <MyButton disabled={this.props.playlist.active || this.props.playlist.list.length === 0} tip="Lejátszási lista indítása" color="green" onClick={() => this.props.startPlaylist(this.props.playlist)} icons={["play"]} />
-                    <MyButton disabled={!this.props.playlist.active} tip="Következő ének" color="blue" onClick={() => this.props.playlistNext(true, this.props.playlist)} icons={["forward"]} />
-                    <MyButton disabled={this.props.playlist.list.length === 0} tip="Lejátszási lista törlése" color="negative" onClick={this.onClear} icons={["trash alternate"]} />
-                </div>
-                {this.renderSongList()}
-                {extraButtons}
-            </div>
+                {modal}
+            </>
         )
     }
 }
