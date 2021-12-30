@@ -3,6 +3,7 @@ import { Field, reduxForm } from 'redux-form'
 import { Link } from 'react-router-dom'
 import { isMobileOnly } from 'react-device-detect'
 
+import MyModal from './../MyModal'
 import MyTooltip from '../MyTooltip'
 
 const renderInput = ({ input, label, meta, type, disabled, wide, tip }) => {
@@ -55,7 +56,15 @@ const SongForm = props => {
                         <Link to={`/dicsi/songs/${props.id}`} className={`ui button grey ${isMobileOnly ? 'my-bigger-button' : ''}`}>Mégse</Link>
                     </div>
                     <div className="column jobbra">
-                        <button type="button" onClick={props.onDeleteClick} className={`ui button negative ${isMobileOnly ? 'my-bigger-button' : ''}`}>Ének törlése</button>
+                        <MyModal
+                            header="Biztosan törlöd ezt az éneket?"
+                            content={`Biztosan törlöd a(z) ${props.initialValues.title} éneket? Ezt később nem tudod visszavonni!`}
+                            closeText="Mégse"
+                            approveText="Törlés"
+                            onApprove={props.onDeleteClick}
+                        >
+                            <button type="button" className={`ui button negative ${isMobileOnly ? 'my-bigger-button' : ''}`}>Ének törlése</button>
+                        </MyModal>
                     </div>
                 </div>
                 <div className="ui vertical divider">

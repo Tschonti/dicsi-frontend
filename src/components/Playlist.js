@@ -12,13 +12,12 @@ import { playlistNext,
 
 import MyButton from './MyButton'
 import MyTooltip from './MyTooltip'
-import Modal from './Modal'
+import MyModal from './MyModal'
 
 
 class Playlist extends React.Component {
     state = {
         open: true,
-        modelActive: false,
     }
 
     componentDidMount() {
@@ -67,7 +66,6 @@ class Playlist extends React.Component {
     onClear = () => {
         this.props.clearPlaylist()
         this.props.toggleVisibility()
-        this.setState({modalActive: false})
     }
 
     onClose = (e) => {
@@ -80,20 +78,6 @@ class Playlist extends React.Component {
         if (!this.props.playlist.visible) {
             return null
         }
-
-        const modalActions = () => (
-            <>
-                <button className="ui button" onClick={()=> this.setState({modalActive: false})}>Mégse</button>
-                <button className="ui negative button" onClick={this.onClear}>Törlés</button>
-            </>
-        )
-        const modal = this.state.modalActive ? <Modal
-                header="Biztosan törlöd a lejátszási listát?"
-                content={'Biztosan törlöd a lejátszási listát? Ezt később nem tudod visszavonni!'}
-                actions={modalActions()}
-                onDismissed={()=> this.setState({modalActive: false})}
-            /> : null
-
         const currentIndex = this.props.playlist.list.length === 0 ? 0 : this.props.playlist.currentIndex + 1
         const extraButtons = this.state.open ? (
             <div className="right-left pointer" onClick={() => this.setState({open: !this.state.open})}>
@@ -116,12 +100,19 @@ class Playlist extends React.Component {
                         <MyButton disabled={!this.props.playlist.active} tip="Előző ének" color="blue" onClick={() => this.props.playlistNext(false, this.props.playlist)} icons={["backward"]} />
                         <MyButton disabled={this.props.playlist.active || this.props.playlist.list.length === 0} tip="Lejátszási lista indítása" color="green" onClick={() => this.props.startPlaylist(this.props.playlist)} icons={["play"]} />
                         <MyButton disabled={!this.props.playlist.active} tip="Következő ének" color="blue" onClick={() => this.props.playlistNext(true, this.props.playlist)} icons={["forward"]} />
-                        <MyButton disabled={this.props.playlist.list.length === 0} tip="Lejátszási lista törlése" color="negative" onClick={() => this.setState({modalActive: true})} icons={["trash alternate"]} />
+                        <MyModal
+                            header="Biztosan törlöd a lejátszási listát?"
+                            content={'Biztosan törlöd a lejátszási listát? Ezt később nem tudod visszavonni!'}
+                            closeText={'Mégse'}
+                            approveText={'Törlés'}
+                            onApprove={this.onClear}
+                        >
+                            <MyButton disabled={this.props.playlist.list.length === 0} tip="Lejátszási lista törlése" color="negative" icons={["trash alternate"]} />
+                        </MyModal>
                     </div>
                     {this.renderSongList()}
                     {extraButtons}
                 </div>
-                {modal}
             </>
         )
     }

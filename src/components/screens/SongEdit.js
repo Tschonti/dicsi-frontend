@@ -2,16 +2,12 @@ import React from 'react'
 import { connect } from 'react-redux'
 
 import SongForm from './SongForm'
-import Modal from './../Modal'
 
 import { editSong, fetchSong, deleteSong } from '../../actions/songActions'
 import { stopPlaylist, toggleVisibility } from '../../actions/playlistActions'
+import MyLoader from '../MyLoader'
 
 class SongEdit extends React.Component {
-    state = {
-        deleteModalActive: false,
-    }
-
     componentDidMount() {
         this.props.fetchSong(this.props.match.params.id)
         this.props.stopPlaylist()
@@ -22,20 +18,8 @@ class SongEdit extends React.Component {
 
     render() {
         if (!this.props.song) {
-            return <div>Loading...</div>
+            return <MyLoader />
         }
-        const actions = () => (
-            <>
-                <button className="ui button" onClick={()=> this.setState({deleteModalActive: false})}>Mégse</button>
-                <button className="ui negative button" onClick={() => this.props.deleteSong(this.props.match.params.id, this.state.deletePassword)}>Törlés</button>
-            </>
-        )
-        const modal = this.state.deleteModalActive ? <Modal
-                header="Biztosan törlöd ezt az éneket?"
-                content={`Biztosan törlöd a(z) ${this.props.song.title} éneket? Ezt később nem tudod visszavonni!`}
-                actions={actions()}
-                onDismissed={()=> this.setState({deleteModalActive: false})}
-            /> : null
         const song = this.props.song
         return (
             <div className="ui container">
@@ -45,10 +29,8 @@ class SongEdit extends React.Component {
                 <SongForm
                     onSubmit={(formValues) => this.props.editSong(this.props.match.params.id, formValues)}
                     initialValues={{id: song.id, title: song.title, lyrics: song.verses.join('\n\n')}}
-                    edit id={song.id} onDeleteClick={() => this.setState({deleteModalActive: true})}
-                >
-                    {modal}
-                </SongForm>
+                    edit id={song.id} onDeleteClick={() => this.props.deleteSong(this.props.match.params.id)}
+                />
             </div>
         )
     }

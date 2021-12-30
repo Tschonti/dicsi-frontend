@@ -4,6 +4,7 @@ import { Provider } from 'react-redux'
 import { createStore, applyMiddleware, compose } from 'redux'
 import reduxThunk from 'redux-thunk'
 import { save, load } from "redux-localstorage-simple"
+import 'semantic-ui-css/semantic.min.css'
 
 import combinedReducer from './reducers'
 import App from './components/App'
