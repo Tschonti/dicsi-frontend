@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/dicsi/static/css/main.a89ace72.chunk.css",
-    "main.js": "/dicsi/static/js/main.81d6aad1.chunk.js",
-    "main.js.map": "/dicsi/static/js/main.81d6aad1.chunk.js.map",
+    "main.js": "/dicsi/static/js/main.fb11e0ad.chunk.js",
+    "main.js.map": "/dicsi/static/js/main.fb11e0ad.chunk.js.map",
     "runtime-main.js": "/dicsi/static/js/runtime-main.b4f98783.js",
     "runtime-main.js.map": "/dicsi/static/js/runtime-main.b4f98783.js.map",
     "static/css/2.df08501b.chunk.css": "/dicsi/static/css/2.df08501b.chunk.css",
@@ -19,6 +19,6 @@
     "static/css/2.df08501b.chunk.css",
     "static/js/2.a89691a5.chunk.js",
     "static/css/main.a89ace72.chunk.css",
-    "static/js/main.81d6aad1.chunk.js"
+    "static/js/main.fb11e0ad.chunk.js"
   ]
 }
