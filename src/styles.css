@@ -12,6 +12,10 @@
     height: 52px;
 }
 
+.notLinkStyle, .notLinkStyle:hover {
+    color: #000000de;
+}
+
 .centered {
     margin: auto;
 }
