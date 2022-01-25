@@ -14,6 +14,7 @@ import { playlistNext,
 import MyButton from './MyButton'
 import MyTooltip from './MyTooltip'
 import MyModal from './MyModal'
+import PlaylistForm from './PlaylistForm'
 
 
 class Playlist extends React.Component {
@@ -98,14 +99,18 @@ class Playlist extends React.Component {
                         </div>
                     </div>
                     <div className="centered-container">
+                        {this.props.signedIn && (
+                            <PlaylistForm onSubmit={() => console.log("submitted")} disabled={this.props.playlist.list.length === 0} />
+                        )}
                         <MyModal
                             header="Biztosan törlöd a lejátszási listát?"
-                            content={'Biztosan törlöd a lejátszási listát? Ezt később nem tudod visszavonni!'}
+                            generateTrigger={() => <MyButton disabled={this.props.playlist.list.length === 0} tip="Lejátszási lista törlése" color="negative" icons={["trash alternate"]} />}
                             closeText={'Mégse'}
                             approveText={'Törlés'}
                             onApprove={this.onClear}
+                            negative
                         >
-                            <MyButton disabled={this.props.playlist.list.length === 0} tip="Lejátszási lista törlése" color="negative" icons={["trash alternate"]} />
+                            Biztosan törlöd a lejátszási listát? Ezt később nem tudod visszavonni!
                         </MyModal>
                         <MyButton disabled={!this.props.playlist.active} tip="Előző ének" color="blue" onClick={() => this.props.playlistNext(false, this.props.playlist)} icons={["backward"]} />
                         <MyButton disabled={this.props.playlist.active || this.props.playlist.list.length === 0} tip="Lejátszási lista indítása" color="green" onClick={() => this.props.startPlaylist(this.props.playlist)} icons={["play"]} />
@@ -122,7 +127,8 @@ class Playlist extends React.Component {
 const mapStateToProps = state => {
     return {
         songs: Object.values(state.songs),
-        playlist: state.playlist
+        playlist: state.playlist,
+        signedIn: state.auth.signedIn
     }
 }
 

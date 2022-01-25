@@ -20,12 +20,12 @@ const MyModal = props => {
       onClose={() => setOpen(false)}
       onOpen={() => setOpen(true)}
       open={open}
-      trigger={props.children}
+      trigger={props.generateTrigger()}
     >
       <Modal.Header>{props.header}</Modal.Header>
       <Modal.Content>
         <Modal.Description>
-            {props.content}
+            {props.children}
         </Modal.Description>
       </Modal.Content>
       <Modal.Actions>
@@ -38,7 +38,8 @@ const MyModal = props => {
         <Button
           content={props.approveText}
           onClick={() => {props.onApprove()}}
-          negative
+          negative={props.negative}
+          primary={props.primary}
         />
       </Modal.Actions>
     </Modal>
