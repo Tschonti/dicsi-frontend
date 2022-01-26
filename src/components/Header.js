@@ -22,6 +22,7 @@ const Header = (props) => {
             <Link to="/dicsi" className="item ">{title}</Link>
             <Link to="/dicsi" className="item header-link">Énekek listája</Link>
             {newSong}
+            <Link to="/dicsi/playlists" className="item header-link">Lejátszási listák</Link>
             <div className="centered">
                 {alert}
             </div>

@@ -41,7 +41,7 @@ const PlaylistForm = props => {
             primary
         >
             <form className="ui form error" onSubmit={props.handleSubmit(onSubmit)}>
-                <Field label="Add meg a lejátszási lista nevét!" name="name" type="text" component={renderInput} />
+                <Field label="Lejátszási lista neve" name="name" type="text" component={renderInput} />
             </form>
         </MyModal>
     )

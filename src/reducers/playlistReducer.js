@@ -1,17 +1,22 @@
-import { ADD_TO_PLAYLIST,
+import { 
+    ADD_TO_PLAYLIST,
     REMOVE_FROM_PLAYLIST,
     PLAYLIST_NEXT,
     START_PLAYLIST,
     STOP_PLAYLIST,
     CLEAR_PLAYLIST,
     TOGGLE_VISIBILITY,
-    MOVE_IN_PLAYLIST } from "../actions/types"
+    MOVE_IN_PLAYLIST,
+    SAVE_PLAYLIST,
+    LOAD_PLAYLIST
+} from "../actions/types"
 
 const defaultState = {
     list: [],
     currentIndex: 0,
     active: false,
     visible: false,
+    loaded: undefined,
 }
 
 // eslint-disable-next-line import/no-anonymous-default-export
@@ -58,6 +63,16 @@ export default (state = defaultState, action) => {
             }
             anotherClonedState.currentIndex += diff
             return anotherClonedState
+        case SAVE_PLAYLIST:
+            return {...state, list: action.payload.songs, loaded: action.payload.id}
+        case LOAD_PLAYLIST:
+            return {
+                list: action.payload.songs,
+                currentIndex: 0,
+                active: false,
+                visible: true,
+                loaded: action.payload.id,
+            }
         default:
             return state
     }
