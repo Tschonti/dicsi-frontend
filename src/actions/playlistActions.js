@@ -10,6 +10,7 @@ import {
     SAVE_PLAYLIST,
     FETCH_PLAYLISTS,
     LOAD_PLAYLIST,
+    UNLOAD_PLAYLIST,
 } from './types'
 import { db } from '../api'
 import { handleError } from '../util'
@@ -87,11 +88,15 @@ export const fetchPlaylists = () => async dispatch => {
     }
 }
 
-export const loadPlaylist = id => async dispatch => {
+export const loadPlaylist = (id, modifiable) => async dispatch => {
     try {
         const response = await db.get(`/playlists/${id}?format=json`)
-        dispatch({type: LOAD_PLAYLIST, payload: response.data})
+        dispatch({type: LOAD_PLAYLIST, payload: {list: response.data, modifiable}})
     } catch (err) {
         handleError(err, dispatch)
     }
+}
+
+export const unloadPlaylist = () => {
+    return {type: UNLOAD_PLAYLIST}
 }

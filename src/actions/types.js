@@ -22,6 +22,7 @@ export const MOVE_IN_PLAYLIST = 'MOVE_IN_PLAYLIST'
 export const SAVE_PLAYLIST = 'SAVE_PLAYLIST'
 export const FETCH_PLAYLISTS = 'FETCH_PLAYLISTS'
 export const LOAD_PLAYLIST = 'LOAD_PLAYLIST'
+export const UNLOAD_PLAYLIST = 'UNLOAD_PLAYLIST'
 
 export const LOGIN = 'LOGIN'
 export const LOGOUT = 'LOGOUT'

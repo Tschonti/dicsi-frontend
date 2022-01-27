@@ -6,6 +6,7 @@ import _ from 'lodash'
 import { fetchSongs } from '../../actions/songActions'
 import { fetchPlaylists, loadPlaylist } from '../../actions/playlistActions'
 import MyLoader from '../MyLoader'
+import MyTooltip from '../MyTooltip'
 import PlaylistItem from '../PlaylistItem'
 import MyButton from '../MyButton'
 
@@ -27,6 +28,7 @@ class PlaylistList extends React.Component {
         if (this.props.playlistList.length > 0 && !_.isEmpty(this.props.songs)) {
             return (
                 <div className="ui container">
+                    <MyTooltip />
                     <h2>Lejátszási listák</h2>
                     <Accordion fluid styled>
                         {this.props.playlistList.map(playlist => (
@@ -41,19 +43,20 @@ class PlaylistList extends React.Component {
                                             {playlist.name}
                                         </h3>
                                         <div className='next-to'>
-                                            <p>Létrehozva: {new Date(Date.parse(playlist.created_at)).toLocaleString('hu-HU')}</p>
-                                            <MyButton tip="Betöltés" color="green" onClick={() => this.props.loadPlaylist(playlist.id)} icons={["play circle"]} />
-                                            <MyButton tip="Megosztás" color="purple" onClick={() => navigator.clipboard.writeText(`https://okgy.hu/dicsi/playlist/${playlist.id}`)} icons={["share alternate"]} />
-                                            <MyButton tip="Duplikálás" color="blue" onClick={() => this.props.loadPlaylist(playlist.id)} icons={["copy"]} />
-                                            <MyButton tip="Törlés" color="red" onClick={() => this.props.loadPlaylist(playlist.id)} icons={["trash alternate"]} />
+                                            <p>Létrehozva: {new Date(Date.parse(playlist.created_at)).toLocaleDateString('hu-HU')}</p>
                                         </div>
                                     </div>
-                                    
                                 </Accordion.Title>
                                 <Accordion.Content active={this.state.activePlaylist === playlist.id}>
+                                    <MyButton tip="Betöltés" color="green" onClick={() => this.props.loadPlaylist(playlist.id, true)} icons={["play circle"]} />
+                                        <MyButton tip="Megosztás" color="purple" onClick={() => navigator.clipboard.writeText(`https://okgy.hu/dicsi/playlist/${playlist.id}`)} icons={["share alternate"]} />
+                                        <MyButton tip="Duplikálás" color="blue" onClick={() => this.props.loadPlaylist(playlist.id, false)} icons={["copy"]} />
+                                        {this.props.signedIn && (
+                                            <MyButton tip="Törlés" color="red" onClick={() => this.props.loadPlaylist(playlist.id)} icons={["trash alternate"]} />
+                                        )}
                                     <div className="ui relaxed divided ordered list">
                                         {playlist.songs.map((songId, idx) => (
-                                            <PlaylistItem key={idx} song={this.props.songs[songId]} idx={idx} length={playlist.songs.length} />
+                                            <PlaylistItem key={idx} song={this.props.songs[songId]} idx={idx} length={playlist.songs.length} unmodifiable={!this.props.signedIn} />
                                         ))}
                                     </div>
                                 </Accordion.Content>
@@ -70,7 +73,8 @@ class PlaylistList extends React.Component {
 const mapStateToProps = (state) => {
     return {
         songs: state.songs,
-        playlistList: state.playlistList
+        playlistList: state.playlistList,
+        signedIn: state.auth.signedIn,
     }
 }
 

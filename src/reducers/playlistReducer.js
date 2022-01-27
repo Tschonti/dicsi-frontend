@@ -8,7 +8,8 @@ import {
     TOGGLE_VISIBILITY,
     MOVE_IN_PLAYLIST,
     SAVE_PLAYLIST,
-    LOAD_PLAYLIST
+    LOAD_PLAYLIST,
+    UNLOAD_PLAYLIST
 } from "../actions/types"
 
 const defaultState = {
@@ -17,6 +18,7 @@ const defaultState = {
     active: false,
     visible: false,
     loaded: undefined,
+    loadedName: '',
 }
 
 // eslint-disable-next-line import/no-anonymous-default-export
@@ -64,15 +66,18 @@ export default (state = defaultState, action) => {
             anotherClonedState.currentIndex += diff
             return anotherClonedState
         case SAVE_PLAYLIST:
-            return {...state, list: action.payload.songs, loaded: action.payload.id}
+            return {...state, list: action.payload.songs, loaded: action.payload.id, loadedName: action.payload.name}
         case LOAD_PLAYLIST:
             return {
-                list: action.payload.songs,
+                list: action.payload.list.songs,
                 currentIndex: 0,
                 active: false,
                 visible: true,
-                loaded: action.payload.id,
+                loaded: action.payload.modifiable ? action.payload.list.id : undefined,
+                loadedName: action.payload.modifiable ? action.payload.list.name : '',
             }
+        case UNLOAD_PLAYLIST:
+            return { ...defaultState, visible: true }
         default:
             return state
     }
