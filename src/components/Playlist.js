@@ -51,7 +51,6 @@ class Playlist extends React.Component {
     }
     onClear = () => {
         this.props.clearPlaylist()
-        this.props.toggleVisibility()
     }
 
     onClose = (e) => {
@@ -99,7 +98,9 @@ class Playlist extends React.Component {
                                 onApprove={this.onClear}
                                 negative
                             >
-                                Biztosan törlöd a lejátszási listát? Ezt később nem tudod visszavonni!
+                                {this.props.playlist.loaded ? 
+                                'Biztosan törlöd a lejátszási listát az adatbázisból? Ezt később nem tudod visszavonni!' : 
+                                'Biztosan üríted a lejátszási listát? Ezt később nem tudod visszavonni!'}
                             </MyModal>
                         )}
                         <MyButton disabled={!this.props.playlist.active} tip="Előző ének" color="blue" onClick={() => this.props.playlistNext(false, this.props.playlist)} icons={["backward"]} />

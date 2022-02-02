@@ -45,20 +45,19 @@ class SongList extends React.Component {
     }
 
     renderSmallButtons = song => {
-        if (this.props.plVisible || isMobileOnly) {
-            return (
-                <div className="right-left">
-                    <i 
-                        data-tip="Hozzáadás a lejátszási listához" 
-                        className="icon bigger-icon plus circle green" 
-                        onClick={(e) => this.addToPlaylist(e, song.id)}>
-                    </i>&nbsp;&nbsp;
-                    <i 
-                        data-tip="Eltávolítás a lejátszási listáról" 
-                        className="icon bigger-icon minus circle red" 
-                        onClick={(e) => this.removeFromPlaylist(e, song.id)}>
-                    </i>
-                </div>
+        if (this.props.playlist.visible || isMobileOnly) {
+            return this.props.playlist.list.includes(song.id) ? (
+                <i 
+                    data-tip="Eltávolítás a lejátszási listáról" 
+                    className="icon bigger-icon minus circle red" 
+                    onClick={(e) => this.removeFromPlaylist(e, song.id)}>
+                </i>
+            ) : (
+                <i 
+                    data-tip="Hozzáadás a lejátszási listához" 
+                    className="icon bigger-icon plus circle green" 
+                    onClick={(e) => this.addToPlaylist(e, song.id)}>
+                </i>
             )
         }
     }
@@ -125,7 +124,7 @@ const mapStateToProps = state => {
     return {
         songs: Object.values(state.songs),
         searchList: state.searchList,
-        plVisible: state.playlist.visible
+        playlist: state.playlist
     }
 }
 

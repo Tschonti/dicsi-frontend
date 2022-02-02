@@ -25,13 +25,14 @@ class PlaylistList extends React.Component {
     }
 
     render() {
-        if (this.props.playlistList.length > 0 && !_.isEmpty(this.props.songs)) {
+        if (this.props.playlistList.loaded) {
             return (
                 <div className="ui container">
                     <MyTooltip />
                     <h2>Lejátszási listák</h2>
+                    {(this.props.playlistList.list && this.props.playlistList.list.length > 0 && !_.isEmpty(this.props.songs)) ? (
                     <Accordion fluid styled>
-                        {this.props.playlistList.map(playlist => (
+                        {this.props.playlistList.list.map(playlist => (
                             <div key={playlist.id}>
                                 <Accordion.Title
                                     active={this.state.activePlaylist === playlist.id}
@@ -49,20 +50,23 @@ class PlaylistList extends React.Component {
                                 </Accordion.Title>
                                 <Accordion.Content active={this.state.activePlaylist === playlist.id}>
                                     <MyButton tip="Betöltés" color="green" onClick={() => this.props.loadPlaylist(playlist.id, true)} icons={["play circle"]} />
-                                        <MyButton tip="Megosztás" color="purple" onClick={() => navigator.clipboard.writeText(`https://okgy.hu/dicsi/playlist/${playlist.id}`)} icons={["share alternate"]} />
+                                        <MyButton tip="Megosztás" color="purple" onClick={() => navigator.clipboard.writeText(`https://okgy.hu/dicsi/playlists/${playlist.id}`)} icons={["share alternate"]} />
                                         <MyButton tip="Duplikálás" color="blue" onClick={() => this.props.loadPlaylist(playlist.id, false)} icons={["copy"]} />
                                         {this.props.signedIn && (
                                             <MyButton tip="Törlés" color="red" onClick={() => this.props.loadPlaylist(playlist.id)} icons={["trash alternate"]} />
                                         )}
                                     <div className="ui relaxed divided ordered list">
-                                        {playlist.songs.map((songId, idx) => (
+                                        {playlist.songs.length > 0 ? playlist.songs.map((songId, idx) => (
                                             <PlaylistItem key={idx} song={this.props.songs[songId]} idx={idx} length={playlist.songs.length} unmodifiable={!this.props.signedIn} />
-                                        ))}
+                                        )) : <p className="centered-text">A lejátszási lista üres</p>}
                                     </div>
                                 </Accordion.Content>
                             </div>
                         ))}
                     </Accordion>
+                    ) : (
+                        <p className="big-text centered-text">Nincs találat!</p>
+                    )}
                 </div>
             )
         }
