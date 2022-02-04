@@ -39,6 +39,7 @@ const PlaylistForm = props => {
             approveText={'Mentés'}
             onApprove={props.handleSubmit(onSubmit)}
             primary
+            id={2}
         >
             <form className="ui form error" onSubmit={props.handleSubmit(onSubmit)}>
                 <Field label="Lejátszási lista neve" name="name" type="text" component={renderInput} />

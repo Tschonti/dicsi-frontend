@@ -63,6 +63,7 @@ const SongForm = props => {
                             approveText="Törlés"
                             onApprove={props.onDeleteClick}
                             negative
+                            id={3}
                         >
                             {`Biztosan törlöd a(z) ${props.initialValues.title} éneket? Ezt később nem tudod visszavonni!`}
                         </MyModal>

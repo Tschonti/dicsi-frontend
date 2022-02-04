@@ -7,6 +7,7 @@ import playlistReducer from './playlistReducer'
 import playlistListReducer from './playlistListReducer'
 import searchListReducer from './searchListReducer'
 import authReducer from './authReducer'
+import modalReducer from './modalReducer'
 
 export default combineReducers({
     songs: songsReducer,
@@ -14,6 +15,7 @@ export default combineReducers({
     alert: alertReducer,
     form: formReducer,
     playlist: playlistReducer,
+    modal: modalReducer,
     auth: authReducer,
     playlistList: playlistListReducer,
 })

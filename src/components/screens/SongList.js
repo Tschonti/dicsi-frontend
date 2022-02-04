@@ -45,7 +45,8 @@ class SongList extends React.Component {
     }
 
     renderSmallButtons = song => {
-        if (this.props.playlist.visible || isMobileOnly) {
+        const modifiable = !this.props.playlist.loaded || this.props.signedIn
+        if ((this.props.playlist.visible || isMobileOnly) && modifiable) {
             return this.props.playlist.list.includes(song.id) ? (
                 <i 
                     data-tip="Eltávolítás a lejátszási listáról" 
@@ -124,7 +125,8 @@ const mapStateToProps = state => {
     return {
         songs: Object.values(state.songs),
         searchList: state.searchList,
-        playlist: state.playlist
+        playlist: state.playlist,
+        signedIn: state.auth.signedIn
     }
 }
 

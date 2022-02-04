@@ -4,11 +4,13 @@ import { Accordion, Icon } from 'semantic-ui-react'
 import _ from 'lodash'
 
 import { fetchSongs } from '../../actions/songActions'
-import { fetchPlaylists, loadPlaylist } from '../../actions/playlistActions'
+import { fetchPlaylists, loadPlaylist, clearPlaylist } from '../../actions/playlistActions'
 import MyLoader from '../MyLoader'
 import MyTooltip from '../MyTooltip'
+import MyModal from '../MyModal'
 import PlaylistItem from '../PlaylistItem'
 import MyButton from '../MyButton'
+import { newAlert } from '../../actions/alertActions'
 
 class PlaylistList extends React.Component {
     state = {
@@ -22,6 +24,11 @@ class PlaylistList extends React.Component {
 
     handleClick(idx) {
         this.setState({ activePlaylist: this.state.activePlaylist === idx ? -1 : idx })
+    }
+
+    copyLink(id) {
+        navigator.clipboard.writeText(`https://okgy.hu/dicsi/playlists/${id}`)
+        this.props.newAlert('A lejátszási lista linkje a vágólapra másolva', 'success')
     }
 
     render() {
@@ -50,10 +57,20 @@ class PlaylistList extends React.Component {
                                 </Accordion.Title>
                                 <Accordion.Content active={this.state.activePlaylist === playlist.id}>
                                     <MyButton tip="Betöltés" color="green" onClick={() => this.props.loadPlaylist(playlist.id, true)} icons={["play circle"]} />
-                                        <MyButton tip="Megosztás" color="purple" onClick={() => navigator.clipboard.writeText(`https://okgy.hu/dicsi/playlists/${playlist.id}`)} icons={["share alternate"]} />
+                                        <MyButton tip="Megosztás" color="purple" onClick={() => this.copyLink(playlist.id)} icons={["share alternate"]} />
                                         <MyButton tip="Duplikálás" color="blue" onClick={() => this.props.loadPlaylist(playlist.id, false)} icons={["copy"]} />
                                         {this.props.signedIn && (
-                                            <MyButton tip="Törlés" color="red" onClick={() => this.props.loadPlaylist(playlist.id)} icons={["trash alternate"]} />
+                                            <MyModal
+                                                header="Biztosan törlöd a lejátszási listát?"
+                                                generateTrigger={() => <MyButton tip="Törlés" color="red" icons={["trash alternate"]} />}
+                                                closeText="Mégse"
+                                                approveText="Törlés"
+                                                onApprove={() => this.props.clearPlaylist(playlist.id)}
+                                                negative
+                                                id={4}
+                                            >
+                                                Biztosan törlöd a lejátszási listát az adatbázisból? Ezt később nem tudod visszavonni! 
+                                            </MyModal>
                                         )}
                                     <div className="ui relaxed divided ordered list">
                                         {playlist.songs.length > 0 ? playlist.songs.map((songId, idx) => (
@@ -82,4 +99,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps, {fetchPlaylists, fetchSongs, loadPlaylist})(PlaylistList)
+export default connect(mapStateToProps, {fetchPlaylists, fetchSongs, loadPlaylist, newAlert, clearPlaylist})(PlaylistList)

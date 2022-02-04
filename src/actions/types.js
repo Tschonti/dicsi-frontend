@@ -26,5 +26,8 @@ export const UNLOAD_PLAYLIST = 'UNLOAD_PLAYLIST'
 export const DELETE_PLAYLIST = 'DELETE_PLAYLIST'
 export const REPLACE_PLAYLIST = 'REPLACE_PLAYLIST'
 
+export const OPEN_MODAL = 'OPEN_MODAL'
+export const CLOSE_MODAL = 'CLOSE_MODAL'
+
 export const LOGIN = 'LOGIN'
 export const LOGOUT = 'LOGOUT'

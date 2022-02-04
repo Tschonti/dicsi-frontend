@@ -5,7 +5,6 @@ import {
     START_PLAYLIST,
     STOP_PLAYLIST,
     CLEAR_PLAYLIST,
-    DELETE_PLAYLIST,
     TOGGLE_VISIBILITY,
     MOVE_IN_PLAYLIST,
     SAVE_PLAYLIST,
@@ -42,7 +41,6 @@ export default (state = defaultState, action) => {
         case STOP_PLAYLIST:
             return { ...state, active: false}
         case CLEAR_PLAYLIST:
-        case DELETE_PLAYLIST:
             return { ...defaultState, visible: state.visible }
         case TOGGLE_VISIBILITY:
             return { ...state, visible: !state.visible}

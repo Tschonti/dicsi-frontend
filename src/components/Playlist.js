@@ -50,7 +50,7 @@ class Playlist extends React.Component {
         )
     }
     onClear = () => {
-        this.props.clearPlaylist()
+        this.props.clearPlaylist(this.props.playlist.loaded)
     }
 
     onClose = (e) => {
@@ -92,11 +92,12 @@ class Playlist extends React.Component {
                         {modifiable && (
                             <MyModal
                                 header="Biztosan törlöd a lejátszási listát?"
-                                generateTrigger={() => <MyButton disabled={this.props.playlist.list.length === 0} tip="Lejátszási lista törlése" color="negative" icons={["trash alternate"]} />}
-                                closeText={'Mégse'}
-                                approveText={'Törlés'}
+                                generateTrigger={() => <MyButton disabled={this.props.playlist.list.length === 0 && !this.props.playlist.loaded} tip="Lejátszási lista törlése" color="negative" icons={["trash alternate"]} />}
+                                closeText="Mégse"
+                                approveText="Törlés"
                                 onApprove={this.onClear}
                                 negative
+                                id={1}
                             >
                                 {this.props.playlist.loaded ? 
                                 'Biztosan törlöd a lejátszási listát az adatbázisból? Ezt később nem tudod visszavonni!' : 

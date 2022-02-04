@@ -1,10 +1,11 @@
-import React, { useState } from 'react'
+import React from 'react'
 import Alert from '@material-ui/lab/Alert'
 import { connect } from 'react-redux'
 import { Button, Modal } from 'semantic-ui-react'
 
 import '../styles.css'
 import { removeAlert } from '../actions/alertActions'
+import { openModal, closeModal } from '../actions/modalActions'
 
 const MyModal = props => {
   const alert = props.alert.msg ?
@@ -13,13 +14,11 @@ const MyModal = props => {
     </Alert>
     : null
 
-  const [open, setOpen] = useState(false)
-
   return (
     <Modal
-      onClose={() => setOpen(false)}
-      onOpen={() => setOpen(true)}
-      open={open}
+      onClose={props.closeModal}
+      onOpen={() => props.openModal(props.id)}
+      open={props.modal.open && props.modal.id === props.id}
       trigger={props.generateTrigger()}
     >
       <Modal.Header>{props.header}</Modal.Header>
@@ -32,7 +31,7 @@ const MyModal = props => {
         <div className="centered">
             {alert}
         </div>
-        <Button onClick={() => setOpen(false)}>
+        <Button onClick={props.closeModal}>
           {props.closeText}
         </Button>
         <Button
@@ -48,8 +47,9 @@ const MyModal = props => {
 
 const mapStateToProps = state => {
     return {
-        alert: state.alert
+        alert: state.alert,
+        modal: state.modal
     }
 }
 
-export default connect(mapStateToProps, {removeAlert})(MyModal)
+export default connect(mapStateToProps, {removeAlert, openModal, closeModal})(MyModal)

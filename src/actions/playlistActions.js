@@ -14,6 +14,7 @@ import {
     REPLACE_PLAYLIST,
     NEW_ALERT,
     DELETE_PLAYLIST,
+    CLOSE_MODAL,
 } from './types'
 import {
     addToPlaylistReducer,
@@ -90,14 +91,19 @@ export const stopPlaylist = () => {
     return {type: STOP_PLAYLIST}
 }
 
-export const clearPlaylist = () => async (dispatch, getState) => {
+export const clearPlaylist = (id) => async (dispatch, getState) => {
     if (!getState().playlist.loaded) {
         dispatch({type: CLEAR_PLAYLIST})
+        dispatch({type: CLOSE_MODAL})
     } else {
         try {
-            await db.delete(`/playlists/${getState().playlist.loaded}/`,
+            await db.delete(`/playlists/${id}/`,
                 { headers: {'Authorization': `Token ${getState().auth.token}` }})
-            dispatch({type: DELETE_PLAYLIST, payload: getState().playlist.loaded})
+            if (id === getState().playlist.loaded) {
+                dispatch({type: CLEAR_PLAYLIST})
+            }
+            dispatch({type: DELETE_PLAYLIST, payload: id})
+            dispatch({type: CLOSE_MODAL})
         } catch(err)  {
             handleError(err, dispatch)
         }
@@ -123,7 +129,8 @@ export const savePlaylist = formData => async (dispatch, getState) => {
             name: formData.name,
             songs: addPlacesToPlaylist(getState().playlist.list)
         }, { headers: {'Authorization': `Token ${getState().auth.token}` }})
-        dispatch({type: SAVE_PLAYLIST, payload: {...response.data, songs: removePlacesFromPlaylist(response.data.songs)}})
+            dispatch({type: CLOSE_MODAL})
+            dispatch({type: SAVE_PLAYLIST, payload: {...response.data, songs: removePlacesFromPlaylist(response.data.songs)}})
     } catch (err) {
         handleError(err, dispatch)
     }

@@ -1,4 +1,4 @@
-import { FETCH_PLAYLISTS, REPLACE_PLAYLIST, DELETE_PLAYLIST } from "../actions/types"
+import { FETCH_PLAYLISTS, REPLACE_PLAYLIST, DELETE_PLAYLIST, DELETE_SONG } from "../actions/types"
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default (state = {list: [], loaded: false }, action) => {
@@ -15,7 +15,9 @@ export default (state = {list: [], loaded: false }, action) => {
             clonedState.list[idx].songs = action.payload.list
             return clonedState
         case DELETE_PLAYLIST:
-            return { list: state.list.filter(pl => pl.id !== action.payload), ...state}
+            return { ...state, list: state.list.filter(pl => pl.id !== action.payload) }
+        case DELETE_SONG:
+            return { ...state, list: state.list.map(pl => ({...pl, songs: pl.songs.filter(songId => songId !== action.payload)}))}
         default:
             return state
     }

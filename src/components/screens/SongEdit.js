@@ -29,7 +29,7 @@ class SongEdit extends React.Component {
                 <SongForm
                     onSubmit={(formValues) => this.props.editSong(this.props.match.params.id, formValues)}
                     initialValues={{id: song.id, title: song.title, lyrics: song.verses.join('\n\n')}}
-                    edit id={song.id} onDeleteClick={() => this.props.deleteSong(this.props.match.params.id)}
+                    edit id={song.id} onDeleteClick={() => this.props.deleteSong(parseInt(this.props.match.params.id))}
                 />
             </div>
         )
