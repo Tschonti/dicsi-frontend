@@ -5,7 +5,7 @@ import { isMobileOnly } from 'react-device-detect'
 
 import '../../styles.css'
 
-import { fetchSong, deleteSong } from '../../actions/songActions'
+import { fetchSong } from '../../actions/songActions'
 import { addToPlaylist, toggleVisibility } from '../../actions/playlistActions'
 import { removeAlert } from '../../actions/alertActions'
 
@@ -238,4 +238,4 @@ const mapStateToProps = (state, ownProps) => {
     }
 }
 
-export default connect(mapStateToProps, { fetchSong, deleteSong, removeAlert, addToPlaylist, toggleVisibility })(SongShow)
+export default connect(mapStateToProps, { fetchSong, removeAlert, addToPlaylist, toggleVisibility })(SongShow)
