@@ -15,6 +15,7 @@ import {
     NEW_ALERT,
     DELETE_PLAYLIST,
     CLOSE_MODAL,
+    PLAYLIST_STEP,
 } from './types'
 import {
     addToPlaylistReducer,
@@ -83,6 +84,10 @@ export const playlistNext = (next, state) => {
     }
 }
 
+export const playlistStep = (idx) => {
+    return { type: PLAYLIST_STEP, payload: idx }
+}
+
 export const startPlaylist = (state) => {
     history.push(`/dicsi/songs/${state.list[state.currentIndex]}`)
     return {type: START_PLAYLIST}
@@ -92,7 +97,7 @@ export const stopPlaylist = () => {
 }
 
 export const clearPlaylist = (id) => async (dispatch, getState) => {
-    if (!getState().playlist.loaded) {
+    if (!getState().playlist.loaded && !id) {
         dispatch({type: CLEAR_PLAYLIST})
         dispatch({type: CLOSE_MODAL})
     } else {

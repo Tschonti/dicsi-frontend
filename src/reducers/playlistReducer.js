@@ -10,7 +10,8 @@ import {
     SAVE_PLAYLIST,
     LOAD_PLAYLIST,
     UNLOAD_PLAYLIST,
-    REPLACE_PLAYLIST
+    REPLACE_PLAYLIST,
+    PLAYLIST_STEP
 } from "../actions/types"
 import {
     addToPlaylistReducer,
@@ -61,6 +62,8 @@ export default (state = defaultState, action) => {
             return { ...defaultState, visible: true }
         case REPLACE_PLAYLIST:
             return action.payload
+        case PLAYLIST_STEP:
+            return { ...state, currentIndex: action.payload }
         default:
             return state
     }

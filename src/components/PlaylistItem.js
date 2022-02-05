@@ -2,34 +2,37 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 
-import { moveInPlaylist, removeFromPlaylist} from '../actions/playlistActions'
+import { moveInPlaylist, removeFromPlaylist, playlistStep } from '../actions/playlistActions'
 
-class PlaylistItem extends React.Component {
-
-    render() {
-        const upDisabled = this.props.idx === 0
-        const downDisabled = this.props.idx === this.props.length - 1
-        return (
-            <div className={`item my-item ${this.props.currentIndex === this.props.idx ? 'activeInPlaylist' : ''}`}>
-                <h5 className="header">
-                    {!this.props.unmodifiable && (
-                        <>
-                            <i className={`${upDisabled ? 'grey' : 'pointer'} icon caret up bigger-icon`} onClick={() => this.props.moveInPlaylist(this.props.idx, true)}></i>
-                            <i className={`${downDisabled ? 'grey' : 'pointer'} icon caret down bigger-icon`} onClick={() => this.props.moveInPlaylist(this.props.idx, false)}></i>
-                        </>
-                    )}
-                    <Link to={`/dicsi/songs/${this.props.song.id}`} className="notLinkStyle pointer">{this.props.song.id}. {this.props.song.title}</Link>
-
-                    {!this.props.unmodifiable && (
-                        <div className="right floated">
-                            <i className="icon minus circle red pointer" onClick={() => this.props.removeFromPlaylist(this.props.song.id)}></i>
-                        </div>
-                    )}
-                </h5>
-            </div>
-        )
+const PlaylistItem = props => {
+    const upDisabled = props.idx === 0
+    const downDisabled = props.idx === props.length - 1
+    const handleClick = () => {
+        if (props.playlist) {
+            props.playlistStep(props.idx)
+        }
     }
+
+    return (
+        <div className={`item my-item ${props.currentIndex === props.idx ? 'activeInPlaylist' : ''}`}>
+            <h5 className="header">
+                {!props.unmodifiable && (
+                    <>
+                        <i className={`${upDisabled ? 'grey' : 'pointer'} icon caret up bigger-icon`} onClick={() => props.moveInPlaylist(props.idx, true)}></i>
+                        <i className={`${downDisabled ? 'grey' : 'pointer'} icon caret down bigger-icon`} onClick={() => props.moveInPlaylist(props.idx, false)}></i>
+                    </>
+                )}
+                <Link to={`/dicsi/songs/${props.song.id}`} onClick={handleClick} className="notLinkStyle pointer">{props.song.id}. {props.song.title}</Link>
+
+                {!props.unmodifiable && (
+                    <div className="right floated">
+                        <i className="icon minus circle red pointer" onClick={() => props.removeFromPlaylist(props.song.id)}></i>
+                    </div>
+                )}
+            </h5>
+        </div>
+    )
 
 }
 
-export default connect(null, {moveInPlaylist, removeFromPlaylist})(PlaylistItem)
+export default connect(null, {moveInPlaylist, removeFromPlaylist, playlistStep})(PlaylistItem)

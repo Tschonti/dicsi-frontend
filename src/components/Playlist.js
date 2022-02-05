@@ -36,7 +36,7 @@ class Playlist extends React.Component {
         }
         const list = this.props.playlist.list.map((songId, idx) => {
             const song = this.props.songs.find(el => el.id === songId)
-            return song && <PlaylistItem key={idx} song={song} idx={idx} length={this.props.playlist.list.length} currentIndex={this.props.playlist.currentIndex} unmodifiable={!modifiable} />
+            return song && <PlaylistItem key={idx} song={song} idx={idx} length={this.props.playlist.list.length} currentIndex={this.props.playlist.currentIndex} unmodifiable={!modifiable} playlist />
         })
 
         const empty = list.length > 0 ? '' : (<p className="centered-text">A lejátszási lista üres</p>)

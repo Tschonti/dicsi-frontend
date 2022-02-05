@@ -67,7 +67,7 @@ class PlaylistList extends React.Component {
                                                 approveText="Törlés"
                                                 onApprove={() => this.props.clearPlaylist(playlist.id)}
                                                 negative
-                                                id={4}
+                                                id={playlist.id}
                                             >
                                                 Biztosan törlöd a lejátszási listát az adatbázisból? Ezt később nem tudod visszavonni! 
                                             </MyModal>
