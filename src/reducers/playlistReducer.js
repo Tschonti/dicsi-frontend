@@ -11,7 +11,8 @@ import {
     LOAD_PLAYLIST,
     UNLOAD_PLAYLIST,
     REPLACE_PLAYLIST,
-    PLAYLIST_STEP
+    PLAYLIST_STEP,
+    RECOVER_STATE
 } from "../actions/types"
 import {
     addToPlaylistReducer,
