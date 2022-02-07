@@ -20,7 +20,7 @@ import {
 } from "../util"
 
 const defaultState = {
-    list: [],
+    songs: [],
     currentIndex: 0,
     active: false,
     visible: false,
@@ -48,10 +48,10 @@ export default (state = defaultState, action) => {
         case MOVE_IN_PLAYLIST:
             return moveInPlaylistReducer(state, action.payload.up, action.payload.index)
         case SAVE_PLAYLIST:
-            return {...state, list: action.payload.songs, loaded: action.payload.id, loadedName: action.payload.name}
+            return {...state, songs: action.payload.songs, loaded: action.payload.id, loadedName: action.payload.name}
         case LOAD_PLAYLIST:
             return {
-                list: action.payload.list.songs,
+                songs: action.payload.list.songs,
                 currentIndex: 0,
                 active: false,
                 visible: true,
