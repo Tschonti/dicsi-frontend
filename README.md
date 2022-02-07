@@ -6,7 +6,7 @@ React application to view, create, edit or project song lyrics for Örömhír ba
 
 - View the songs from the database in different ways: One or two column mode suited for mobile users, and single verse mode ideal with a projector.
 - Adjust font size to maximize the amount of lyrics on the screen.
-- Create a playlist of songs and quickly switch between them. The playlist is saved in the browser's local storage.
+- Create a playlist of songs and quickly switch between them. Logged in users can save playlists to the database and anyone can load them.
 - Logged in users can create, edit or delete songs from the database. (Registration is not available outside the church.)
 
 ## Available Scripts
