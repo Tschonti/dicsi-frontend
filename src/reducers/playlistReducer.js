@@ -64,6 +64,11 @@ export default (state = defaultState, action) => {
             return action.payload
         case PLAYLIST_STEP:
             return { ...state, currentIndex: action.payload }
+        case RECOVER_STATE:
+            if (state.list && !state.songs) {
+                return {...state, songs: state.list}
+            }
+            return state
         default:
             return state
     }

@@ -16,7 +16,8 @@ import {
     DELETE_PLAYLIST,
     CLOSE_MODAL,
     PLAYLIST_STEP,
-    REPLACE_PLAYLIST_IN_LIST
+    REPLACE_PLAYLIST_IN_LIST,
+    RECOVER_STATE
 } from './types'
 import {
     addToPlaylistReducer,
@@ -180,4 +181,8 @@ export const loadPlaylist = (id, modifiable) => async dispatch => {
 
 export const unloadPlaylist = () => {
     return {type: UNLOAD_PLAYLIST}
+}
+
+export const recoverState = () => {
+    return { type: RECOVER_STATE }
 }

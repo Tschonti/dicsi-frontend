@@ -33,3 +33,5 @@ export const CLOSE_MODAL = 'CLOSE_MODAL'
 
 export const LOGIN = 'LOGIN'
 export const LOGOUT = 'LOGOUT'
+
+export const RECOVER_STATE = 'RECOVER_STATE'

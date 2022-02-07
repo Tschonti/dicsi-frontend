@@ -32,7 +32,7 @@ class Playlist extends React.Component {
     }
 
     renderSongList = (modifiable) => {
-        if (_.isEmpty(this.props.songs) || !this.state.open) {
+        if (_.isEmpty(this.props.songs) || !this.state.open || !this.props.playlist.songs) {
             return null
         }
         const list = this.props.playlist.songs.map((songId, idx) => {
@@ -63,7 +63,7 @@ class Playlist extends React.Component {
 
     render() {
         //TODO dupla tool-tip
-        if (!this.props.playlist.visible) {
+        if (!this.props.playlist.visible || !this.props.playlist.songs) {
             return null
         }
         const currentIndex = this.props.playlist.songs.length === 0 ? 0 : this.props.playlist.currentIndex + 1
