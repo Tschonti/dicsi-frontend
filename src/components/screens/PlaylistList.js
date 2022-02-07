@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Accordion, Icon } from 'semantic-ui-react'
+import { isMobileOnly } from 'react-device-detect'
 import _ from 'lodash'
 
 import { fetchSongs } from '../../actions/songActions'
@@ -31,6 +32,12 @@ class PlaylistList extends React.Component {
         this.props.newAlert('A lejátszási lista linkje a vágólapra másolva', 'success')
     }
 
+    generateDateAdded(date) {
+        return (
+            <p>Létrehozva: {new Date(Date.parse(date)).toLocaleDateString('hu-HU')}</p>
+        )
+    }
+
     render() {
         if (this.props.playlistList.loaded) {
             return (
@@ -50,28 +57,27 @@ class PlaylistList extends React.Component {
                                             <Icon name='dropdown' />
                                             {playlist.name}
                                         </h3>
-                                        <div className='next-to'>
-                                            <p>Létrehozva: {new Date(Date.parse(playlist.created_at)).toLocaleDateString('hu-HU')}</p>
-                                        </div>
+                                        { !isMobileOnly && this.generateDateAdded(playlist.created_at) }
                                     </div>
                                 </Accordion.Title>
                                 <Accordion.Content active={this.state.activePlaylist === playlist.id}>
+                                    { isMobileOnly && this.generateDateAdded(playlist.created_at) }
                                     <MyButton tip="Betöltés" color="green" onClick={() => this.props.loadPlaylist(playlist.id, true)} icons={["play circle"]} />
-                                        <MyButton tip="Megosztás" color="purple" onClick={() => this.copyLink(playlist.id)} icons={["share alternate"]} />
-                                        <MyButton tip="Duplikálás" color="blue" onClick={() => this.props.loadPlaylist(playlist.id, false)} icons={["copy"]} />
-                                        {this.props.signedIn && (
-                                            <MyModal
-                                                header="Biztosan törlöd a lejátszási listát?"
-                                                generateTrigger={() => <MyButton tip="Törlés" color="red" icons={["trash alternate"]} />}
-                                                closeText="Mégse"
-                                                approveText="Törlés"
-                                                onApprove={() => this.props.clearPlaylist(playlist.id)}
-                                                negative
-                                                id={playlist.id}
-                                            >
-                                                Biztosan törlöd a lejátszási listát az adatbázisból? Ezt később nem tudod visszavonni! 
-                                            </MyModal>
-                                        )}
+                                    <MyButton tip="Megosztás" color="purple" onClick={() => this.copyLink(playlist.id)} icons={["share alternate"]} />
+                                    <MyButton tip="Duplikálás" color="blue" onClick={() => this.props.loadPlaylist(playlist.id, false)} icons={["copy"]} />
+                                    {this.props.signedIn && (
+                                        <MyModal
+                                            header="Biztosan törlöd a lejátszási listát?"
+                                            generateTrigger={() => <MyButton tip="Törlés" color="red" icons={["trash alternate"]} />}
+                                            closeText="Mégse"
+                                            approveText="Törlés"
+                                            onApprove={() => this.props.clearPlaylist(playlist.id)}
+                                            negative
+                                            id={playlist.id}
+                                        >
+                                            Biztosan törlöd a lejátszási listát az adatbázisból? Ezt később nem tudod visszavonni! 
+                                        </MyModal>
+                                    )}
                                     <div className="ui relaxed divided ordered list">
                                         {playlist.songs.length > 0 ? playlist.songs.map((songId, idx) => (
                                             <PlaylistItem key={idx} song={this.props.songs[songId]} idx={idx} length={playlist.songs.length} unmodifiable={!this.props.signedIn} />

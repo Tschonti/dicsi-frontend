@@ -13,6 +13,7 @@ import {
     savePlaylist,
     unloadPlaylist,
 } from '../actions/playlistActions'
+import { newAlert } from '../actions/alertActions'
 
 import MyButton from './MyButton'
 import MyTooltip from './MyTooltip'
@@ -49,13 +50,15 @@ class Playlist extends React.Component {
             </>
         )
     }
-    onClear = () => {
-        this.props.clearPlaylist(this.props.playlist.loaded)
-    }
 
     onClose = (e) => {
         this.props.toggleVisibility()
         e.stopPropagation()
+    }
+
+    copyLink(id) {
+        navigator.clipboard.writeText(`https://okgy.hu/dicsi/playlists/${id}`)
+        this.props.newAlert('A lejátszási lista linkje a vágólapra másolva', 'success')
     }
 
     render() {
@@ -86,22 +89,23 @@ class Playlist extends React.Component {
                         {this.props.signedIn && !this.props.playlist.loaded && (
                             <PlaylistForm onSubmit={(formData) => this.props.savePlaylist(formData)} disabled={this.props.playlist.list.length === 0} />
                         )}
-                        {this.props.playlist.loaded && (
-                            <MyButton tip="Üres listára váltás" color="blue" onClick={this.props.unloadPlaylist} icons={["eject"]} />
-                        )}
-                        {modifiable && (
+                        {this.props.playlist.loaded ? (
+                            <>
+                                <MyButton tip="Üres listára váltás" color="teal" onClick={this.props.unloadPlaylist} icons={["file outline"]} />
+                                <MyButton tip="Megosztás" color="purple" onClick={() => this.copyLink(this.props.playlist.loaded )} icons={["share alternate"]} />
+                            </>
+
+                        ) : (
                             <MyModal
                                 header="Biztosan törlöd a lejátszási listát?"
                                 generateTrigger={() => <MyButton disabled={this.props.playlist.list.length === 0 && !this.props.playlist.loaded} tip="Lejátszási lista törlése" color="negative" icons={["trash alternate"]} />}
                                 closeText="Mégse"
                                 approveText="Törlés"
-                                onApprove={this.onClear}
+                                onApprove={this.props.clearPlaylist}
                                 negative
                                 id={1}
                             >
-                                {this.props.playlist.loaded ? 
-                                'Biztosan törlöd a lejátszási listát az adatbázisból? Ezt később nem tudod visszavonni!' : 
-                                'Biztosan üríted a lejátszási listát? Ezt később nem tudod visszavonni!'}
+                                Biztosan üríted a lejátszási listát? Ezt később nem tudod visszavonni!
                             </MyModal>
                         )}
                         <MyButton disabled={!this.props.playlist.active} tip="Előző ének" color="blue" onClick={() => this.props.playlistNext(false, this.props.playlist)} icons={["backward"]} />
@@ -134,4 +138,5 @@ export default connect(mapStateToProps, {
     moveInPlaylist,
     savePlaylist,
     unloadPlaylist,
+    newAlert,
 })(Playlist)
