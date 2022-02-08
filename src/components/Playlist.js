@@ -91,7 +91,7 @@ class Playlist extends React.Component {
                         )}
                         {this.props.playlist.loaded ? (
                             <>
-                                <MyButton tip="Üres listára váltás" color="teal" onClick={this.props.unloadPlaylist} icons={["file outline"]} />
+                                <MyButton tip="Üres listára váltás" color="orange" onClick={this.props.unloadPlaylist} icons={["file outline"]} />
                                 <MyButton tip="Megosztás" color="purple" onClick={() => this.copyLink(this.props.playlist.loaded )} icons={["share alternate"]} />
                             </>
 

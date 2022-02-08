@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect }  from 'react-redux'
 import { Router, Route, Switch } from 'react-router-dom'
+import { Cookies } from 'react-cookie'
 
 import SongList from './screens/SongList'
 import SongCreate from './screens/SongCreate'
@@ -15,10 +16,16 @@ import Playlist from './Playlist'
 
 import history from '../history'
 import { loadPlaylist, recoverState } from '../actions/playlistActions'
+import { loginFromCookie } from '../actions/authActions'
 
 
 class App extends React.Component {
     componentDidMount() {
+        const c = new Cookies()
+        const tokenCookie = c.get('token')
+        if (tokenCookie) {
+            this.props.loginFromCookie(tokenCookie)
+        }
         this.props.recoverState()
     }
 
@@ -55,4 +62,4 @@ const mapStateToProps = state => {
 }
 
 
-export default connect(mapStateToProps, { loadPlaylist, recoverState })(App)
+export default connect(mapStateToProps, { loadPlaylist, recoverState, loginFromCookie })(App)

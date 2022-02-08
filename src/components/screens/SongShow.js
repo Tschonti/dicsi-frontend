@@ -10,6 +10,7 @@ import { addToPlaylist, toggleVisibility } from '../../actions/playlistActions'
 import { removeAlert } from '../../actions/alertActions'
 
 import MyLoader from '../MyLoader'
+import Page from '../Page'
 import MyButton from '../MyButton'
 import MyTooltip from '../MyTooltip'
 
@@ -215,7 +216,7 @@ class SongShow extends React.Component {
     render() {
         if (this.props.song) {
             return (
-                <>
+                <Page path={this.props.location.pathname}>
                     <MyTooltip />
                     <div className="ui container" onKeyDown={this.handleKeyDown}>
                         <div className="full-screen">
@@ -223,7 +224,7 @@ class SongShow extends React.Component {
                             {this.renderVerses()}
                         </div>
                     </div>
-                </>
+                </Page>
             )
         }
         return <MyLoader />
