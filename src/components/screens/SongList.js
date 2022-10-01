@@ -5,7 +5,7 @@ import { isMobileOnly } from 'react-device-detect'
 import { Link } from 'react-router-dom'
 
 import '../../styles.css'
-import { sortSongs } from '../../util'
+import { BASE_URL, sortSongs } from '../../util'
 
 import MyTooltip from '../MyTooltip'
 import Page from '../Page'
@@ -49,15 +49,15 @@ class SongList extends React.Component {
         const modifiable = !this.props.playlist.loaded || this.props.signedIn
         if ((this.props.playlist.visible || isMobileOnly) && modifiable) {
             return this.props.playlist.songs.includes(song.id) ? (
-                <i 
-                    data-tip="Eltávolítás a lejátszási listáról" 
-                    className="icon bigger-icon minus circle red" 
+                <i
+                    data-tip="Eltávolítás a lejátszási listáról"
+                    className="icon bigger-icon minus circle red"
                     onClick={(e) => this.removeFromPlaylist(e, song.id)}>
                 </i>
             ) : (
-                <i 
-                    data-tip="Hozzáadás a lejátszási listához" 
-                    className="icon bigger-icon plus circle green" 
+                <i
+                    data-tip="Hozzáadás a lejátszási listához"
+                    className="icon bigger-icon plus circle green"
                     onClick={(e) => this.addToPlaylist(e, song.id)}>
                 </i>
             )
@@ -66,7 +66,7 @@ class SongList extends React.Component {
 
     renderSong = (song, idx) => (
         <div className={`column pointer hover-grey my-bottom-border ${idx % 3 !== 0 && !isMobileOnly ? 'left-border' : ''}`} key={song.id} >
-            <Link to={`/dicsi/songs/${song.id}`} className="notLinkStyle">
+            <Link to={`${BASE_URL}/songs/${song.id}`} className="notLinkStyle">
                 <div className="content right-left">
                     <h3 className="header my-header-text">{song.id}. {song.title}</h3>
                     {this.renderSmallButtons(song)}

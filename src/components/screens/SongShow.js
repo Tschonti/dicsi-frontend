@@ -13,6 +13,7 @@ import MyLoader from '../MyLoader'
 import Page from '../Page'
 import MyButton from '../MyButton'
 import MyTooltip from '../MyTooltip'
+import { BASE_URL } from '../../util'
 
 const SMALL_FONT_SIZE = 18
 const BIG_FONT_SIZE = 60
@@ -155,7 +156,7 @@ class SongShow extends React.Component {
     }
 
     renderButtons = () => {
-        const editButton = this.props.signedIn ? <Link data-tip="Ének szerkeztése vagy törlése" className="ui button my-button icon yellow" to={`/dicsi/songs/edit/${this.props.match.params.id}`}><i className="icon edit"></i></Link> : null
+        const editButton = this.props.signedIn ? <Link data-tip="Ének szerkeztése vagy törlése" className="ui button my-button icon yellow" to={`${BASE_URL}/songs/edit/${this.props.match.params.id}`}><i className="icon edit"></i></Link> : null
 
         const desktopButton = !isMobileOnly && this.state.showButtons ? (
             <>
@@ -166,7 +167,7 @@ class SongShow extends React.Component {
         ) : null
         const optionalButtons = this.state.showButtons ? (
             <>
-                <Link data-tip="Vissza a kereséshez" className="ui button my-button icon grey" to="/dicsi/"><i className="icon search"></i></Link>
+                <Link data-tip="Vissza a kereséshez" className="ui button my-button icon grey" to={BASE_URL}><i className="icon search"></i></Link>
                 {editButton}
                 <MyButton tip={`${this.state.twoColumnMode ? "Egy" : "Két"} hasáb`} color="primary" onClick={() => this.setState({twoColumnMode: !this.state.twoColumnMode})} disabled={this.state.oneVerseModeActive} icons={[`${this.state.twoColumnMode ? 'align justify' : 'columns'}`]} />
                 <MyButton tip="Betűméret csökkentése" color="primary" onClick={() => this.onSizeChange(false)} icons={["font", "arrow down" ]} />

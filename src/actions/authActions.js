@@ -1,6 +1,6 @@
 import { db } from '../api'
 import history from '../history'
-import { handleError } from '../util'
+import { BASE_URL, handleError } from '../util'
 import { LOGIN, LOGOUT } from './types'
 import { Cookies } from 'react-cookie'
 
@@ -10,7 +10,7 @@ export const login = ({ username, password }) => async dispatch => {
         dispatch({ type: LOGIN, payload: response.data.token })
         const cookieManager = new Cookies()
         cookieManager.set('token', response.data.token, {
-            path: '/dicsi',
+            path: BASE_URL,
             maxAge: 12*31*24*60*60
         })
         history.goBack()
@@ -26,7 +26,7 @@ export const loginFromCookie = token => {
 export const logout = () => {
     const cookieManager = new Cookies()
     cookieManager.remove('token', {
-        path: '/dicsi',
+        path: BASE_URL,
         maxAge: 12*31*24*60*60
     })
     return { type: LOGOUT }

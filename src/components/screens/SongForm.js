@@ -5,6 +5,7 @@ import { isMobileOnly } from 'react-device-detect'
 
 import MyModal from './../MyModal'
 import MyTooltip from '../MyTooltip'
+import { BASE_URL } from '../../util'
 
 const renderInput = ({ input, label, meta, type, disabled, wide, tip }) => {
     return (
@@ -53,7 +54,7 @@ const SongForm = props => {
                 <div className="ui two column very relaxed grid">
                     <div className="column">
                         <button className={`ui button primary ${isMobileOnly ? 'my-bigger-button' : ''}`}>Mentés</button>
-                        <Link to={`/dicsi/songs/${props.id}`} className={`ui button grey ${isMobileOnly ? 'my-bigger-button' : ''}`}>Mégse</Link>
+                        <Link to={`${BASE_URL}/songs/${props.id}`} className={`ui button grey ${isMobileOnly ? 'my-bigger-button' : ''}`}>Mégse</Link>
                     </div>
                     <div className="column jobbra">
                         <MyModal
