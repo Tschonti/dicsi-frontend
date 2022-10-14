@@ -32,4 +32,4 @@ The build is minified and the filenames include the hashes.\
 - React, react-redux, react-router-dom, redux-form
 - Semantic UI, Material UI, react-loader-spinner, react-device-detect, react-tooltip
 - Axios, lodash, redux-thunk
-- [Django backend server](https://github.com/Tschonti/dicsi-api) hosted on Heroku (free dyno, so first load might take ~10 seconds) with Django REST Framework
+- [Django backend server](https://github.com/Tschonti/dicsi-api) with Django REST Framework
