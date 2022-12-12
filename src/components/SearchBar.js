@@ -41,7 +41,7 @@ const SearchBar = props => {
             <div className="inline fields centered-container">
                 <div className="thirteen wide field">
                     <label>Keresés</label>
-                    <input value={value} onChange={(e) => setValue(e.target.value)} placeholder="Ének sorszáma, vagy teljes szavak a címből vagy dalszövegből"/>
+                    <input value={value} onChange={(e) => setValue(e.target.value)} placeholder="Sorszámot vagy teljes szavakat írj"/>
                 </div>
                 <div className="three wide field">
                     <div className="ui checkbox my-check">
