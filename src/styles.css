@@ -1,3 +1,9 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
 .header-link {
     margin-top: auto!important;
     margin-bottom: auto!important;
@@ -153,22 +159,18 @@
     border-width: 1px;
     border-color: lightgrey;
     padding: 7px;
+    left: 0;
     background-color: white;
 }
-@media only screen and (max-width: 900px) {
-    .second-cont {
-        min-height:100%;
-        position:relative;
-    }
+
+.second-cont {
+    box-sizing: border-box;
+    min-height: 100%;
+    padding: 0 0 20px;
+    position: relative;
 }
 
 
-@media only screen and (min-width: 900px) {
-    .footer-container {
-        position: fixed;
-        bottom: 0;
-    }
-}
 .container {
     padding-bottom: 60px!important;
 }
