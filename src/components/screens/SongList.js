@@ -68,7 +68,7 @@ class SongList extends React.Component {
         <div className={`column pointer hover-grey my-bottom-border ${idx % 3 !== 0 && !isMobileOnly ? 'left-border' : ''}`} key={song.id} >
             <Link to={`${BASE_URL}/songs/${song.id}`} className="notLinkStyle">
                 <div className="content right-left">
-                    <h3 className="header my-header-text">{song.id}. {song.title}</h3>
+                    <h3 className="force-open-sans header my-header-text">{song.id}. {song.title}</h3>
                     {this.renderSmallButtons(song)}
                 </div>
             </Link>

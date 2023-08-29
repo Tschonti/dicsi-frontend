@@ -191,7 +191,7 @@ class SongShow extends React.Component {
                 <>
                     {this.renderButtons()}
                     <div className="right-left">
-                        <h2 className="vert-centered">{this.props.song.id}. {this.props.song.title} </h2>
+                        <h2 className="force-open-sans vert-centered">{this.props.song.id}. {this.props.song.title} </h2>
                         <MyButton color="gray" onClick={()=>this.setState({showButtons: !this.state.showButtons})} icons={["bars"]} tip="Gombok elrejtése/előhozása"/>
                     </div>
                     <div className="ui divider"></div>
@@ -201,8 +201,8 @@ class SongShow extends React.Component {
         return (
             <>
                 <div className="right-left m-top">
-                    <h2 className="vert-centered">{this.props.song.id}. {this.props.song.title} </h2>
-                    <h2 className="vert-centered">{this.state.oneVerseModeActive ? `${this.state.currentVerse + 1}/${this.props.song.verses.length}` : ''}</h2>
+                    <h2 className="force-open-sans vert-centered">{this.props.song.id}. {this.props.song.title} </h2>
+                    <h2 className="force-open-sans vert-centered">{this.state.oneVerseModeActive ? `${this.state.currentVerse + 1}/${this.props.song.verses.length}` : ''}</h2>
                     <div>
                         <MyButton color="gray" onClick={()=>this.setState({showButtons: !this.state.showButtons})} icons={["bars"]} tip="Gombok elrejtése/előhozása"/>
                         {this.renderButtons()}
